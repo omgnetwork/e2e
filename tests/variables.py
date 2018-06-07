@@ -7,5 +7,7 @@ ACCEPT_HEADER =        "application/vnd.omisego.v1+json"
 SERVER_AUTH =          "OMGServer TTF5TnRUMDZ0U3JlZU1FOEhiYXRKVDVsaVp4UUZObmIwQjJhY180VmVWODpOQkg4WDRNSW9GaVhYT2tHRGlLeFQ3MHlXRmF0cUlzU2hGSjgtVWZZRXdr"
 
 USER_CREATE =          "user.create"
-USER_GET=              "user.get"
-USER_UPDATE=           "user.update"
+USER_GET =             "user.get"
+USER_UPDATE =          "user.update"
+
+LOGIN =                "login"
