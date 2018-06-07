@@ -11,3 +11,5 @@ USER_GET =             "user.get"
 USER_UPDATE =          "user.update"
 
 LOGIN =                "login"
+
+USER_LIST_WALLETS =    "user.list_wallets"
