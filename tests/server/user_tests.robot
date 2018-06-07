@@ -2,17 +2,7 @@
 Documentation    Server authentication testing
 ...              Tests related to user ressource
 
-Metadata         Version    0.1
-
-Library  Collections
-Library  String
-# Library  OperatingSystem
-Library  ../libraries/SimplePost.py
-
-Variables  ../variables.py
-
 Resource    server_resources.robot
-Resource    ../resouces.robot
 
 Suite Setup     Create API Session
 Suite Teardown  Delete All Sessions

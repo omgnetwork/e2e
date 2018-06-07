@@ -3,6 +3,12 @@ Documentation    This file contains some keywords for request and response asser
 
 Variables  variables.py
 
+Library  Collections
+Library  String
+
+# Library  RequestsLibrary
+Library  libraries/SimplePost.py
+
 *** Keywords ***
 Create API Session
     Create Session    api    ${HOST}

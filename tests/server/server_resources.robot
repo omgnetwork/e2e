@@ -5,6 +5,8 @@ Library  Collections
 
 Variables  ../variables.py
 
+Resource    ../resouces.robot
+
 *** Keywords ***
 Build Server Request Header
     [Arguments]    &{headers}
