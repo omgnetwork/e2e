@@ -1,0 +1,10 @@
+{
+  "provider_user_id": "sample_provider_user_id",
+  "username": "sample_username",
+  "metadata": {
+      "a_key": "a_value"
+  },
+  "encrypted_metadata": {
+      "a_key": "a_value"
+  }
+}

@@ -7,11 +7,20 @@ Variables  ../variables.py
 
 Resource    ../resouces.robot
 
+*** Variables ***
+${RESOURCE}    resources
+
 *** Keywords ***
 Build Server Request Header
-    [Arguments]    &{headers}
-    &{server_headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
-    ...                                       Authorization=${SERVER_AUTH}
-    ...                                       Accept=${ACCEPT_HEADER}
-    &{combined_headers}    Create Dictionary    &{server_headers}    &{headers}
-    [Return]    &{combined_headers}
+    &{headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
+    ...                                Authorization=${SERVER_AUTH}
+    ...                                Accept=${ACCEPT_HEADER}
+    [Return]    &{headers}
+
+Build Idempotent Server Request Header
+    ${idempotency_token}     Generate Random String
+    &{headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
+    ...                                Authorization=${SERVER_AUTH}
+    ...                                Accept=${ACCEPT_HEADER}
+    ...                                Idempotency-Token=${idempotency_token}
+    [Return]    &{headers}

@@ -1,13 +1,13 @@
 *** Settings ***
 Documentation    This file contains some keywords for request and response assertion
 
-Variables  variables.py
+Variables    variables.py
 
-Library  Collections
-Library  String
+Library    Collections
+Library    String
+Library    OperatingSystem
 
-# Library  RequestsLibrary
-Library  libraries/SimplePost.py
+Library    RequestsLibrary
 
 *** Keywords ***
 Create API Session
