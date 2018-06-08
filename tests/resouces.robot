@@ -10,9 +10,6 @@ Library    OperatingSystem
 Library    RequestsLibrary
 
 *** Keywords ***
-Create API Session
-    Create Session    api    ${HOST}
-
 Assert Response Success
     [Arguments]    ${resp}
     Should be True      ${resp.json()['success']}

@@ -8,3 +8,9 @@ tests/server/log\.html
 tests/server/output\.xml
 
 tests/server/report\.html
+
+tests/admin/log\.html
+
+tests/admin/output\.xml
+
+tests/admin/report\.html
