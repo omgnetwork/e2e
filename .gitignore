@@ -1,0 +1,10 @@
+
+tests/__pycache__/
+
+tests/libraries/__pycache__/
+
+tests/server/log\.html
+
+tests/server/output\.xml
+
+tests/server/report\.html
