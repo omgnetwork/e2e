@@ -8,10 +8,9 @@ Suite Teardown  Delete All Sessions
 
 *** Test Cases ***
 Create user successfully
-    # Initialize
+    # Build payload
     ${data}                  Get Binary File    ${RESOURCE}/create_user.json
     ${json_data}             To Json            ${data}
-    ${idempotency_token}     Generate Random String
 
     &{headers}     Build Idempotent Server Request Header
 
@@ -46,7 +45,6 @@ Update user successfully
     # Initialize
     ${data}                  Get Binary File    ${RESOURCE}/update_user.json
     ${json_data}             To Json            ${data}
-    ${idempotency_token}     Generate Random String
 
     &{headers}     Build Idempotent Server Request Header
 
