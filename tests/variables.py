@@ -11,19 +11,25 @@ ADMIN_PASSWORD =                 "password"
 ADMIN_1_EMAIL =                  "admin1@example.com"
 
 ADMIN_AUTH_SCHEMA =              "OMGAdmin"
+SERVER_AUTH_SCHEMA =             "OMGServer"
+CLIENT_AUTH_SCHEMA =             "OMGClient"
 
 SERVER_AUTH =                    "OMGServer VS1DZGE4bWRJdE14SmVhUGw3Yk1rcFBXcURfZlVvTmtvSWNYUnQyRWhNWTpsOEJtb2FWaE1menM2Y2ZOY3hjYmZyUzRmY3picFJySy1yeGxuWS1ONmRR"
 
 # Endpoints:
 
 ## Admin
+#### Session
 ADMIN_LOGIN =                    "login"
 
+#### Token
 ADMIN_TOKEN_CREATE =             "token.create"
 ADMIN_TOKEN_MINT =               "token.mint"
 ADMIN_TOKEN_GET =                "token.get"
 ADMIN_TOKEN_LIST =               "token.all"
 
+
+#### Account
 ADMIN_ACCOUNT_CREATE =           "account.create"
 ADMIN_ACCOUNT_UPDATE =           "account.update"
 ADMIN_ACCOUNT_UPLOAD_AVATAR =    "account.upload_avatar"
@@ -34,8 +40,30 @@ ADMIN_ACCOUNT_GET =              "account.get"
 ADMIN_ACCOUNT_ALL =              "account.all"
 ADMIN_ACCOUNT_GET_WALLETS =      "account.get_wallets"
 
+#### Admin
 ADMIN_ADMIN_ALL =                "admin.all"
 ADMIN_ADMIN_GET =                "admin.get"
+
+#### Category
+ADMIN_CATEGORY_CREATE =         "category.create"
+ADMIN_CATEGORY_UPDATE =         "category.update"
+ADMIN_CATEGORY_GET =            "category.get"
+ADMIN_CATEGORY_ALL =            "category.all"
+ADMIN_CATEGORY_DELETE =         "category.delete"
+
+#### Transaction
+ADMIN_TRANSACTION_CREATE =      "transaction.create"
+ADMIN_TRANSACTION_GET =         "transaction.get"
+ADMIN_TRANSACTION_ALL =         "transaction.all"
+
+#### API keys
+
+ADMIN_KEY_ACCESS_ALL =          "access_key.all"
+ADMIN_KEY_ACCESS_CREATE =       "access_key.create"
+ADMIN_KEY_ACCESS_DELETE =       "access_key.delete"
+ADMIN_KEY_API_ALL =             "api_key.all"
+ADMIN_KEY_API_CREATE =          "api_key.create"
+ADMIN_KEY_API_DELETE =          "api_key.delete"
 
 
 ## Ewallet
