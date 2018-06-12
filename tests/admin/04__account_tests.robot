@@ -88,7 +88,7 @@ Unassign a user from an account successfully
 
     # Perform request
     ${resp}        Post Request    api    ${ADMIN_ACCOUNT_UNASSIGN_USER}    data=${data}    headers=${headers}
-    
+
     # Assert response
     Assert Response Success    ${resp}
 
@@ -128,3 +128,17 @@ List all accounts successfully
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type         ${resp}    list
+
+Switch token to account successfully
+    # Build payload
+    ${data}         Get Binary File      ${RESOURCE}/switch_account.json
+    ${data}         Update Json          ${data}    account_id=${ACCOUNT_ID}
+    &{headers}      Build Authenticated Admin Request Header
+
+    # Perform request
+    ${resp}        Post Request    api    ${ADMIN_SWITCH_ACCOUNT}    data=${data}    headers=${headers}
+
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type         ${resp}    authentication_token
+    Should be Equal            ${resp.json()['data']['account_id']}    ${ACCOUNT_ID}

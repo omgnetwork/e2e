@@ -21,6 +21,9 @@ SERVER_AUTH =                    "OMGServer VS1DZGE4bWRJdE14SmVhUGw3Yk1rcFBXcURf
 ## Admin
 #### Session
 ADMIN_LOGIN =                    "login"
+ADMIN_LOGOUT =                   "logout"
+ADMIN_SWITCH_ACCOUNT =           "auth_token.switch_account"
+ADMIN_RESET_PASSWORD =           "password.reset"
 
 #### Token
 ADMIN_TOKEN_CREATE =             "token.create"
