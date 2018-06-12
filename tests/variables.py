@@ -59,6 +59,16 @@ ADMIN_TRANSACTION_CREATE =      "transaction.create"
 ADMIN_TRANSACTION_GET =         "transaction.get"
 ADMIN_TRANSACTION_ALL =         "transaction.all"
 
+#### Users
+
+ADMIN_USER_ALL =                "user.all"
+ADMIN_USER_GET =                "user.get"
+ADMIN_USER_ME_GET =             "me.get"
+ADMIN_USER_ME_UPDATE =          "me.update"
+ADMIN_USER_ME_GET_ACCOUNT =     "me.get_account"
+ADMIN_USER_ME_GET_ACCOUNTS =    "me.get_accounts"
+ADMIN_USER_GET_WALLETS =        "user.get_wallets"
+
 #### API keys
 
 ADMIN_KEY_ACCESS_ALL =          "access_key.all"

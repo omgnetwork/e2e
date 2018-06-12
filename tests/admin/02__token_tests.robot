@@ -31,7 +31,7 @@ Mint a token successfully
     # Build payload
     ${data}         Get Binary File    ${RESOURCE}/mint_token.json
     ${data}         Update Json        ${data}            id=${TOKEN_ID}
-    &{headers}           Build Authenticated Admin Request Header
+    &{headers}      Build Authenticated Admin Request Header
 
     # Perform request
     ${resp}        Post Request    api    ${ADMIN_TOKEN_MINT}    data=${data}    headers=${headers}
