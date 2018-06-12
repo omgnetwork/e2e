@@ -1,4 +1,4 @@
-# TODO We need 2 addresses first
+# TODO We need to have wallets first
 *** Settings ***
 Documentation    Tests related to users
 
@@ -8,8 +8,6 @@ Suite Setup     Create API Session
 Suite Teardown  Delete All Sessions
 
 *** Test Cases ***
-Get all transasctions successfully
+Get all wallets successfully
 
-Get a transaction successfully
-
-Create a transaction successfully
+Get a wallet successfully
