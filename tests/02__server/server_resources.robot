@@ -8,7 +8,7 @@ Variables  ../variables.py
 Resource    ../resouces.robot
 
 *** Variables ***
-${RESOURCE}    resources
+${RESOURCE}    ${CURDIR}/resources
 
 *** Keywords ***
 Create API Session
@@ -16,14 +16,14 @@ Create API Session
 
 Build Server Request Header
     &{headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
-    ...                                Authorization=${SERVER_AUTH}
+    ...                                Authorization=${SERVER_AUTHENTICATION}
     ...                                Accept=${ACCEPT_HEADER}
     [Return]    &{headers}
 
 Build Idempotent Server Request Header
     ${idempotency_token}     Generate Random String
     &{headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
-    ...                                Authorization=${SERVER_AUTH}
+    ...                                Authorization=${SERVER_AUTHENTICATION}
     ...                                Accept=${ACCEPT_HEADER}
     ...                                Idempotency-Token=${idempotency_token}
     [Return]    &{headers}

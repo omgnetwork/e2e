@@ -1,6 +1,6 @@
 {
-  "provider_user_id": "sample_provider_user_id",
-  "username": "a_new_username9",
+  "provider_user_id": "TO OVERRIDE",
+  "username": "TO OVERRIDE",
   "metadata": {
       "a_new_key": "a_new_value"
   },

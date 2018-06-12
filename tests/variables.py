@@ -14,8 +14,6 @@ ADMIN_AUTH_SCHEMA =              "OMGAdmin"
 SERVER_AUTH_SCHEMA =             "OMGServer"
 CLIENT_AUTH_SCHEMA =             "OMGClient"
 
-SERVER_AUTH =                    "OMGServer VS1DZGE4bWRJdE14SmVhUGw3Yk1rcFBXcURfZlVvTmtvSWNYUnQyRWhNWTpsOEJtb2FWaE1menM2Y2ZOY3hjYmZyUzRmY3picFJySy1yeGxuWS1ONmRR"
-
 # Endpoints:
 
 ## Admin
