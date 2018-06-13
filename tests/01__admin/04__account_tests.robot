@@ -104,6 +104,7 @@ List all wallets from an account successfully
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type         ${resp}    list
+    Should Not Be Empty        ${resp.json()['data']['data']}
 
 Get an account successfully
     # Build payload

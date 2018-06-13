@@ -89,4 +89,15 @@ List users successfully
     Should Not Be Empty        ${resp.json()['data']['data']}
 
 List user's wallets
-    #TODO when we have wallets
+    # Build payload
+    ${data}       Get Binary File    ${RESOURCE}/get_user_wallets.json
+    ${data}       Update Json        ${data}    id=${MY_USER_ID}
+    &{headers}    Build Authenticated Admin Request Header
+
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_USER_GET_WALLETS}    data=${data}    headers=${headers}
+
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type         ${resp}    list
+    Should Not Be Empty        ${resp.json()['data']['data']}
