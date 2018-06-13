@@ -8,8 +8,17 @@ Suite Teardown  Delete All Sessions
 
 *** Test Cases ***
 List all admins successfully
+    # Add admin to account
+    ${data}         Get Binary File      ${RESOURCE}/assign_user_to_account.json
+    &{override}     Create Dictionary    email=${ADMIN_1_EMAIL}    account_id=${ACCOUNT_ID}
+    ${data}         Update Json          ${data}                  &{override}
+    &{headers}      Build Authenticated Admin Request Header
+
+    # Perform request
+    ${resp}        Post Request    api    ${ADMIN_ACCOUNT_ASSIGN_USER}    data=${data}    headers=${headers}
+
     # Build payload
-    ${data}         Get Binary File      ${RESOURCE}/list_admins.json
+    ${data}         Get Binary File      ${RESOURCE}/get_admins.json
     ${data}         Update Json          ${data}    search_term=${ADMIN_1_EMAIL}
     &{headers}      Build Authenticated Admin Request Header
 
@@ -22,10 +31,6 @@ List all admins successfully
 
     ${admin}                   Get From List        ${resp.json()['data']['data']}    0
     Should be Equal            ${admin['email']}    ${ADMIN_1_EMAIL}
-
-    ${ADMIN_1_ID}              Get Variable Value    ${admin['id']}
-    Set Global Variable        ${ADMIN_1_ID}
-
 
 Get an admin successfully
     # Build payload

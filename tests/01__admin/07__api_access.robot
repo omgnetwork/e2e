@@ -31,7 +31,7 @@ Create an access key successfully
 
 List access keys successfully
     # Build payload
-    ${data}       Get Binary File      ${RESOURCE}/list_access_keys.json
+    ${data}       Get Binary File      ${RESOURCE}/get_access_keys.json
     &{headers}    Build Authenticated Admin Request Header
 
     # Perform request
@@ -74,7 +74,7 @@ Create an api key successfully
 
 List api keys successfully
     # Build payload
-    ${data}       Get Binary File      ${RESOURCE}/list_api_keys.json
+    ${data}       Get Binary File      ${RESOURCE}/get_api_keys.json
     &{headers}    Build Authenticated Admin Request Header
 
     # Perform request

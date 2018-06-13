@@ -31,6 +31,7 @@ Mint a token successfully
     # Build payload
     ${data}         Get Binary File    ${RESOURCE}/mint_token.json
     ${data}         Update Json        ${data}            id=${TOKEN_ID}
+    ${json_data}    To Json            ${data}
     &{headers}      Build Authenticated Admin Request Header
 
     # Perform request
@@ -38,8 +39,9 @@ Mint a token successfully
 
     # Assert response
     Assert Response Success    ${resp}
-    Assert Object Type         ${resp}    token
-    Should be Equal            ${resp.json()['data']['id']}                 ${TOKEN_ID}
+    Assert Object Type         ${resp}    mint
+    Should be Equal            ${resp.json()['data']['token_id']}    ${TOKEN_ID}
+    Should be Equal            ${resp.json()['data']['amount']}      ${json_data['amount']}
 
 Get a token successfully
     # Build payload
@@ -53,13 +55,11 @@ Get a token successfully
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type         ${resp}    token
-    Should be Equal            ${resp.json()['data']['id']}                 ${TOKEN_ID}
+    Should be Equal            ${resp.json()['data']['id']}    ${TOKEN_ID}
 
 Get all tokens successfully
     # Build payload
-    ${data}         Get Binary File    ${RESOURCE}/list_tokens.json
-    ${json_data}    To Json            ${data}
-
+    ${data}         Get Binary File    ${RESOURCE}/get_tokens.json
     &{headers}           Build Authenticated Admin Request Header
 
     # Perform request

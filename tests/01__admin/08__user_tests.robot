@@ -25,6 +25,7 @@ Get my user successfully
 Update my user successfully
     # Build payload
     ${data}         Get Binary File    ${RESOURCE}/me_update.json
+    ${data}         Update Json        ${data}    email=${ADMIN_EMAIL}
     ${json_data}    To Json            ${data}
     &{headers}      Build Authenticated Admin Request Header
 
@@ -77,7 +78,7 @@ Get a user successfully
 
 List users successfully
     # Build payload
-    ${data}       Get Binary File      ${RESOURCE}/list_users.json
+    ${data}       Get Binary File      ${RESOURCE}/get_users.json
     &{headers}    Build Authenticated Admin Request Header
 
     # Perform request

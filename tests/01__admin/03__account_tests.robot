@@ -53,7 +53,7 @@ Update an account successfully
 Assign a user to an account successfully
     # Build payload
     ${data}         Get Binary File      ${RESOURCE}/assign_user_to_account.json
-    &{override}     Create Dictionary    user_id=${ADMIN_1_ID}    account_id=${ACCOUNT_ID}
+    &{override}     Create Dictionary    email=${ADMIN_1_EMAIL}    account_id=${ACCOUNT_ID}
     ${data}         Update Json          ${data}                  &{override}
     &{headers}      Build Authenticated Admin Request Header
 
@@ -65,19 +65,22 @@ Assign a user to an account successfully
 
 List users from an account successfully
     # Build payload
-    ${data}         Get Binary File      ${RESOURCE}/list_users_from_account.json
+    ${data}         Get Binary File      ${RESOURCE}/get_users_from_account.json
     ${data}         Update Json          ${data}                account_id=${ACCOUNT_ID}
     &{headers}      Build Authenticated Admin Request Header
 
     # Perform request
-    ${resp}        Post Request    api    ${ADMIN_ACCOUNT_LIST_USERS}    data=${data}    headers=${headers}
+    ${resp}        Post Request    api    ${ADMIN_ACCOUNT_GET_USERS}    data=${data}    headers=${headers}
 
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type         ${resp}    list
 
-    ${admin1}                  Get From List      ${resp.json()['data']['data']}    0
-    Should be Equal            ${admin1['id']}    ${ADMIN_1_ID}
+    ${admin1}                  Get From List         ${resp.json()['data']['data']}    0
+    Should be Equal            ${admin1['email']}    ${ADMIN_1_EMAIL}
+
+    ${ADMIN_1_ID}              Get Variable Value    ${admin1['id']}
+    Set Global Variable        ${ADMIN_1_ID}
 
 Unassign a user from an account successfully
     # Build payload
@@ -94,7 +97,7 @@ Unassign a user from an account successfully
 
 List all wallets from an account successfully
     # Build payload
-    ${data}         Get Binary File      ${RESOURCE}/account_list_wallets.json
+    ${data}         Get Binary File      ${RESOURCE}/account_get_wallets.json
     ${data}         Update Json          ${data}    id=${ACCOUNT_ID}
     &{headers}      Build Authenticated Admin Request Header
 
@@ -120,7 +123,7 @@ Get an account successfully
 
 List all accounts successfully
     # Build payload
-    ${data}         Get Binary File      ${RESOURCE}/list_accounts.json
+    ${data}         Get Binary File      ${RESOURCE}/get_accounts.json
     &{headers}      Build Authenticated Admin Request Header
 
     # Perform request

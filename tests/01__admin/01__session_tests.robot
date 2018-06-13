@@ -11,9 +11,11 @@ Suite Teardown  Delete All Sessions
 *** Test Cases ***
 Logout an admin user successfully
     # Login first to get a token
-    ${data}         Get Binary File    ${RESOURCE}/login.json
+    ${data}         Get Binary File      ${RESOURCE}/login.json
+    &{override}     Create Dictionary    email=${ADMIN_EMAIL}    password=${ADMIN_PASSWORD}
+    ${data}         Update Json          ${data}    &{override}
     &{headers}      Build Admin Request Header
-    ${resp}        Post Request    api    ${ADMIN_LOGIN}    data=${data}    headers=${headers}
+    ${resp}         Post Request    api    ${ADMIN_LOGIN}    data=${data}    headers=${headers}
 
     ${authentication_token}    Get Variable Value    ${resp.json()['data']['authentication_token']}
     ${user_id}                 Get Variable Value    ${resp.json()['data']['user_id']}
@@ -36,6 +38,8 @@ Logout an admin user successfully
 Login an admin user successfully
     # Build payload
     ${data}         Get Binary File    ${RESOURCE}/login.json
+    &{override}     Create Dictionary    email=${ADMIN_EMAIL}    password=${ADMIN_PASSWORD}
+    ${data}         Update Json          ${data}    &{override}
     &{headers}      Build Admin Request Header
 
     # Perform request
@@ -57,7 +61,7 @@ Login an admin user successfully
 Request to reset password successfully
     # Build payload
     ${data}         Get Binary File    ${RESOURCE}/reset_password.json
-    ${json_data}    To Json            ${data}
+    ${data}         Update Json       ${data}    email=${ADMIN_EMAIL}
     &{headers}      Build Authenticated Admin Request Header
 
     # Perform request

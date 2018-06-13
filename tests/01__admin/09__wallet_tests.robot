@@ -10,7 +10,7 @@ Suite Teardown  Delete All Sessions
 *** Test Cases ***
 Get all wallets successfully
     # Build payload
-    ${data}         Get Binary File    ${RESOURCE}/list_wallets.json
+    ${data}         Get Binary File    ${RESOURCE}/get_wallets.json
     &{headers}      Build Authenticated Admin Request Header
 
     # Perform request

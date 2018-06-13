@@ -1,14 +1,16 @@
 # Some of these variables will need to be actually defined with ENV Variables
 # See: https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/Variables.rst#environment-variables
+import os
 
 HOST =                           "http://localhost:4000/api"
 ADMIN_HOST =                     "http://localhost:4000/admin/api"
 CONTENT_TYPE_HEADER =            "application/vnd.omisego.v1+json"
 FORM_DATA_CONTENT_TYPE_HEADER =  "application/x-www-form-urlencoded"
 ACCEPT_HEADER =                  "application/vnd.omisego.v1+json"
-ADMIN_EMAIL =                    "admin@example.com"
-ADMIN_PASSWORD =                 "password"
-ADMIN_1_EMAIL =                  "admin1@example.com"
+ADMIN_EMAIL =                    os.getenv("E2E_TEST_ADMIN_EMAIL", "test_admin@example.com")
+ADMIN_PASSWORD =                 os.getenv("E2E_TEST_ADMIN_PASSWORD", "password")
+ADMIN_1_EMAIL =                  os.getenv("E2E_TEST_ADMIN_1_EMAIL", "test_admin_1@example.com")
+ADMIN_1_PASSWORD =               os.getenv("E2E_TEST_ADMIN_1_PASSWORD", "password")
 
 ADMIN_AUTH_SCHEMA =              "OMGAdmin"
 SERVER_AUTH_SCHEMA =             "OMGServer"
@@ -35,7 +37,7 @@ ADMIN_ACCOUNT_CREATE =           "account.create"
 ADMIN_ACCOUNT_UPDATE =           "account.update"
 ADMIN_ACCOUNT_UPLOAD_AVATAR =    "account.upload_avatar"
 ADMIN_ACCOUNT_ASSIGN_USER =      "account.assign_user"
-ADMIN_ACCOUNT_LIST_USERS =       "account.list_users"
+ADMIN_ACCOUNT_GET_USERS =        "account.get_users"
 ADMIN_ACCOUNT_UNASSIGN_USER =    "account.unassign_user"
 ADMIN_ACCOUNT_GET =              "account.get"
 ADMIN_ACCOUNT_ALL =              "account.all"
@@ -87,4 +89,4 @@ USER_UPDATE =                    "user.update"
 
 LOGIN =                          "login"
 
-USER_LIST_WALLETS =              "user.list_wallets"
+USER_GET_WALLETS =               "user.get_wallets"

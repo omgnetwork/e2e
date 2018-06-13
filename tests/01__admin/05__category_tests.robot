@@ -65,7 +65,7 @@ Update a category successfully
 
 List all categories successfully
     # Build payload
-    ${data}       Get Binary File      ${RESOURCE}/list_categories.json
+    ${data}       Get Binary File      ${RESOURCE}/get_categories.json
     &{headers}    Build Authenticated Admin Request Header
 
     # Perform request
