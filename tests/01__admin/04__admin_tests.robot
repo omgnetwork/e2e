@@ -57,7 +57,7 @@ Get my user successfully
     Should be Equal            ${resp.json()['data']['email']}    ${ADMIN_EMAIL}
 
     ${MY_USER_ID}         Get Variable Value    ${resp.json()['data']['id']}
-    Set Global Variabl    ${MY_USER_ID}
+    Set Global Variable    ${MY_USER_ID}
 
 Update my user successfully
     # Build payload

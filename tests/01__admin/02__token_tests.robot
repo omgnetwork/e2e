@@ -45,9 +45,9 @@ Mint a token successfully
 
 Get a token successfully
     # Build payload
-    ${data}         Get Binary File    ${RESOURCE}/get_token.json
-    ${data}         Update Json        ${data}            id=${TOKEN_ID}
-    &{headers}           Build Authenticated Admin Request Header
+    ${data}       Get Binary File    ${RESOURCE}/get_token.json
+    ${data}       Update Json        ${data}            id=${TOKEN_ID}
+    &{headers}    Build Authenticated Admin Request Header
 
     # Perform request
     ${resp}        Post Request    api    ${ADMIN_TOKEN_GET}    data=${data}    headers=${headers}
@@ -59,11 +59,39 @@ Get a token successfully
 
 Get all tokens successfully
     # Build payload
-    ${data}         Get Binary File    ${RESOURCE}/get_tokens.json
-    &{headers}           Build Authenticated Admin Request Header
+    ${data}       Get Binary File    ${RESOURCE}/get_tokens.json
+    &{headers}    Build Authenticated Admin Request Header
 
     # Perform request
     ${resp}        Post Request    api    ${ADMIN_TOKEN_LIST}    data=${data}    headers=${headers}
+
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type         ${resp}    list
+    Should Not Be Empty        ${resp.json()['data']['data']}
+
+Get stats successfully
+    # Build payload
+    ${data}       Get Binary File    ${RESOURCE}/get_token_stats.json
+    ${data}       Update Json        ${data}    id=${TOKEN_ID}
+    &{headers}    Build Authenticated Admin Request Header
+
+    # Perform request
+    ${resp}        Post Request    api    ${ADMIN_TOKEN_STATS}    data=${data}    headers=${headers}
+
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type         ${resp}    token_stats
+    Should Be Equal            ${resp.json()['data']['token_id']}    ${TOKEN_ID}
+
+Get mints successfully
+    # Build payload
+    ${data}       Get Binary File    ${RESOURCE}/get_mints.json
+    ${data}       Update Json        ${data}    id=${TOKEN_ID}
+    &{headers}    Build Authenticated Admin Request Header
+
+    # Perform request
+    ${resp}        Post Request    api    ${ADMIN_TOKEN_GET_MINTS}    data=${data}    headers=${headers}
 
     # Assert response
     Assert Response Success    ${resp}

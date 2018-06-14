@@ -48,8 +48,8 @@ ADMIN_USER_GET_WALLETS =                "user.get_wallets" #OK
 ADMIN_TOKEN_LIST =                      "token.all" #OK
 ADMIN_TOKEN_GET =                       "token.get" #OK
 ADMIN_TOKEN_CREATE =                    "token.create" #OK
-ADMIN_TOKEN_STATS =                     "token.stats"
-ADMIN_TOKEN_GET_MINTS =                 "token.get_mints"
+ADMIN_TOKEN_STATS =                     "token.stats" #OK
+ADMIN_TOKEN_GET_MINTS =                 "token.get_mints" #OK
 ADMIN_TOKEN_MINT =                      "token.mint" #OK
 
 #### Category
