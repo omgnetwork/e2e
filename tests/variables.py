@@ -76,13 +76,12 @@ ADMIN_WALLET_CREATE =                   "wallet.create" #OK
 ADMIN_WALLET_GET =                      "wallet.get" #OK
 
 #### Transaction
-ADMIN_USER_GET_TRANSACTIONS =           "user.get_transactions"
-ADMIN_USER_CREDIT_WALLET =              "user.credit_wallet"
-ADMIN_USER_DEBIT_WALLET =               "user.debit_wallet"
-ADMIN_TRANSACTION_ALL =                 "transaction.all"
-ADMIN_TRANSACTION_GET =                 "transaction.get"
-ADMIN_TRANSACTION_CREATE =              "transaction.create"
-ADMIN_TRANSFER =                        "transfer"
+ADMIN_USER_GET_TRANSACTIONS =           "user.get_transactions" #OK
+ADMIN_USER_CREDIT_WALLET =              "user.credit_wallet" #OK
+ADMIN_USER_DEBIT_WALLET =               "user.debit_wallet" #OK
+ADMIN_TRANSACTION_ALL =                 "transaction.all" #OK
+ADMIN_TRANSACTION_GET =                 "transaction.get" #OK
+ADMIN_TRANSACTION_CREATE =              "transaction.create" #OK
 
 #### Transaction Request
 ADMIN_TRANSACTION_REQUEST_CREATE =      "transaction_request.create"

@@ -98,7 +98,7 @@ Unassign a user from an account successfully
 List all wallets from an account successfully
     # Build payload
     ${data}         Get Binary File      ${RESOURCE}/account_get_wallets.json
-    ${data}         Update Json          ${data}    id=${ACCOUNT_ID}
+    ${data}         Update Json          ${data}    id=${MASTER_ACCOUNT_ID}
     &{headers}      Build Authenticated Admin Request Header
 
     # Perform request
@@ -108,6 +108,10 @@ List all wallets from an account successfully
     Assert Response Success    ${resp}
     Assert Object Type         ${resp}    list
     Should Not Be Empty        ${resp.json()['data']['data']}
+    ${wallet}                  Get From List         ${resp.json()['data']['data']}    0
+
+    ${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    Get Variable Value    ${wallet['address']}
+    Set Global Variable                         ${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}
 
 Get an account successfully
     # Build payload

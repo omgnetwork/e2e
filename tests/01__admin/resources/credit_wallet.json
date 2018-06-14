@@ -1,8 +1,8 @@
 {
-  "from_address": "TO OVERRIDE",
-  "to_address": "TO OVERRIDE",
+  "provider_user_id": "TO OVERRIDE",
+  "account_id": "TO OVERRIDE",
   "token_id": "TO OVERRIDE",
-  "amount": 10,
+  "amount": 100,
   "metadata": {
     "a_key": "a_value"
   },

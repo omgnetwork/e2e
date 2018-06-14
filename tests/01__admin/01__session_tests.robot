@@ -20,6 +20,9 @@ Logout an admin user successfully
     ${authentication_token}    Get Variable Value    ${resp.json()['data']['authentication_token']}
     ${user_id}                 Get Variable Value    ${resp.json()['data']['user_id']}
 
+    ${MASTER_ACCOUNT_ID}       Get Variable Value    ${resp.json()['data']['account_id']}
+    Set Global Variable        ${MASTER_ACCOUNT_ID}
+
     ${admin_user_authentication}    Build Authentication    ${ADMIN_AUTH_SCHEMA}
     ...                                                     ${user_id}
     ...                                                     ${authentication_token}

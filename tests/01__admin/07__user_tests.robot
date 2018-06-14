@@ -95,3 +95,7 @@ List user's wallets
     Assert Response Success    ${resp}
     Assert Object Type         ${resp}    list
     Should Not Be Empty        ${resp.json()['data']['data']}
+
+    ${wallet}                         Get From List         ${resp.json()['data']['data']}    0
+    ${USER_PRIMARY_WALLET_ADDRESS}    Get Variable Value    ${wallet['address']}
+    Set Global Variable               ${USER_PRIMARY_WALLET_ADDRESS}
