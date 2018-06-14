@@ -22,7 +22,7 @@ Create an access key successfully
     ${access_key}              Get Variable Value    ${resp.json()['data']['access_key']}
     ${secret_key}              Get Variable Value    ${resp.json()['data']['secret_key']}
 
-    ${SERVER_AUTHENTICATION}    Build Authentication    ${SERVER_AUTH_SCHEMA}
+    ${SERVER_AUTHENTICATION}    Build Authentication    ${PROVIDER_AUTH_SCHEMA}
     ...                                                 ${access_key}
     ...                                                 ${secret_key}
 
@@ -71,6 +71,7 @@ Create an api key successfully
     Assert Response Success    ${resp}
     Assert Object Type         ${resp}    api_key
     ${API_KEY}                 Get Variable Value    ${resp.json()['data']['key']}
+    Set Global Variable        ${API_KEY}
 
 List api keys successfully
     # Build payload

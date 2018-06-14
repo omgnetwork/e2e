@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation    Tests related to session
+Documentation    Tests related to admin session
 
 Resource    admin_resources.robot
 
@@ -11,7 +11,7 @@ Suite Teardown  Delete All Sessions
 *** Test Cases ***
 Logout an admin user successfully
     # Login first to get a token
-    ${data}         Get Binary File      ${RESOURCE}/login.json
+    ${data}         Get Binary File      ${RESOURCE}/admin_login.json
     &{override}     Create Dictionary    email=${ADMIN_EMAIL}    password=${ADMIN_PASSWORD}
     ${data}         Update Json          ${data}    &{override}
     &{headers}      Build Admin Request Header
@@ -40,7 +40,7 @@ Logout an admin user successfully
 
 Login an admin user successfully
     # Build payload
-    ${data}         Get Binary File    ${RESOURCE}/login.json
+    ${data}         Get Binary File    ${RESOURCE}/admin_login.json
     &{override}     Create Dictionary    email=${ADMIN_EMAIL}    password=${ADMIN_PASSWORD}
     ${data}         Update Json          ${data}    &{override}
     &{headers}      Build Admin Request Header

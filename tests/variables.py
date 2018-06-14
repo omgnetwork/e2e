@@ -13,7 +13,7 @@ ADMIN_1_EMAIL =                          os.getenv("E2E_TEST_ADMIN_1_EMAIL", "te
 ADMIN_1_PASSWORD =                       os.getenv("E2E_TEST_ADMIN_1_PASSWORD", "password")
 
 ADMIN_AUTH_SCHEMA =                      "OMGAdmin"
-SERVER_AUTH_SCHEMA =                     "OMGServer"
+PROVIDER_AUTH_SCHEMA =                   "OMGProvider"
 CLIENT_AUTH_SCHEMA =                     "OMGClient"
 
 # Endpoints:
