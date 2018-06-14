@@ -43,3 +43,57 @@ Get an admin successfully
 
     # Assert response
     Assert Response Success    ${resp}
+
+Get my user successfully
+    # Build payload
+    &{headers}    Build Authenticated Admin Request Header
+
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ME_GET}    headers=${headers}
+
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type         ${resp}    user
+    Should be Equal            ${resp.json()['data']['email']}    ${ADMIN_EMAIL}
+
+    ${MY_USER_ID}         Get Variable Value    ${resp.json()['data']['id']}
+    Set Global Variabl    ${MY_USER_ID}
+
+Update my user successfully
+    # Build payload
+    ${data}         Get Binary File    ${RESOURCE}/me_update.json
+    ${data}         Update Json        ${data}    email=${ADMIN_EMAIL}
+    ${json_data}    To Json            ${data}
+    &{headers}      Build Authenticated Admin Request Header
+
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ME_UPDATE}    data=${data}    headers=${headers}
+
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type         ${resp}    user
+    Should be Equal            ${resp.json()['data']['id']}    ${MY_USER_ID}
+    Dictionaries Should be Equal    ${resp.json()['data']['metadata']}    ${json_data['metadata']}
+
+List my account successfully
+    # Build payload
+    &{headers}    Build Authenticated Admin Request Header
+
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ME_GET_ACCOUNT}    headers=${headers}
+
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type         ${resp}    account
+
+List my accounts successfully
+    # Build payload
+    &{headers}    Build Authenticated Admin Request Header
+
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ME_GET_ACCOUNTS}    headers=${headers}
+
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type         ${resp}    list
+    Should Not Be Empty        ${resp.json()['data']['data']}

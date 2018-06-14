@@ -7,74 +7,67 @@ Suite Setup     Create API Session
 Suite Teardown  Delete All Sessions
 
 *** Test Cases ***
-Get my user successfully
+Create user successfully
     # Build payload
-    &{headers}    Build Authenticated Admin Request Header
+    ${data}                Get Binary File    ${RESOURCE}/create_user.json
+    ${PROVIDER_USER_ID}    Generate Random String
+    ${username}            Generate Random String
+    &{override}            Create Dictionary    provider_user_id=${PROVIDER_USER_ID}    username=${username}
+    ${data}                Update Json        ${data}     &{override}
+
+    Set Global Variable    ${PROVIDER_USER_ID}
+
+    ${json_data}           To Json            ${data}
+
+    &{headers}     Build Idempotent Authenticated Admin Request Header
 
     # Perform request
-    ${resp}    Post Request    api    ${ADMIN_USER_ME_GET}    headers=${headers}
+    ${resp}        Post Request    api    ${ADMIN_USER_CREATE}    data=${data}    headers=${headers}
 
     # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type         ${resp}    user
-    Should be Equal            ${resp.json()['data']['email']}    ${ADMIN_EMAIL}
+    Assert Response Success         ${resp}
+    Assert Object Type              ${resp}    user
+    Should be Equal                 ${resp.json()['data']['provider_user_id']}      ${json_data['provider_user_id']}
+    Should be Equal                 ${resp.json()['data']['username']}              ${json_data['username']}
+    Dictionaries Should Be Equal    ${resp.json()['data']['metadata']}              ${json_data['metadata']}
+    Dictionaries Should Be Equal    ${resp.json()['data']['encrypted_metadata']}    ${json_data['encrypted_metadata']}
 
-    ${MY_USER_ID}         Get Variable Value    ${resp.json()['data']['id']}
-    Set Suite Variable    ${MY_USER_ID}
-
-Update my user successfully
+Get user successfully
     # Build payload
-    ${data}         Get Binary File    ${RESOURCE}/me_update.json
-    ${data}         Update Json        ${data}    email=${ADMIN_EMAIL}
+    ${data}         Get Binary File    ${RESOURCE}/get_user.json
+    ${data}         Update Json        ${data}     provider_user_id=${PROVIDER_USER_ID}
     ${json_data}    To Json            ${data}
-    &{headers}      Build Authenticated Admin Request Header
+
+    &{headers}     Build Authenticated Admin Request Header
 
     # Perform request
-    ${resp}    Post Request    api    ${ADMIN_USER_ME_UPDATE}    data=${data}    headers=${headers}
+    ${resp}        Post Request    api    ${ADMIN_USER_GET}    data=${data}    headers=${headers}
 
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type         ${resp}    user
-    Should be Equal            ${resp.json()['data']['id']}    ${MY_USER_ID}
-    Dictionaries Should be Equal    ${resp.json()['data']['metadata']}    ${json_data['metadata']}
+    Should be Equal            ${resp.json()['data']['provider_user_id']}    ${PROVIDER_USER_ID}
 
-List my account successfully
-    # Build payload
-    &{headers}    Build Authenticated Admin Request Header
+Update user successfully
+    # Initialize
+    ${data}         Get Binary File      ${RESOURCE}/update_user.json
+    ${username}     Generate Random String
+    &{override}     Create Dictionary    provider_user_id=${PROVIDER_USER_ID}    username=${username}
+    ${data}         Update Json          ${data}     &{override}
+    ${json_data}    To Json              ${data}
 
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_USER_ME_GET_ACCOUNT}    headers=${headers}
-
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type         ${resp}    account
-
-List my accounts successfully
-    # Build payload
-    &{headers}    Build Authenticated Admin Request Header
+    &{headers}     Build Idempotent Authenticated Admin Request Header
 
     # Perform request
-    ${resp}    Post Request    api    ${ADMIN_USER_ME_GET_ACCOUNTS}    headers=${headers}
+    ${resp}        Post Request    api    ${ADMIN_USER_UPDATE}    data=${data}    headers=${headers}
 
     # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type         ${resp}    list
-    Should Not Be Empty        ${resp.json()['data']['data']}
-
-Get a user successfully
-    # Build payload
-    ${data}       Get Binary File    ${RESOURCE}/get_user.json
-    ${data}       Update Json        ${data}    id=${MY_USER_ID}
-    &{headers}    Build Authenticated Admin Request Header
-
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_USER_GET}    data=${data}    headers=${headers}
-
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type         ${resp}    user
-    Should be Equal            ${resp.json()['data']['id']}       ${MY_USER_ID}
-    Should be Equal            ${resp.json()['data']['email']}    ${ADMIN_EMAIL}
+    Assert Response Success         ${resp}
+    Assert Object Type              ${resp}    user
+    Should be Equal                 ${resp.json()['data']['provider_user_id']}    ${json_data['provider_user_id']}
+    Should be Equal                 ${resp.json()['data']['username']}            ${json_data['username']}
+    Dictionaries Should Be Equal    ${resp.json()['data']['metadata']}            ${json_data['metadata']}
+    Should Be Empty                 ${resp.json()['data']['encrypted_metadata']}
 
 List users successfully
     # Build payload
@@ -92,7 +85,7 @@ List users successfully
 List user's wallets
     # Build payload
     ${data}       Get Binary File    ${RESOURCE}/get_user_wallets.json
-    ${data}       Update Json        ${data}    id=${MY_USER_ID}
+    ${data}       Update Json        ${data}    provider_user_id=${PROVIDER_USER_ID}
     &{headers}    Build Authenticated Admin Request Header
 
     # Perform request

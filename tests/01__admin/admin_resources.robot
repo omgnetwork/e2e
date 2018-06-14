@@ -33,6 +33,17 @@ Build Authenticated Admin Request Header
 
     [Return]    &{combined_headers}
 
+Build Idempotent Authenticated Admin Request Header
+    [Arguments]    &{headers}
+    ${idempotency_token}     Generate Random String
+    &{admin_headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
+    ...                                      Authorization=${ADMIN_USER_AUTHENTICATION}
+    ...                                      Accept=${ACCEPT_HEADER}
+    ...                                      Idempotency-Token=${idempotency_token}
+    &{combined_headers}    Create Dictionary    &{admin_headers}    &{headers}
+
+    [Return]    &{combined_headers}
+
 Build Form Data Authenticated Admin Request Header
     [Arguments]    &{headers}
 
@@ -42,3 +53,17 @@ Build Form Data Authenticated Admin Request Header
     &{combined_headers}    Create Dictionary    &{admin_headers}    &{headers}
 
     [Return]    &{combined_headers}
+
+Build Server Request Header
+    &{headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
+    ...                                Authorization=${SERVER_AUTHENTICATION}
+    ...                                Accept=${ACCEPT_HEADER}
+    [Return]    &{headers}
+
+Build Idempotent Server Request Header
+    ${idempotency_token}     Generate Random String
+    &{headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
+    ...                                Authorization=${SERVER_AUTHENTICATION}
+    ...                                Accept=${ACCEPT_HEADER}
+    ...                                Idempotency-Token=${idempotency_token}
+    [Return]    &{headers}

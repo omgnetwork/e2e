@@ -63,7 +63,7 @@ Assign a user to an account successfully
     # Assert response
     Assert Response Success    ${resp}
 
-List users from an account successfully
+Get users from an account successfully
     # Build payload
     ${data}         Get Binary File      ${RESOURCE}/get_users_from_account.json
     ${data}         Update Json          ${data}                account_id=${ACCOUNT_ID}
