@@ -103,4 +103,4 @@ ADMIN_KEY_API_DELETE =                  "api_key.delete" #OK
 
 #### Settings
 
-ADMIN_GET_SETTINGS =                    "settings.all"
+ADMIN_GET_SETTINGS =                    "settings.all" #OK

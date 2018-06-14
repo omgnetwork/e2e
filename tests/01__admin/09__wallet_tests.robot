@@ -1,6 +1,5 @@
-# TODO We need to have wallets first
 *** Settings ***
-Documentation    Tests related to users
+Documentation    Tests related to wallets
 
 Resource    admin_resources.robot
 
