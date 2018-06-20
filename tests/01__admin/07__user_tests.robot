@@ -12,14 +12,15 @@ Create user successfully
     ${data}                Get Binary File    ${RESOURCE}/create_user.json
     ${PROVIDER_USER_ID}    Generate Random String
     ${username}            Generate Random String
-    &{override}            Create Dictionary    provider_user_id=${PROVIDER_USER_ID}    username=${username}
+    &{override}            Create Dictionary    provider_user_id=${PROVIDER_USER_ID}
+    ...                                         username=${username}
     ${data}                Update Json        ${data}     &{override}
 
     Set Global Variable    ${PROVIDER_USER_ID}
 
     ${json_data}           To Json            ${data}
 
-    &{headers}     Build Idempotent Authenticated Admin Request Header
+    &{headers}     Build Authenticated Admin Request Header
 
     # Perform request
     ${resp}        Post Request    api    ${ADMIN_USER_CREATE}    data=${data}    headers=${headers}
@@ -56,7 +57,7 @@ Update user successfully
     ${data}         Update Json          ${data}     &{override}
     ${json_data}    To Json              ${data}
 
-    &{headers}     Build Idempotent Authenticated Admin Request Header
+    &{headers}     Build Authenticated Admin Request Header
 
     # Perform request
     ${resp}        Post Request    api    ${ADMIN_USER_UPDATE}    data=${data}    headers=${headers}

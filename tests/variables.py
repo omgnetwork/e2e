@@ -22,7 +22,7 @@ CLIENT_AUTH_SCHEMA =                      "OMGClient"
 ## Admin
 ### Session
 ADMIN_LOGIN =                            "admin.login" #OK
-ADMIN_LOGOUT =                           "admin.logout" #OK
+ADMIN_LOGOUT =                           "me.logout" #OK
 ADMIN_SWITCH_ACCOUNT =                   "auth_token.switch_account" #OK
 ADMIN_RESET_PASSWORD =                   "admin.reset_password" #OK
 

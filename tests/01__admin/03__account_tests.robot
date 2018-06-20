@@ -97,7 +97,7 @@ Unassign a user from an account successfully
 
 List all wallets from an account successfully
     # Build payload
-    ${data}         Get Binary File      ${RESOURCE}/account_get_wallets.json
+    ${data}         Get Binary File      ${RESOURCE}/get_wallets_from_account.json
     ${data}         Update Json          ${data}    id=${MASTER_ACCOUNT_ID}
     &{headers}      Build Authenticated Admin Request Header
 

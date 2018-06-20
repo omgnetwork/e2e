@@ -10,15 +10,17 @@ Suite Teardown  Delete All Sessions
 Create a transfer successfully
     # Build payload
     ${data}         Get Binary File    ${RESOURCE}/transfer.json
-
+    ${i_token}      Generate Random String
     &{override}     Create Dictionary    to_address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}
     ...                                  token_id=${TOKEN_ID}
+    ...                                  idempotency_token=${i_token}
     ${data}         Update Json     ${data}    &{override}
     ${json_data}    To Json    ${data}
-    &{headers}      Build Idempotent Authenticated Request Header
+    &{headers}      Build Authenticated Request Header
 
     # Perform request
     ${resp}    Post Request    api    ${CLIENT_TRANSFER}    data=${data}    headers=${headers}
+    Log To Console    ${resp.json()}
 
     # Assert response
     Assert Response Success         ${resp}

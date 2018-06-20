@@ -2,5 +2,6 @@
   "id": "TO OVERRIDE",
   "page": 1,
   "per_page": 10,
-  "sort_dir": "asc"
+  "sort_by": "identifier",
+  "sort_dir": "desc"
 }

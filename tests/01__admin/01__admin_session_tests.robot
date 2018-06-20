@@ -34,7 +34,6 @@ Logout an admin user successfully
     # Perform request
     ${resp}        Post Request    api    ${ADMIN_LOGOUT}    headers=${headers}
 
-
     # Assert response
     Assert Response Success    ${resp}
 

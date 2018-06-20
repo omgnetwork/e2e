@@ -23,14 +23,3 @@ Build Authenticated Request Header
     &{combined_headers}    Create Dictionary    &{admin_headers}    &{headers}
 
     [Return]    &{combined_headers}
-
-Build Idempotent Authenticated Request Header
-    [Arguments]    &{headers}
-    ${idempotency_token}     Generate Random String
-    &{admin_headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
-    ...                                      Authorization=${CLIENT_AUTHENTICATION}
-    ...                                      Accept=${ACCEPT_HEADER}
-    ...                                      Idempotency-Token=${idempotency_token}
-    &{combined_headers}    Create Dictionary    &{admin_headers}    &{headers}
-
-    [Return]    &{combined_headers}
