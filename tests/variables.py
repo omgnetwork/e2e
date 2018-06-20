@@ -2,9 +2,11 @@
 # See: https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/Variables.rst#environment-variables
 import os
 
-HOST =                                    os.getenv("E2E_HOST", "http://localhost:4000")
-CLIENT_HOST =                             HOST + "/api"
-ADMIN_HOST =                              HOST + "/admin/api"
+HTTP_BASE_HOST =                          os.getenv("E2E_HTTP_HOST", "http://localhost:4000")
+SOCKET_BASE_HOST =                        os.getenv("E2E_SOCKET_HOST", "ws://localhost:4000")
+CLIENT_HOST =                             HTTP_BASE_HOST + "/api/client"
+ADMIN_HOST =                              HTTP_BASE_HOST + "/api/admin"
+SOCKET_HOST =                             SOCKET_BASE_HOST + "/api/client/socket"
 CONTENT_TYPE_HEADER =                     "application/vnd.omisego.v1+json"
 FORM_DATA_CONTENT_TYPE_HEADER =           "application/x-www-form-urlencoded"
 ACCEPT_HEADER =                           "application/vnd.omisego.v1+json"
@@ -122,7 +124,7 @@ CLIENT_TRANSFER =                        "me.transfer" #OK
 ### Transaction Request
 CLIENT_TRANSACTION_REQUEST_CREATE =      "me.create_transaction_request"
 CLIENT_TRANSACTION_REQUEST_GET =         "me.get_transaction_request"
-CLIENT_TRANSACTION_REQEUST_CONSUME =     "me.consume_transaction_request"
+CLIENT_TRANSACTION_REQUEST_CONSUME =     "me.consume_transaction_request"
 
 ### Transaction Consumption
 CLIENT_TRANSACTION_CONSUMPTION_APPROVE = "me.approve_transaction_consumption"

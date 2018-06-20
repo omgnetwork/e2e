@@ -3,7 +3,7 @@ Documentation    Tests related to categories
 
 Resource    admin_resources.robot
 
-Suite Setup     Create API Session
+Suite Setup     Create Admin API Session
 Suite Teardown  Delete All Sessions
 
 *** Test Cases ***

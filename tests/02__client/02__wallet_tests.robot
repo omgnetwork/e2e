@@ -3,7 +3,7 @@ Documentation    Tests related to wallets
 
 Resource    client_resources.robot
 
-Suite Setup     Create API Session
+Suite Setup     Create Client API Session
 Suite Teardown  Delete All Sessions
 
 *** Test Cases ***

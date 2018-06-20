@@ -5,7 +5,7 @@ Resource    admin_resources.robot
 
 Library    ../libraries/Tools.py
 
-Suite Setup     Create API Session
+Suite Setup     Create Admin API Session
 Suite Teardown  Delete All Sessions
 
 *** Test Cases ***

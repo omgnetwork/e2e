@@ -3,7 +3,7 @@ Documentation    Tests related to users
 
 Resource    admin_resources.robot
 
-Suite Setup     Create API Session
+Suite Setup     Create Admin API Session
 Suite Teardown  Delete All Sessions
 
 *** Test Cases ***
@@ -32,6 +32,21 @@ Create user successfully
     Should be Equal                 ${resp.json()['data']['username']}              ${json_data['username']}
     Dictionaries Should Be Equal    ${resp.json()['data']['metadata']}              ${json_data['metadata']}
     Dictionaries Should Be Equal    ${resp.json()['data']['encrypted_metadata']}    ${json_data['encrypted_metadata']}
+
+    # Create an other user for later
+    # Build payload
+    ${PROVIDER_USER_1_ID}    Generate Random String
+    ${username}              Generate Random String
+    &{override}              Create Dictionary    provider_user_id=${PROVIDER_USER_1_ID}
+    ...                                           username=${username}
+    ${data}                  Update Json        ${data}     &{override}
+    Set Global Variable    ${PROVIDER_USER_1_ID}
+
+    &{headers}     Build Authenticated Admin Request Header
+
+    # Perform request
+    ${resp}        Post Request    api    ${ADMIN_USER_CREATE}    data=${data}    headers=${headers}
+    Assert Response Success         ${resp}
 
 Get user successfully
     # Build payload

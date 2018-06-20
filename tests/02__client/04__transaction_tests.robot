@@ -3,7 +3,7 @@ Documentation    Tests related to transactions
 
 Resource    client_resources.robot
 
-Suite Setup     Create API Session
+Suite Setup     Create Client API Session
 Suite Teardown  Delete All Sessions
 
 *** Test Cases ***
@@ -20,7 +20,6 @@ Create a transfer successfully
 
     # Perform request
     ${resp}    Post Request    api    ${CLIENT_TRANSFER}    data=${data}    headers=${headers}
-    Log To Console    ${resp.json()}
 
     # Assert response
     Assert Response Success         ${resp}
