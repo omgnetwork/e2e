@@ -45,7 +45,7 @@ Get a transaction request successfully
 
 Join transaction request channel successfully
     &{headers}    Build Authenticated Request Header
-    ${WEBSOCKET_REQUEST}    WebSocketClient.Connect    ${SOCKET_HOST}    header=${headers}
+    ${WEBSOCKET_REQUEST}    WebSocketClient.Connect    ${CLIENT_SOCKET_HOST}    header=${headers}
     Set Suite Variable    ${WEBSOCKET_REQUEST}
     ${data}    Get Binary File    ${RESOURCE}/join_channel.json
     &{override}    Create Dictionary    ref=1    topic=${TRANSACTION_REQUEST_SOCKET_TOPIC}
@@ -60,7 +60,7 @@ Join transaction request channel successfully
 Consume transaction request successfully as an admin
     ${data}    Get Binary File    ${RESOURCE}/consume_transaction_request.json
     ${i_token}    Generate Random String
-    &{override}    Create Dictionary    idempotency_token=${i_token}    
+    &{override}    Create Dictionary    idempotency_token=${i_token}
     ...                                 formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}
     ...                                 token_id=${TOKEN_ID}
     ${data}    Update Json    ${data}    &{override}
@@ -91,7 +91,7 @@ Consume transaction request successfully as an admin
 
 Join transaction consumption channel successfully
     &{headers}    Build Secondary Authenticated Request Header
-    ${WEBSOCKET_CONSUMPTION}    WebSocketClient.Connect    ${SOCKET_HOST}    header=${headers}
+    ${WEBSOCKET_CONSUMPTION}    WebSocketClient.Connect    ${CLIENT_SOCKET_HOST}    header=${headers}
     Set Suite Variable    ${WEBSOCKET_CONSUMPTION}
     ${data}    Get Binary File    ${RESOURCE}/join_channel.json
     &{override}    Create Dictionary    ref=1    topic=${TRANSACTION_CONSUMPTION_SOCKET_TOPIC}

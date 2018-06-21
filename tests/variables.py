@@ -6,7 +6,8 @@ HTTP_BASE_HOST =                          os.getenv("E2E_HTTP_HOST", "http://loc
 SOCKET_BASE_HOST =                        os.getenv("E2E_SOCKET_HOST", "ws://localhost:4000")
 CLIENT_HOST =                             HTTP_BASE_HOST + "/api/client"
 ADMIN_HOST =                              HTTP_BASE_HOST + "/api/admin"
-SOCKET_HOST =                             SOCKET_BASE_HOST + "/api/client/socket"
+CLIENT_SOCKET_HOST =                      SOCKET_BASE_HOST + "/api/client/socket"
+ADMIN_SOCKET_HOST =                       SOCKET_BASE_HOST + "/api/admin/socket"
 CONTENT_TYPE_HEADER =                     "application/vnd.omisego.v1+json"
 FORM_DATA_CONTENT_TYPE_HEADER =           "application/x-www-form-urlencoded"
 ACCEPT_HEADER =                           "application/vnd.omisego.v1+json"
@@ -37,8 +38,8 @@ ADMIN_ADMIN_ME_GET_ACCOUNT =             "me.get_account" #OK
 ADMIN_ADMIN_ME_GET_ACCOUNTS =            "me.get_accounts" #OK
 
 ### User Session
-ADMIN_USER_LOGIN =                       "user.login"
-ADMIN_USER_LOGOUT =                      "user.logout"
+ADMIN_USER_LOGIN =                       "user.login" #OK
+ADMIN_USER_LOGOUT =                      "user.logout" #OK
 
 ### Users
 ADMIN_USER_ALL =                         "user.all" #OK
@@ -87,13 +88,13 @@ ADMIN_TRANSACTION_GET =                  "transaction.get" #OK
 ADMIN_TRANSACTION_CREATE =               "transaction.create" #OK
 
 ### Transaction Request
-ADMIN_TRANSACTION_REQUEST_CREATE =       "transaction_request.create"
-ADMIN_TRANSACTION_REQUEST_GET =          "transaction_request.get"
-ADMIN_TRANSACTION_REQEUST_CONSUME =      "transaction_request.consume"
+ADMIN_TRANSACTION_REQUEST_CREATE =       "transaction_request.create" #OK
+ADMIN_TRANSACTION_REQUEST_GET =          "transaction_request.get" #OK
+ADMIN_TRANSACTION_REQEUST_CONSUME =      "transaction_request.consume" #OK
 
 ### Transaction Consumption
-ADMIN_TRANSACTION_CONSUMPTION_APPROVE =  "transaction_consumption_appove"
-ADMIN_TRANSACTION_CONSUMPTION_REJECT =   "transaction_consumption.reject"
+ADMIN_TRANSACTION_CONSUMPTION_APPROVE =  "transaction_consumption.approve" #OK
+ADMIN_TRANSACTION_CONSUMPTION_REJECT =   "transaction_consumption.reject" #OK
 
 ### API keys
 ADMIN_KEY_ACCESS_ALL =                   "access_key.all" #OK
@@ -109,7 +110,7 @@ ADMIN_GET_SETTINGS =                     "settings.all" #OK
 ## Client
 
 ### Session
-CLIENT_LOGOUT =                          "me.logout"
+CLIENT_LOGOUT =                          "me.logout" #OK
 
 ### User
 CLIENT_GET =                             "me.get" #OK
@@ -122,13 +123,13 @@ CLIENT_GET_TRANSACTIONS =                "me.get_transactions" #OK
 CLIENT_TRANSFER =                        "me.transfer" #OK
 
 ### Transaction Request
-CLIENT_TRANSACTION_REQUEST_CREATE =      "me.create_transaction_request"
-CLIENT_TRANSACTION_REQUEST_GET =         "me.get_transaction_request"
-CLIENT_TRANSACTION_REQUEST_CONSUME =     "me.consume_transaction_request"
+CLIENT_TRANSACTION_REQUEST_CREATE =      "me.create_transaction_request" #OK
+CLIENT_TRANSACTION_REQUEST_GET =         "me.get_transaction_request" #OK
+CLIENT_TRANSACTION_REQUEST_CONSUME =     "me.consume_transaction_request" #OK
 
 ### Transaction Consumption
-CLIENT_TRANSACTION_CONSUMPTION_APPROVE = "me.approve_transaction_consumption"
-CLIENT_TRANSACTION_CONSUMPTION_REJECT =  "me.reject_transaction_consumption"
+CLIENT_TRANSACTION_CONSUMPTION_APPROVE = "me.approve_transaction_consumption" #OK
+CLIENT_TRANSACTION_CONSUMPTION_REJECT =  "me.reject_transaction_consumption" #OK
 
 ### Settings
 CLIENT_GET_SETTINGS =                    "me.get_settings" #OK
