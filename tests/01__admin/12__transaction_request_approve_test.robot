@@ -66,7 +66,7 @@ Consume transaction request successfully as an admin
     # Build authentication headers for 2nd user
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
-    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQEUST_CONSUME}    data=${data}    headers=${headers}
+    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_CONSUME}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    transaction_consumption
@@ -98,6 +98,76 @@ Join transaction consumption channel successfully
     ${resp}    To Json    ${resp_string}
     Should be true    ${resp['success']}
     Should Be Equal    ${resp['topic']}    ${TRANSACTION_CONSUMPTION_SOCKET_TOPIC}
+
+Get all transaction request successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/get_transaction_requests.json
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_ALL}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Should Not Be Empty    ${resp.json()['data']['data']}
+
+Get consumptions of transaction request successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_request.json
+    ${data}    Update Json    ${data}    formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_GET_CONSUMPTIONS}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Should Not Be Empty    ${resp.json()['data']['data']}
+
+Get consumption successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/get_consumption.json
+    ${data}    Update Json    ${data}    id=${TRANSACTION_CONSUMPTION_ID}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_CONSUMPTION_GET}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    transaction_consumption
+    Should be Equal    ${resp.json()['data']['id']}    ${TRANSACTION_CONSUMPTION_ID}
+
+Get all consumptions successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/get_consumptions.json
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_CONSUMPTION_ALL}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Should Not Be Empty    ${resp.json()['data']['data']}
+
+Get consumptions for a wallet successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_wallet.json
+    ${data}    Update Json    ${data}    address=${USER_PRIMARY_WALLET_ADDRESS}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_WALLET_GET_CONSUMPTIONS}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Should Not Be Empty    ${resp.json()['data']['data']}
+
+Get consumptions for a user successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_user.json
+    ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_USER_GET_CONSUMPTIONS}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Should Not Be Empty    ${resp.json()['data']['data']}
 
 Approve transaction consumption successfully
     ${data}    Get Binary File    ${RESOURCE}/approve_transaction_consumption.json

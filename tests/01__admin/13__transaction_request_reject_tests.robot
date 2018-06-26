@@ -48,13 +48,13 @@ Join transaction request channel successfully
 Consume transaction request successfully as an admin
     ${data}    Get Binary File    ${RESOURCE}/consume_transaction_request.json
     ${i_token}    Generate Random String
-    &{override}    Create Dictionary    idempotency_token=${i_token}    formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}    token_id=${TOKEN_ID}    address=${USER_PRIMARY_WALLET_ADDRESS}
+    &{override}    Create Dictionary    idempotency_token=${i_token}    formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}    token_id=${TOKEN_ID}    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}
     ${data}    Update Json    ${data}    &{override}
     ${json_data}    To Json    ${data}
     # Build authentication headers for 2nd user
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
-    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQEUST_CONSUME}    data=${data}    headers=${headers}
+    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_CONSUME}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    transaction_consumption
@@ -75,6 +75,18 @@ Consume transaction request successfully as an admin
     Should Be Equal    ${socket_resp['data']['token_id']}    ${TOKEN_ID}
     Should Be Equal    ${socket_resp['data']['status']}    pending
 
+Get consumptions for an account successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_account.json
+    ${data}    Update Json    ${data}    account_id=${MASTER_ACCOUNT_ID}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_CONSUMPTIONS}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Should Not Be Empty    ${resp.json()['data']['data']}
+
 Join transaction consumption channel successfully
     Set Suite Variable    ${WEBSOCKET_ADMIN}
     ${data}    Get Binary File    ${RESOURCE}/join_channel.json
@@ -88,7 +100,7 @@ Join transaction consumption channel successfully
     Should Be Equal    ${resp['topic']}    ${TRANSACTION_CONSUMPTION_SOCKET_TOPIC}
 
 Reject transaction consumption successfully
-    ${data}    Get Binary File    ${RESOURCE}/approve_transaction_consumption.json
+    ${data}    Get Binary File    ${RESOURCE}/reject_transaction_consumption.json
     ${data}    Update Json    ${data}    id=${TRANSACTION_CONSUMPTION_ID}
     # Build authentication headers
     &{headers}    Build Authenticated Admin Request Header
