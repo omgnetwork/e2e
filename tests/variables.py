@@ -104,6 +104,13 @@ ADMIN_KEY_API_ALL =                      "api_key.all" #OK
 ADMIN_KEY_API_CREATE =                   "api_key.create" #OK
 ADMIN_KEY_API_DELETE =                   "api_key.delete" #OK
 
+### Exchange pairs
+ADMIN_EXCHANGE_PAIR_ALL =                "exchange_pair.all"
+ADMIN_EXCHANGE_PAIR_GET =                "exchange_pair.get"
+ADMIN_EXCHANGE_PAIR_CREATE =             "exchange_pair.create"
+ADMIN_EXCHANGE_PAIR_UPDATE =             "exchange_pair.update"
+ADMIN_EXCHANGE_PAIR_DELETE =             "exchange_pair.delete"
+
 ### Settings
 ADMIN_GET_SETTINGS =                     "settings.all" #OK
 
@@ -133,3 +140,21 @@ CLIENT_TRANSACTION_CONSUMPTION_REJECT =  "me.reject_transaction_consumption" #OK
 
 ### Settings
 CLIENT_GET_SETTINGS =                    "me.get_settings" #OK
+
+
+
+## List of all test generated global variables:
+# MASTER_ACCOUNT_ID = The id of the master account
+# ADMIN_USER_AUTHENTICATION = The built admin 'Authorization' header
+# TOKEN_ID = The first created token ID
+# TOKEN_1_ID = The second created token ID
+# ACCOUNT_ID = The created account ID
+# ADMIN_1_ID = The second admin ID
+# MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS = The wallet address of the master account
+# SERVER_AUTHENTICATION = The built server 'Authorization' header
+# API_KEY = The created api key (used to build the client authentication)
+# PROVIDER_USER_ID = The first created user provider id
+# PROVIDER_USER_1_ID = The second created user provider id
+# USER_PRIMARY_WALLET_ADDRESS = The primary wallet address of the PROVIDER_USER_ID user
+# CLIENT_AUTHENTICATION = The first built client 'Authorization' header
+# CLIENT_1_AUTHENTICATION = The second built client 'Authorization' header

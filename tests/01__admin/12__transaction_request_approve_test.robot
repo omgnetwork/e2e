@@ -10,9 +10,7 @@ Create a transaction request successfully
     # Build payload
     ${data}    Get Binary File    ${RESOURCE}/create_transaction_request.json
     ${correlation_id}    Generate Random String
-    &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}
-    ...                                 token_id=${TOKEN_ID}
-    ...                                 correlation_id=${correlation_id}
+    &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}
     ${data}    Update Json    ${data}    &{override}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
@@ -62,10 +60,7 @@ Join transaction request channel successfully
 Consume transaction request successfully as an admin
     ${data}    Get Binary File    ${RESOURCE}/consume_transaction_request.json
     ${i_token}    Generate Random String
-    &{override}    Create Dictionary    idempotency_token=${i_token}
-    ...                                 formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}
-    ...                                 token_id=${TOKEN_ID}
-    ...                                 address=${USER_PRIMARY_WALLET_ADDRESS}
+    &{override}    Create Dictionary    idempotency_token=${i_token}    formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}    token_id=${TOKEN_ID}    address=${USER_PRIMARY_WALLET_ADDRESS}
     ${data}    Update Json    ${data}    &{override}
     ${json_data}    To Json    ${data}
     # Build authentication headers for 2nd user
@@ -125,8 +120,6 @@ Approve transaction consumption successfully
     Should Be Equal    ${socket_resp['data']['id']}    ${TRANSACTION_CONSUMPTION_ID}
     Should Be Equal    ${socket_resp['data']['token_id']}    ${TOKEN_ID}
     Should Be Equal    ${socket_resp['data']['status']}    confirmed
-
-
     ${resp_string_trx_consumption}    WebSocketClient.Recv    ${WEBSOCKET_ADMIN}
     ${socket_resp}    To Json    ${resp_string_trx_consumption}
     Should be true    ${socket_resp['success']}

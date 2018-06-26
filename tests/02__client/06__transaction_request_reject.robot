@@ -60,9 +60,7 @@ Join transaction request channel successfully
 Consume transaction request successfully as an admin
     ${data}    Get Binary File    ${RESOURCE}/consume_transaction_request.json
     ${i_token}    Generate Random String
-    &{override}    Create Dictionary    idempotency_token=${i_token}
-    ...                                 formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}
-    ...                                 token_id=${TOKEN_ID}
+    &{override}    Create Dictionary    idempotency_token=${i_token}    formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}    token_id=${TOKEN_ID}
     ${data}    Update Json    ${data}    &{override}
     ${json_data}    To Json    ${data}
     # Build authentication headers for 2nd user

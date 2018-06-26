@@ -45,7 +45,7 @@ Get my user successfully
     Assert Object Type    ${resp}    user
     Should be Equal    ${resp.json()['data']['email']}    ${ADMIN_EMAIL}
     ${MY_USER_ID}    Get Variable Value    ${resp.json()['data']['id']}
-    Set Global Variable    ${MY_USER_ID}
+    Set Suite Variable    ${MY_USER_ID}
 
 Update my user successfully
     # Build payload

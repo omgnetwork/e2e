@@ -8,6 +8,9 @@ Resource          admin_resources.robot
 Create a token successfully
     # Build payload
     ${data}    Get Binary File    ${RESOURCE}/create_token.json
+    ${name}    Generate Random String
+    ${symbol}    Generate Random String    3
+    ${data}    Update Json    ${data}    name=${name}    symbol=${symbol}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -21,6 +24,13 @@ Create a token successfully
     Should be Equal    ${resp.json()['data']['symbol']}    ${json_data['symbol']}
     ${TOKEN_ID}    Get Variable Value    ${resp.json()['data']['id']}
     Set Global Variable    ${TOKEN_ID}
+    # Create an other token for using with exchange pairs
+    ${name}    Generate Random String
+    ${symbol}    Generate Random String    3
+    ${data}    Update Json    ${data}    name=${name}    symbol=${symbol}
+    ${resp}    Post Request    api    ${ADMIN_TOKEN_CREATE}    data=${data}    headers=${headers}
+    ${TOKEN_1_ID}    Get Variable Value    ${resp.json()['data']['id']}
+    Set Global Variable    ${TOKEN_1_ID}
 
 Mint a token successfully
     # Build payload
