@@ -7,14 +7,14 @@ Resource          client_resources.robot
 *** Test Cases ***
 Create a transfer successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/transfer.json
+    ${data}    Get Binary File    ${RESOURCE}/create_transaction.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    to_address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    idempotency_token=${i_token}
     ${data}    Update Json    ${data}    &{override}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Request Header
     # Perform request
-    ${resp}    Post Request    api    ${CLIENT_TRANSFER}    data=${data}    headers=${headers}
+    ${resp}    Post Request    api    ${CLIENT_CREATE_TRANSACTION}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    transaction

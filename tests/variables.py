@@ -134,7 +134,7 @@ CLIENT_GET_WALLETS =                         "me.get_wallets" #OK
 
 ### Transaction
 CLIENT_GET_TRANSACTIONS =                    "me.get_transactions" #OK
-CLIENT_TRANSFER =                            "me.transfer" #OK
+CLIENT_CREATE_TRANSACTION =                            "me.create_transaction" #OK
 
 ### Transaction Request
 CLIENT_TRANSACTION_REQUEST_CREATE =          "me.create_transaction_request" #OK
