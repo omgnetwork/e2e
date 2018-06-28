@@ -58,6 +58,21 @@ Get a token successfully
     Assert Object Type    ${resp}    token
     Should be Equal    ${resp.json()['data']['id']}    ${TOKEN_ID}
 
+Update a token successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/update_token.json
+    ${name}    Generate Random String
+    &{override}    Create Dictionary    id=${TOKEN_ID}    name=${name}
+    ${data}    Update Json    ${data}    &{override}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TOKEN_UPDATE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    token
+    Should be Equal    ${resp.json()['data']['id']}    ${TOKEN_ID}
+    Should be Equal    ${resp.json()['data']['name']}    ${name}
+
 Get all tokens successfully
     # Build payload
     ${data}    Get Binary File    ${RESOURCE}/get_tokens.json

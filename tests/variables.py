@@ -53,6 +53,7 @@ ADMIN_USER_GET_CONSUMPTIONS =                "user.get_transaction_consumptions"
 ADMIN_TOKEN_LIST =                           "token.all" #OK
 ADMIN_TOKEN_GET =                            "token.get" #OK
 ADMIN_TOKEN_CREATE =                         "token.create" #OK
+ADMIN_TOKEN_UPDATE =                         "token.update"
 ADMIN_TOKEN_STATS =                          "token.stats" #OK
 ADMIN_TOKEN_GET_MINTS =                      "token.get_mints" #OK
 ADMIN_TOKEN_MINT =                           "token.mint" #OK
@@ -134,7 +135,7 @@ CLIENT_GET_WALLETS =                         "me.get_wallets" #OK
 
 ### Transaction
 CLIENT_GET_TRANSACTIONS =                    "me.get_transactions" #OK
-CLIENT_CREATE_TRANSACTION =                            "me.create_transaction" #OK
+CLIENT_CREATE_TRANSACTION =                  "me.create_transaction" #OK
 
 ### Transaction Request
 CLIENT_TRANSACTION_REQUEST_CREATE =          "me.create_transaction_request" #OK
