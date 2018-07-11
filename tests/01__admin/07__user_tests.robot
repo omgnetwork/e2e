@@ -67,12 +67,24 @@ Update user successfully
     Dictionaries Should Be Equal    ${resp.json()['data']['metadata']}    ${json_data['metadata']}
     Should Be Empty    ${resp.json()['data']['encrypted_metadata']}
 
-List users successfully
+List all users successfully
     # Build payload
     ${data}    Get Binary File    ${RESOURCE}/get_users.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_USER_ALL}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Should Not Be Empty    ${resp.json()['data']['data']}
+
+List users from an account successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/get_users_from_account.json
+    ${data}    Update Json    ${data}    id=${MASTER_ACCOUNT_ID}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_USERS}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    list

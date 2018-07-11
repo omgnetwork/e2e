@@ -54,13 +54,13 @@ Assign a user to an account successfully
     # Assert response
     Assert Response Success    ${resp}
 
-Get users from an account successfully
+Get admins from an account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_users_from_account.json
-    ${data}    Update Json    ${data}    account_id=${ACCOUNT_ID}
+    ${data}    Get Binary File    ${RESOURCE}/get_members_from_account.json
+    ${data}    Update Json    ${data}    id=${ACCOUNT_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
-    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_USERS}    data=${data}    headers=${headers}
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_MEMBERS}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    list

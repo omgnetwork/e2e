@@ -8,8 +8,7 @@ Resource          admin_resources.robot
 Create an exchange pair successfully
     # Build payload
     ${data}    Get Binary File    ${RESOURCE}/create_exchange_pair.json
-    ${name}    Generate Random String
-    &{override}    Create Dictionary    name=${name}    from_token_id=${TOKEN_ID}    to_token_id=${TOKEN_1_ID}
+    &{override}    Create Dictionary    from_token_id=${TOKEN_ID}    to_token_id=${TOKEN_1_ID}
     ${data}    Update Json    ${data}    &{override}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
@@ -17,12 +16,12 @@ Create an exchange pair successfully
     ${resp}    Post Request    api    ${ADMIN_EXCHANGE_PAIR_CREATE}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    exchange_pair
-    Should be Equal    ${resp.json()['data']['name']}    ${json_data['name']}
-    Should be Equal    ${resp.json()['data']['rate']}    ${json_data['rate']}
-    Should be Equal    ${resp.json()['data']['from_token_id']}    ${json_data['from_token_id']}
-    Should be Equal    ${resp.json()['data']['to_token_id']}    ${json_data['to_token_id']}
-    ${EXCHANGE_PAIR_ID}    Get Variable Value    ${resp.json()['data']['id']}
+    Assert Object Type    ${resp}    list
+    ${pair}    Get From List    ${resp.json()['data']['data']}    0
+    Should be Equal    ${pair['rate']}    ${json_data['rate']}
+    Should be Equal    ${pair['from_token_id']}    ${json_data['from_token_id']}
+    Should be Equal    ${pair['to_token_id']}    ${json_data['to_token_id']}
+    ${EXCHANGE_PAIR_ID}    Get Variable Value    ${pair['id']}
     Set Suite Variable    ${EXCHANGE_PAIR_ID}
 
 Get all exchange pairs successfully
@@ -39,18 +38,17 @@ Get all exchange pairs successfully
 Update an exchange pair successfully
     # Build payload
     ${data}    Get Binary File    ${RESOURCE}/update_exchange_pair.json
-    ${name}    Generate Random String
-    ${data}    Update Json    ${data}    id=${EXCHANGE_PAIR_ID}    name=${name}
+    ${data}    Update Json    ${data}    id=${EXCHANGE_PAIR_ID}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_EXCHANGE_PAIR_UPDATE}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    exchange_pair
-    Should be Equal    ${resp.json()['data']['id']}    ${json_data['id']}
-    Should be Equal    ${resp.json()['data']['name']}    ${json_data['name']}
-    Should be Equal    ${resp.json()['data']['rate']}    ${json_data['rate']}
+    Assert Object Type    ${resp}    list
+    ${pair}    Get From List    ${resp.json()['data']['data']}    0
+    Should be Equal    ${pair['id']}    ${json_data['id']}
+    Should be Equal    ${pair['rate']}    ${json_data['rate']}
 
 Get an exchange pair successfully
     # Build payload
@@ -75,5 +73,6 @@ Delete an exchange pair successfully
     ${resp}    Post Request    api    ${ADMIN_EXCHANGE_PAIR_DELETE}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    exchange_pair
-    Should Be Equal    ${resp.json()['data']['id']}    ${EXCHANGE_PAIR_ID}
+    Assert Object Type    ${resp}    list
+    ${pair}    Get From List    ${resp.json()['data']['data']}    0
+    Should Be Equal    ${pair['id']}    ${EXCHANGE_PAIR_ID}

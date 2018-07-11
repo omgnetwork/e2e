@@ -78,7 +78,7 @@ Consume transaction request successfully as an admin
 Get consumptions for an account successfully
     # Build payload
     ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_account.json
-    ${data}    Update Json    ${data}    account_id=${MASTER_ACCOUNT_ID}
+    ${data}    Update Json    ${data}    id=${MASTER_ACCOUNT_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_CONSUMPTIONS}    data=${data}    headers=${headers}

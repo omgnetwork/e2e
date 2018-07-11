@@ -1,7 +1,6 @@
 {
-  "name": "TO OVERRIDE",
   "from_token_id": "TO OVERRIDE",
   "to_token_id": "TO OVERRIDE",
   "rate": 2.0,
-  "reversible": true
+  "sync_opposite": false
 }
