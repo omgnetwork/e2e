@@ -1,11 +1,16 @@
 {
   "type": "send",
   "token_id": "TO OVERRIDE",
-  "amount": 1,
+  "amount": 100,
   "correlation_id": "TO OVERRIDE",
   "address": "TO OVERRIDE",
+  "account_id": "TO OVERRIDE",
   "require_confirmation": true,
   "allow_amount_override": false,
+  "max_consumptions": 2,
+  "max_consumptions_per_user": 1,
+  "consumption_lifetime": 60000,
+  "expiration_date": "2500-01-01T10:00:00.000000Z",
   "metadata": {
     "a_key": "a_value"
   },

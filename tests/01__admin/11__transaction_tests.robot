@@ -84,12 +84,11 @@ Create a transaction successfully between 2 addresses with an amount in string
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    transaction
-    ${int_amount}    Convert To Integer    ${json_data['amount']}
     Should be Equal    ${resp.json()['data']['from']['token']['id']}    ${json_data['token_id']}
-    Should be Equal    ${resp.json()['data']['from']['amount']}    ${int_amount}
+    Should Be Equal As Numbers    ${resp.json()['data']['from']['amount']}    ${json_data['amount']}
     Should be Equal    ${resp.json()['data']['from']['address']}    ${json_data['from_address']}
     Should be Equal    ${resp.json()['data']['to']['token']['id']}    ${json_data['token_id']}
-    Should be Equal    ${resp.json()['data']['to']['amount']}    ${int_amount}
+    Should Be Equal As Numbers    ${resp.json()['data']['to']['amount']}    ${json_data['amount']}
     Should be Equal    ${resp.json()['data']['to']['address']}    ${json_data['to_address']}
 
 Create a transaction successfully between 2 accounts

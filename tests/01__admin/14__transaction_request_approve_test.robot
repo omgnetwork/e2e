@@ -8,7 +8,7 @@ Library           WebSocketClient
 *** Test Cases ***
 Create a transaction request successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request.json
+    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_send.json
     ${correlation_id}    Generate Random String
     &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}
     ${data}    Update Json    ${data}    &{override}
@@ -19,13 +19,7 @@ Create a transaction request successfully
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    transaction_request
-    Should be Equal    ${resp.json()['data']['token_id']}    ${json_data['token_id']}
-    Should be Equal    ${resp.json()['data']['amount']}    ${json_data['amount']}
     Should be Equal    ${resp.json()['data']['status']}    valid
-    Should be Equal    ${resp.json()['data']['type']}    ${json_data['type']}
-    Should be Equal    ${resp.json()['data']['allow_amount_override']}    ${json_data['allow_amount_override']}
-    Dictionaries Should Be Equal    ${resp.json()['data']['metadata']}    ${json_data['metadata']}
-    Dictionaries Should Be Equal    ${resp.json()['data']['encrypted_metadata']}    ${json_data['encrypted_metadata']}
     ${TRANSACTION_REQUEST_FORMATTED_ID}    Get Variable Value    ${resp.json()['data']['formatted_id']}
     Set Suite Variable    ${TRANSACTION_REQUEST_FORMATTED_ID}
     ${TRANSACTION_REQUEST_SOCKET_TOPIC}    Get Variable Value    ${resp.json()['data']['socket_topic']}
