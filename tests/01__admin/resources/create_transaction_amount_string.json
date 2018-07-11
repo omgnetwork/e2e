@@ -1,0 +1,9 @@
+{
+  "idempotency_token": "TO OVERRIDE",
+  "from_address": "TO OVERRIDE",
+  "to_address": "TO OVERRIDE",
+  "token_id": "TO OVERRIDE",
+  "amount": "10",
+  "metadata": {},
+  "encrypted_metadata": {}
+}

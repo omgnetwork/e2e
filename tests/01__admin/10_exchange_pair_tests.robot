@@ -76,3 +76,11 @@ Delete an exchange pair successfully
     Assert Object Type    ${resp}    list
     ${pair}    Get From List    ${resp.json()['data']['data']}    0
     Should Be Equal    ${pair['id']}    ${EXCHANGE_PAIR_ID}
+    #Re-create it for later tests:
+    ${data}    Get Binary File    ${RESOURCE}/create_exchange_pair.json
+    &{override}    Create Dictionary    from_token_id=${TOKEN_ID}    to_token_id=${TOKEN_1_ID}
+    ${data}    Update Json    ${data}    &{override}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_EXCHANGE_PAIR_CREATE}    data=${data}    headers=${headers}

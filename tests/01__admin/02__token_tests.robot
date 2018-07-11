@@ -45,6 +45,9 @@ Mint a token successfully
     Assert Object Type    ${resp}    mint
     Should be Equal    ${resp.json()['data']['token_id']}    ${TOKEN_ID}
     Should be Equal    ${resp.json()['data']['amount']}    ${json_data['amount']}
+    #Also mint TOKEN_1 for future tests
+    ${data}    Update Json    ${data}    id=${TOKEN_1_ID}
+    ${resp}    Post Request    api    ${ADMIN_TOKEN_MINT}    data=${data}    headers=${headers}
 
 Get a token successfully
     # Build payload

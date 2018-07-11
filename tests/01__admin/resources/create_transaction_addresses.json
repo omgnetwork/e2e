@@ -4,10 +4,6 @@
   "to_address": "TO OVERRIDE",
   "token_id": "TO OVERRIDE",
   "amount": 10,
-  "metadata": {
-    "a_key": "a_value"
-  },
-  "encrypted_metadata": {
-    "a_key": "a_value"
-  }
+  "metadata": {},
+  "encrypted_metadata": {}
 }
