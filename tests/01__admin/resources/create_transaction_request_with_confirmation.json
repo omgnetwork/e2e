@@ -1,10 +1,10 @@
 {
   "type": "send",
   "token_id": "TO OVERRIDE",
+  "amount": 100,
   "correlation_id": "TO OVERRIDE",
   "address": "TO OVERRIDE",
-  "require_confirmation": false,
-  "allow_amount_override": true,
+  "require_confirmation": true,
   "metadata": {},
   "encrypted_metadata": {}
 }

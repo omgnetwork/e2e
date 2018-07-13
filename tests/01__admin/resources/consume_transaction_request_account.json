@@ -1,10 +1,8 @@
 {
-  "type": "send",
+  "idempotency_token": "TO OVERRIDE",
+  "formatted_transaction_request_id": "TO OVERRIDE",
   "token_id": "TO OVERRIDE",
-  "amount": 100,
-  "correlation_id": "TO OVERRIDE",
   "account_id": "TO OVERRIDE",
-  "require_confirmation": false,
   "metadata": {},
   "encrypted_metadata": {}
 }

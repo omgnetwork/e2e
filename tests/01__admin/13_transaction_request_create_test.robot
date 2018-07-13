@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Tests related to transaction requests and consumptions
+Documentation     Tests related to the creation oftransaction requests
 Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
@@ -24,6 +24,8 @@ Create a transaction request with a 'send' type successfully
     Should be Equal    ${resp.json()['data']['address']}    ${json_data['address']}
     Should be Equal    ${resp.json()['data']['status']}    valid
     Should be Equal    ${resp.json()['data']['type']}    ${json_data['type']}
+    ${T_REQUEST_1_FID}    Get Variable Value    ${resp.json()['data']['formatted_id']}
+    Set Global Variable    ${T_REQUEST_1_FID}
 
 Create a transaction request with a 'receive' type successfully
     # Build payload
@@ -43,6 +45,8 @@ Create a transaction request with a 'receive' type successfully
     Should be Equal    ${resp.json()['data']['address']}    ${json_data['address']}
     Should be Equal    ${resp.json()['data']['status']}    valid
     Should be Equal    ${resp.json()['data']['type']}    ${json_data['type']}
+    ${T_REQUEST_2_FID}    Get Variable Value    ${resp.json()['data']['formatted_id']}
+    Set Global Variable    ${T_REQUEST_2_FID}
 
 Create a transaction request with an account_id successfully
     # Build payload
@@ -62,6 +66,8 @@ Create a transaction request with an account_id successfully
     Should be Equal    ${resp.json()['data']['account_id']}    ${json_data['account_id']}
     Should be Equal    ${resp.json()['data']['status']}    valid
     Should be Equal    ${resp.json()['data']['type']}    ${json_data['type']}
+    ${T_REQUEST_3_FID}    Get Variable Value    ${resp.json()['data']['formatted_id']}
+    Set Global Variable    ${T_REQUEST_3_FID}
 
 Create a transaction request with a provider_user_id successfully
     # Build payload
@@ -81,6 +87,8 @@ Create a transaction request with a provider_user_id successfully
     Should be Equal    ${resp.json()['data']['user']['provider_user_id']}    ${json_data['provider_user_id']}
     Should be Equal    ${resp.json()['data']['status']}    valid
     Should be Equal    ${resp.json()['data']['type']}    ${json_data['type']}
+    ${T_REQUEST_4_FID}    Get Variable Value    ${resp.json()['data']['formatted_id']}
+    Set Global Variable    ${T_REQUEST_4_FID}
 
 Create a transaction request without an amount successfully
     # Build payload
@@ -99,6 +107,28 @@ Create a transaction request without an amount successfully
     Should Be Equal    ${resp.json()['data']['amount']}    ${None}
     Should be Equal    ${resp.json()['data']['address']}    ${json_data['address']}
     Should be Equal    ${resp.json()['data']['status']}    valid
+    ${T_REQUEST_5_FID}    Get Variable Value    ${resp.json()['data']['formatted_id']}
+    Set Global Variable    ${T_REQUEST_5_FID}
+
+Create a transaction request with an exchange_account_id
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_with_exchange_account_id.json
+    ${correlation_id}    Generate Random String
+    &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}    exchange_account_id=${MASTER_ACCOUNT_ID}
+    ${data}    Update Json    ${data}    &{override}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_CREATE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    transaction_request
+    Should be Equal    ${resp.json()['data']['token_id']}    ${json_data['token_id']}
+    Should Be Equal    ${resp.json()['data']['amount']}    ${json_data['amount']}
+    Should be Equal    ${resp.json()['data']['address']}    ${json_data['address']}
+    Should be Equal    ${resp.json()['data']['status']}    valid
+    ${T_REQUEST_6_FID}    Get Variable Value    ${resp.json()['data']['formatted_id']}
+    Set Global Variable    ${T_REQUEST_6_FID}
 
 Create a transaction request with all possible parameters successfully
     # Build payload
@@ -110,7 +140,6 @@ Create a transaction request with all possible parameters successfully
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_CREATE}    data=${data}    headers=${headers}
-    Log To Console    ${resp.json()}
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    transaction_request
@@ -128,3 +157,5 @@ Create a transaction request with all possible parameters successfully
     Should be Equal    ${resp.json()['data']['expiration_date']}    ${json_data['expiration_date']}
     Dictionaries Should Be Equal    ${resp.json()['data']['metadata']}    ${json_data['metadata']}
     Dictionaries Should Be Equal    ${resp.json()['data']['encrypted_metadata']}    ${json_data['encrypted_metadata']}
+    ${T_REQUEST_7_FID}    Get Variable Value    ${resp.json()['data']['formatted_id']}
+    Set Global Variable    ${T_REQUEST_7_FID}

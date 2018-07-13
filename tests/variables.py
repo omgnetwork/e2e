@@ -168,3 +168,11 @@ CLIENT_GET_SETTINGS =                        "me.get_settings" #OK
 # USER_PRIMARY_WALLET_ADDRESS = The primary wallet address of the PROVIDER_USER_ID user
 # CLIENT_AUTHENTICATION = The first built client 'Authorization' header
 # CLIENT_1_AUTHENTICATION = The second built client 'Authorization' header
+# T_REQUEST_1_FID
+# T_REQUEST_2_FID
+# T_REQUEST_3_FID
+# T_REQUEST_4_FID
+# T_REQUEST_5_FID
+# T_REQUEST_6_FID
+# T_REQUEST_7_FID
+# ^^^^^^^^^^^^^^^^ These are all transaction requests that we create and consume

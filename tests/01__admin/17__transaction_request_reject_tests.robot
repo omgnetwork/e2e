@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Tests related to transaction requests and consumptions
+Documentation     Tests related to the flow (using websockets) of request/consumption rejection
 Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
@@ -8,7 +8,7 @@ Library           WebSocketClient
 *** Test Cases ***
 Create a transaction request successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_send.json
+    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_with_confirmation.json
     ${correlation_id}    Generate Random String
     &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}
     ${data}    Update Json    ${data}    &{override}
@@ -40,12 +40,11 @@ Join transaction request channel successfully
     Should Be Equal    ${resp['topic']}    ${TRANSACTION_REQUEST_SOCKET_TOPIC}
 
 Consume transaction request successfully as an admin
-    ${data}    Get Binary File    ${RESOURCE}/consume_transaction_request.json
+    ${data}    Get Binary File    ${RESOURCE}/consume_transaction_request_address.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    idempotency_token=${i_token}    formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}    token_id=${TOKEN_ID}    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}
     ${data}    Update Json    ${data}    &{override}
     ${json_data}    To Json    ${data}
-    # Build authentication headers for 2nd user
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_CONSUME}    data=${data}    headers=${headers}
@@ -68,18 +67,6 @@ Consume transaction request successfully as an admin
     Should Be Equal    ${socket_resp['data']['transaction_request']['formatted_id']}    ${TRANSACTION_REQUEST_FORMATTED_ID}
     Should Be Equal    ${socket_resp['data']['token_id']}    ${TOKEN_ID}
     Should Be Equal    ${socket_resp['data']['status']}    pending
-
-Get consumptions for an account successfully
-    # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_account.json
-    ${data}    Update Json    ${data}    id=${MASTER_ACCOUNT_ID}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_CONSUMPTIONS}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    list
-    Should Not Be Empty    ${resp.json()['data']['data']}
 
 Join transaction consumption channel successfully
     Set Suite Variable    ${WEBSOCKET_ADMIN}

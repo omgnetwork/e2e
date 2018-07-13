@@ -5,7 +5,7 @@
   "correlation_id": "TO OVERRIDE",
   "address": "TO OVERRIDE",
   "account_id": "TO OVERRIDE",
-  "require_confirmation": true,
+  "require_confirmation": false,
   "allow_amount_override": false,
   "max_consumptions": 2,
   "max_consumptions_per_user": 1,

@@ -4,7 +4,7 @@
   "amount": 100,
   "correlation_id": "TO OVERRIDE",
   "address": "TO OVERRIDE",
-  "require_confirmation": true,
+  "require_confirmation": false,
   "metadata": {},
   "encrypted_metadata": {}
 }

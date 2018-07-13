@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Tests related to transaction requests and consumptions
+Documentation     Tests related to the flow (using websockets) of request/consumption approval
 Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
@@ -8,7 +8,7 @@ Library           WebSocketClient
 *** Test Cases ***
 Create a transaction request successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_send.json
+    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_with_confirmation.json
     ${correlation_id}    Generate Random String
     &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}
     ${data}    Update Json    ${data}    &{override}
@@ -25,18 +25,6 @@ Create a transaction request successfully
     ${TRANSACTION_REQUEST_SOCKET_TOPIC}    Get Variable Value    ${resp.json()['data']['socket_topic']}
     Set Suite Variable    ${TRANSACTION_REQUEST_SOCKET_TOPIC}
 
-Get a transaction request successfully
-    # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_transaction_request.json
-    ${data}    Update Json    ${data}    formatted_id=${TRANSACTION_REQUEST_FORMATTED_ID}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_GET}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    transaction_request
-    Should be Equal    ${resp.json()['data']['formatted_id']}    ${TRANSACTION_REQUEST_FORMATTED_ID}
-
 Join transaction request channel successfully
     &{headers}    Build Authenticated Admin Request Header
     ${WEBSOCKET_ADMIN}    WebSocketClient.Connect    ${ADMIN_SOCKET_HOST}    header=${headers}
@@ -52,12 +40,11 @@ Join transaction request channel successfully
     Should Be Equal    ${resp['topic']}    ${TRANSACTION_REQUEST_SOCKET_TOPIC}
 
 Consume transaction request successfully as an admin
-    ${data}    Get Binary File    ${RESOURCE}/consume_transaction_request.json
+    ${data}    Get Binary File    ${RESOURCE}/consume_transaction_request_address.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    idempotency_token=${i_token}    formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}    token_id=${TOKEN_ID}    address=${USER_PRIMARY_WALLET_ADDRESS}
     ${data}    Update Json    ${data}    &{override}
     ${json_data}    To Json    ${data}
-    # Build authentication headers for 2nd user
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_CONSUME}    data=${data}    headers=${headers}
@@ -92,76 +79,6 @@ Join transaction consumption channel successfully
     ${resp}    To Json    ${resp_string}
     Should be true    ${resp['success']}
     Should Be Equal    ${resp['topic']}    ${TRANSACTION_CONSUMPTION_SOCKET_TOPIC}
-
-Get all transaction request successfully
-    # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_transaction_requests.json
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_ALL}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    list
-    Should Not Be Empty    ${resp.json()['data']['data']}
-
-Get consumptions of transaction request successfully
-    # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_request.json
-    ${data}    Update Json    ${data}    formatted_transaction_request_id=${TRANSACTION_REQUEST_FORMATTED_ID}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_GET_CONSUMPTIONS}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    list
-    Should Not Be Empty    ${resp.json()['data']['data']}
-
-Get consumption successfully
-    # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumption.json
-    ${data}    Update Json    ${data}    id=${TRANSACTION_CONSUMPTION_ID}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_CONSUMPTION_GET}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    transaction_consumption
-    Should be Equal    ${resp.json()['data']['id']}    ${TRANSACTION_CONSUMPTION_ID}
-
-Get all consumptions successfully
-    # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumptions.json
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_CONSUMPTION_ALL}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    list
-    Should Not Be Empty    ${resp.json()['data']['data']}
-
-Get consumptions for a wallet successfully
-    # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_wallet.json
-    ${data}    Update Json    ${data}    address=${USER_PRIMARY_WALLET_ADDRESS}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_WALLET_GET_CONSUMPTIONS}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    list
-    Should Not Be Empty    ${resp.json()['data']['data']}
-
-Get consumptions for a user successfully
-    # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_user.json
-    ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_USER_GET_CONSUMPTIONS}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    list
-    Should Not Be Empty    ${resp.json()['data']['data']}
 
 Approve transaction consumption successfully
     ${data}    Get Binary File    ${RESOURCE}/approve_transaction_consumption.json
