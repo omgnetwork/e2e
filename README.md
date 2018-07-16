@@ -1,17 +1,46 @@
 This repository contains acceptance tests for the [eWallet SDK](https://github.com/omisego/ewallet) written using [Robot Framework](http://robotframework.org/)
 
+# Requirements
+
+## Python
+
+[Python 3.6](https://www.python.org/downloads/) is required to run the tests.
+
+## Pipenv
+
+[Pipenv](https://github.com/pypa/pipenv) is required in order to install the dependencies
+
+## eWallet SDK
+
+The tests rely on test data inserted in a clean instance of the eWallet SDK. Required data can be seeded following [these instructions](https://github.com/omisego/ewallet/blob/master/docs/tests/e2e.md).
+
+
 # Setup
 
-The tests rely on test data inserted in a clean instance of the eWallet SDK. These data can be seeded following [these instructions](https://github.com/omisego/ewallet/blob/master/docs/tests/e2e.md).
+You first need to tell `pipenv` to use python 3.6. You can do this with the following command:
 
-Required libraries should be installed using pip, you can find more information on how to setup Robot Framework [here](https://github.com/robotframework/robotframework/blob/master/INSTALL.rst).
+`pipenv --python 3.6`
 
-This are the libraries that you need to install:
+Note: If you're running MacOs, you will need to specify the following environment variables:
 
-- `pip install -U requests`
-- `pip install -U robotframework-requests`
-- `pip install -U robotframework`
-- `pip install -U robotframework-websocketclient`
+```
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+```
+
+You can then install the dependencies using:
+
+`pipenv install`
+
+Then launch the virtual environment using:
+
+`pipenv shell`
+
+And finally, navigate to the `tests` folder and run robot
+
+`cd test`
+
+`robot .`
 
 # Variables
 
