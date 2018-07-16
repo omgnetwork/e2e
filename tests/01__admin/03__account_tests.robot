@@ -43,6 +43,29 @@ Update an account successfully
     Dictionaries Should Be Equal    ${resp.json()['data']['metadata']}    ${json_data['metadata']}
     Should Be Empty    ${resp.json()['data']['encrypted_metadata']}
 
+Update an account avatar successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/upload_account_avatar.json
+    ${data}    To Json    ${data}
+    Set To Dictionary    ${data}    id=${ACCOUNT_ID}
+    ${avatar_file}    Get Binary File    ${RESOURCE}/GO.jpg
+    @{image_attributes}    Create List    GO.jpg    ${avatar_file}    image/jpeg
+    &{files}    Create Dictionary    avatar=${image_attributes}
+    &{headers}    Build Form Data Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_UPLOAD_AVATAR}    data=${data}    files=${files}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    account
+    Should be Equal    ${resp.json()['data']['id']}    ${ACCOUNT_ID}
+    ${avatar_resp}    Get Variable Value    ${resp.json()['data']['avatar']}
+    Should Not Be Empty    ${avatar_resp['thumb']}
+    Should Not Be Empty    ${avatar_resp['small']}
+    Should Not Be Empty    ${avatar_resp['original']}
+    Should Not Be Empty    ${avatar_resp['large']}
+    ${get_image}    Get Request    api    ${avatar_resp['thumb']}
+    Should Be Equal As Strings    ${get_image.status_code}    200
+
 Assign a user to an account successfully
     # Build payload
     ${data}    Get Binary File    ${RESOURCE}/assign_user_to_account.json

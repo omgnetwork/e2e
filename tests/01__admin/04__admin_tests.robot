@@ -61,6 +61,29 @@ Update my user successfully
     Should be Equal    ${resp.json()['data']['id']}    ${MY_USER_ID}
     Dictionaries Should be Equal    ${resp.json()['data']['metadata']}    ${json_data['metadata']}
 
+Update my user avatar successfully
+    # Build payload
+    ${data}    Get Binary File    ${RESOURCE}/upload_my_avatar.json
+    ${data}    To Json    ${data}
+    Set To Dictionary    ${data}    id=${MY_USER_ID}
+    ${avatar_file}    Get Binary File    ${RESOURCE}/GO.jpg
+    @{image_attributes}    Create List    GO.jpg    ${avatar_file}    image/jpeg
+    &{files}    Create Dictionary    avatar=${image_attributes}
+    &{headers}    Build Form Data Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ME_UPDLOAD_AVATAR}    data=${data}    files=${files}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    user
+    Should be Equal    ${resp.json()['data']['id']}    ${MY_USER_ID}
+    ${avatar_resp}    Get Variable Value    ${resp.json()['data']['avatar']}
+    Should Not Be Empty    ${avatar_resp['thumb']}
+    Should Not Be Empty    ${avatar_resp['small']}
+    Should Not Be Empty    ${avatar_resp['original']}
+    Should Not Be Empty    ${avatar_resp['large']}
+    ${get_image}    Get Request    api    ${avatar_resp['thumb']}
+    Should Be Equal As Strings    ${get_image.status_code}    200
+
 List my account successfully
     # Build payload
     &{headers}    Build Authenticated Admin Request Header

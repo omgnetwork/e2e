@@ -35,6 +35,7 @@ ADMIN_ADMIN_ALL =                            "admin.all" #OK
 ADMIN_ADMIN_GET =                            "admin.get" #OK
 ADMIN_ADMIN_ME_GET =                         "me.get" #OK
 ADMIN_ADMIN_ME_UPDATE =                      "me.update" #OK
+ADMIN_ADMIN_ME_UPDLOAD_AVATAR =              "me.upload_avatar" #OK
 ADMIN_ADMIN_ME_GET_ACCOUNT =                 "me.get_account" #OK
 ADMIN_ADMIN_ME_GET_ACCOUNTS =                "me.get_accounts" #OK
 
@@ -71,7 +72,7 @@ ADMIN_ACCOUNT_ALL =                          "account.all" #OK
 ADMIN_ACCOUNT_GET =                          "account.get" #OK
 ADMIN_ACCOUNT_CREATE =                       "account.create" #OK
 ADMIN_ACCOUNT_UPDATE =                       "account.update" #OK
-ADMIN_ACCOUNT_UPLOAD_AVATAR =                "account.upload_avatar"
+ADMIN_ACCOUNT_UPLOAD_AVATAR =                "account.upload_avatar" #OK
 ADMIN_ACCOUNT_GET_USERS =                    "account.get_users" #OK
 ADMIN_ACCOUNT_GET_MEMBERS =                  "account.get_members" #OK
 ADMIN_ACCOUNT_ASSIGN_USER =                  "account.assign_user" #OK

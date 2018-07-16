@@ -6,7 +6,6 @@ Resource          admin_resources.robot
 Library           WebSocketClient
 
 *** Test Cases ***
-
 Get consumptions for an account successfully
     # Build payload
     ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_account.json

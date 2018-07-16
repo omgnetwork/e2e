@@ -6,7 +6,6 @@ Resource          admin_resources.robot
 Library           WebSocketClient
 
 *** Test Cases ***
-
 Consume transaction request 1 successfully with an exchange_account_id
     ${data}    Get Binary File    ${RESOURCE}/consume_transaction_request_with_exchange_account_id.json
     ${i_token}    Generate Random String

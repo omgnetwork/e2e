@@ -28,8 +28,7 @@ Build Authenticated Admin Request Header
     [Return]    &{admin_headers}
 
 Build Form Data Authenticated Admin Request Header
-    &{admin_headers}    Create Dictionary    Content-Type=${FORM_DATA_CONTENT_TYPE_HEADER}
-    ...                                      Authorization=${ADMIN_USER_AUTHENTICATION}
+    &{admin_headers}    Create Dictionary    Authorization=${ADMIN_USER_AUTHENTICATION}
     ...                                      Accept=${ACCEPT_HEADER}
 
     [Return]    &{admin_headers}
