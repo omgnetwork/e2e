@@ -3,6 +3,7 @@ Documentation     Tests related to admins
 Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
+Library           ../libraries/Tools.py
 
 *** Test Cases ***
 List all admins successfully
@@ -22,8 +23,9 @@ List all admins successfully
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    list
-    ${admin}    Get From List    ${resp.json()['data']['data']}    0
-    Should be Equal    ${admin['email']}    ${ADMIN_1_EMAIL}
+    ${filtered_list}    Filter List    ${resp.json()['data']['data']}    email    ${ADMIN_1_EMAIL}
+    ${count}    Get Length    ${filtered_list}
+    Should Be Equal As Strings    ${count}    1
 
 Get an admin successfully
     # Build payload

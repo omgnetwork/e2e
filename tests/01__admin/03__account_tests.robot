@@ -3,6 +3,7 @@ Documentation     Tests related to accounts
 Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
+Library           ../libraries/Tools.py
 
 *** Test Cases ***
 Create an account successfully
@@ -87,8 +88,10 @@ Get admins from an account successfully
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    list
-    ${admin1}    Get From List    ${resp.json()['data']['data']}    0
-    Should be Equal    ${admin1['email']}    ${ADMIN_1_EMAIL}
+    ${filtered_list}    Filter List    ${resp.json()['data']['data']}    email    ${ADMIN_1_EMAIL}
+    ${count}    Get Length    ${filtered_list}
+    Should Be Equal As Strings    ${count}    1
+    ${admin1}    Get From List    ${filtered_list}    0
     ${ADMIN_1_ID}    Get Variable Value    ${admin1['id']}
     Set Global Variable    ${ADMIN_1_ID}
 
