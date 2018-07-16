@@ -38,7 +38,7 @@ Then launch the virtual environment using:
 
 And finally, navigate to the `tests` folder and run robot
 
-`cd test`
+`cd tests`
 
 `robot .`
 
