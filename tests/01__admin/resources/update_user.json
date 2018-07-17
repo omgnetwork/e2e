@@ -1,0 +1,8 @@
+{
+  "provider_user_id": "TO OVERRIDE",
+  "username": "TO OVERRIDE",
+  "metadata": {
+    "a_new_key": "a_new_value"
+  },
+  "encrypted_metadata": {}
+}

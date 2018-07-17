@@ -1,0 +1,10 @@
+{
+  "type": "send",
+  "token_id": "TO OVERRIDE",
+  "amount": 10,
+  "correlation_id": "TO OVERRIDE",
+  "provider_user_id": "TO OVERRIDE",
+  "require_confirmation": false,
+  "metadata": {},
+  "encrypted_metadata": {}
+}

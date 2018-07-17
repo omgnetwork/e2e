@@ -1,0 +1,9 @@
+{
+  "idempotency_token": "TO OVERRIDE",
+  "formatted_transaction_request_id": "TO OVERRIDE",
+  "token_id": "TO OVERRIDE",
+  "address": "TO OVERRIDE",
+  "exchange_wallet_address": "TO OVERRIDE",
+  "metadata": {},
+  "encrypted_metadata": {}
+}

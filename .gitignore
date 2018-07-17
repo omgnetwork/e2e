@@ -1,0 +1,8 @@
+
+tests/__pycache__/
+
+tests/libraries/__pycache__/
+
+*.html
+
+*.xml

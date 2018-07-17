@@ -1,0 +1,10 @@
+{
+  "id": "TO OVERRIDE",
+  "name": "New account name",
+  "description": "New account description",
+  "category_ids": [],
+  "metadata": {
+      "a_new_key": "a_new_value"
+  },
+  "encrypted_metadata": {}
+}

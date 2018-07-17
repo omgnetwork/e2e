@@ -1,0 +1,11 @@
+{
+  "name": "TO OVERRIDE",
+  "identifier": "secondary",
+  "account_id": "TO OVERRIDE",
+  "metadata": {
+    "a_key": "a_value"
+  },
+  "encrypted_metadata": {
+    "a_key": "a_value"
+  }
+}
