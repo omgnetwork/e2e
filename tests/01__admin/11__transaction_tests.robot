@@ -4,10 +4,13 @@ Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
+*** Variables ***
+${JSON_PATH}    ${RESOURCE_PATH}/transaction
+
 *** Test Cases ***
 Create a transaction successfully between 2 addresses specifying and amount
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_addresses.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_addresses.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    idempotency_token=${i_token}    from_address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    to_address=${USER_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}
     ${data}    Update Json    ${data}    &{override}
@@ -29,7 +32,7 @@ Create a transaction successfully between 2 addresses specifying and amount
 
 Create a transaction successfully between 2 addresses specifying a from_amount and an exchange account id
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_exchange_from_amount.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_exchange_from_amount.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    idempotency_token=${i_token}    from_address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    to_address=${USER_PRIMARY_WALLET_ADDRESS}    from_token_id=${TOKEN_ID}    to_token_id=${TOKEN_1_ID}
     ...    exchange_account_id=${MASTER_ACCOUNT_ID}
@@ -51,7 +54,7 @@ Create a transaction successfully between 2 addresses specifying a from_amount a
 
 Create a transaction successfully between 2 addresses specifying a to_amount and an exchange wallet address
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_exchange_to_amount.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_exchange_to_amount.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    idempotency_token=${i_token}    from_address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    to_address=${USER_PRIMARY_WALLET_ADDRESS}    from_token_id=${TOKEN_ID}    to_token_id=${TOKEN_1_ID}
     ...    exchange_wallet_address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}
@@ -73,7 +76,7 @@ Create a transaction successfully between 2 addresses specifying a to_amount and
 
 Create a transaction successfully between 2 addresses with an amount in string
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_amount_string.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_amount_string.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    idempotency_token=${i_token}    from_address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    to_address=${USER_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}
     ${data}    Update Json    ${data}    &{override}
@@ -93,7 +96,7 @@ Create a transaction successfully between 2 addresses with an amount in string
 
 Create a transaction successfully between 2 accounts
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_accounts.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_accounts.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    idempotency_token=${i_token}    from_account_id=${MASTER_ACCOUNT_ID}    to_account_id=${ACCOUNT_ID}    token_id=${TOKEN_ID}
     ${data}    Update Json    ${data}    &{override}
@@ -113,7 +116,7 @@ Create a transaction successfully between 2 accounts
 
 Create a transaction successfully between an account and a provider_user_id
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_account_to_user.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_account_to_user.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    idempotency_token=${i_token}    from_account_id=${MASTER_ACCOUNT_ID}    to_provider_user_id=${PROVIDER_USER_ID}    token_id=${TOKEN_ID}
     ${data}    Update Json    ${data}    &{override}
@@ -133,7 +136,7 @@ Create a transaction successfully between an account and a provider_user_id
 
 Create a transaction successfully between 2 provider_user_id
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_provider_user_id.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_provider_user_id.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    idempotency_token=${i_token}    from_provider_user_id=${PROVIDER_USER_ID}    to_provider_user_id=${PROVIDER_USER_1_ID}    token_id=${TOKEN_ID}
     ${data}    Update Json    ${data}    &{override}
@@ -152,7 +155,7 @@ Create a transaction successfully between 2 provider_user_id
     Should be Equal    ${resp.json()['data']['to']['user']['provider_user_id']}    ${json_data['to_provider_user_id']}
 
 Get a transaction successfully
-    ${data}    Get Binary File    ${RESOURCE}/get_transaction.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_transaction.json
     ${data}    Update Json    ${data}    id=${TRANSACTION_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -163,7 +166,7 @@ Get a transaction successfully
     Should be Equal    ${resp.json()['data']['id']}    ${TRANSACTION_ID}
 
 Get all transactions successfully
-    ${data}    Get Binary File    ${RESOURCE}/get_transactions.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_transactions.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TRANSACTION_ALL}    data=${data}    headers=${headers}

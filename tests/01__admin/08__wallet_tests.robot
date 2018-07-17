@@ -4,10 +4,13 @@ Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
+*** Variables ***
+${JSON_PATH}    ${RESOURCE_PATH}/wallet
+
 *** Test Cases ***
 Create a wallet successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_wallet.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_wallet.json
     ${name}    Generate Random String
     &{override}    Create Dictionary    name=${name}    account_id=${ACCOUNT_ID}
     ${data}    Update Json    ${data}    &{override}
@@ -27,7 +30,7 @@ Create a wallet successfully
 
 Get all wallets successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_wallets.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_wallets.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_WALLET_ALL}    data=${data}    headers=${headers}
@@ -38,7 +41,7 @@ Get all wallets successfully
 
 Get a wallet successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_wallet.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_wallet.json
     ${data}    Update Json    ${data}    address=${WALLET_ADDRESS}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header

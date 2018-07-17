@@ -4,10 +4,13 @@ Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
+*** Variables ***
+${JSON_PATH}    ${RESOURCE_PATH}/exchange_pair
+
 *** Test Cases ***
 Create an exchange pair successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_exchange_pair.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_exchange_pair.json
     &{override}    Create Dictionary    from_token_id=${TOKEN_ID}    to_token_id=${TOKEN_1_ID}
     ${data}    Update Json    ${data}    &{override}
     ${json_data}    To Json    ${data}
@@ -26,7 +29,7 @@ Create an exchange pair successfully
 
 Get all exchange pairs successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_exchange_pairs.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_exchange_pairs.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_EXCHANGE_PAIR_ALL}    data=${data}    headers=${headers}
@@ -37,7 +40,7 @@ Get all exchange pairs successfully
 
 Update an exchange pair successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/update_exchange_pair.json
+    ${data}    Get Binary File    ${JSON_PATH}/update_exchange_pair.json
     ${data}    Update Json    ${data}    id=${EXCHANGE_PAIR_ID}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
@@ -52,7 +55,7 @@ Update an exchange pair successfully
 
 Get an exchange pair successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_exchange_pair.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_exchange_pair.json
     ${data}    Update Json    ${data}    id=${EXCHANGE_PAIR_ID}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
@@ -65,7 +68,7 @@ Get an exchange pair successfully
 
 Delete an exchange pair successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/delete_exchange_pair.json
+    ${data}    Get Binary File    ${JSON_PATH}/delete_exchange_pair.json
     ${data}    Update Json    ${data}    id=${EXCHANGE_PAIR_ID}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
@@ -77,7 +80,7 @@ Delete an exchange pair successfully
     ${pair}    Get From List    ${resp.json()['data']['data']}    0
     Should Be Equal    ${pair['id']}    ${EXCHANGE_PAIR_ID}
     #Re-create it for later tests:
-    ${data}    Get Binary File    ${RESOURCE}/create_exchange_pair.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_exchange_pair.json
     &{override}    Create Dictionary    from_token_id=${TOKEN_ID}    to_token_id=${TOKEN_1_ID}
     ${data}    Update Json    ${data}    &{override}
     ${json_data}    To Json    ${data}

@@ -5,10 +5,13 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 Library           WebSocketClient
 
+*** Variables ***
+${JSON_PATH}    ${RESOURCE_PATH}/transaction_request
+
 *** Test Cases ***
 Create a transaction request with a 'send' type successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_send.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_request_send.json
     ${correlation_id}    Generate Random String
     &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}
     ${data}    Update Json    ${data}    &{override}
@@ -29,7 +32,7 @@ Create a transaction request with a 'send' type successfully
 
 Create a transaction request with a 'receive' type successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_receive.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_request_receive.json
     ${correlation_id}    Generate Random String
     &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}
     ${data}    Update Json    ${data}    &{override}
@@ -50,7 +53,7 @@ Create a transaction request with a 'receive' type successfully
 
 Create a transaction request with an account_id successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_account_id.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_request_account_id.json
     ${correlation_id}    Generate Random String
     &{override}    Create Dictionary    account_id=${MASTER_ACCOUNT_ID}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}
     ${data}    Update Json    ${data}    &{override}
@@ -71,7 +74,7 @@ Create a transaction request with an account_id successfully
 
 Create a transaction request with a provider_user_id successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_provider_user_id.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_request_provider_user_id.json
     ${correlation_id}    Generate Random String
     &{override}    Create Dictionary    provider_user_id=${PROVIDER_USER_ID}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}
     ${data}    Update Json    ${data}    &{override}
@@ -92,7 +95,7 @@ Create a transaction request with a provider_user_id successfully
 
 Create a transaction request without an amount successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_without_amount.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_request_without_amount.json
     ${correlation_id}    Generate Random String
     &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}
     ${data}    Update Json    ${data}    &{override}
@@ -112,7 +115,7 @@ Create a transaction request without an amount successfully
 
 Create a transaction request with an exchange_account_id
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_with_exchange_account_id.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_request_with_exchange_account_id.json
     ${correlation_id}    Generate Random String
     &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}    exchange_account_id=${MASTER_ACCOUNT_ID}
     ${data}    Update Json    ${data}    &{override}
@@ -132,7 +135,7 @@ Create a transaction request with an exchange_account_id
 
 Create a transaction request with all possible parameters successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction_request_all_params.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_transaction_request_all_params.json
     ${correlation_id}    Generate Random String
     &{override}    Create Dictionary    address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    account_id=${MASTER_ACCOUNT_ID}    token_id=${TOKEN_ID}    correlation_id=${correlation_id}
     ${data}    Update Json    ${data}    &{override}

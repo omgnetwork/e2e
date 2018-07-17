@@ -4,10 +4,13 @@ Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
+*** Variables ***
+${JSON_PATH}    ${RESOURCE_PATH}/category
+
 *** Test Cases ***
 Create category successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_category.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_category.json
     ${name}    Generate Random String
     @{account_ids}    Create List    ${ACCOUNT_ID}
     &{override}    Create Dictionary    name=${name}    account_ids=${account_ids}
@@ -27,7 +30,7 @@ Create category successfully
 
 Get a category successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_category.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_category.json
     ${data}    Update Json    ${data}    id=${CATEGORY_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -39,7 +42,7 @@ Get a category successfully
 
 Update a category successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/update_category.json
+    ${data}    Get Binary File    ${JSON_PATH}/update_category.json
     ${name}    Generate Random String
     &{override}    Create Dictionary    name=${name}    id=${CATEGORY_ID}
     ${data}    Update Json    ${data}    &{override}
@@ -54,7 +57,7 @@ Update a category successfully
 
 List all categories successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_categories.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_categories.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_CATEGORY_ALL}    data=${data}    headers=${headers}
@@ -65,7 +68,7 @@ List all categories successfully
 
 Delete a category successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/delete_category.json
+    ${data}    Get Binary File    ${JSON_PATH}/delete_category.json
     ${data}    Update Json    ${data}    id=${CATEGORY_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request

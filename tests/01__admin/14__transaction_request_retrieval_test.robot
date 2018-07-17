@@ -5,10 +5,13 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 Library           WebSocketClient
 
+*** Variables ***
+${JSON_PATH}    ${RESOURCE_PATH}/transaction_request
+
 *** Test Cases ***
 Get a transaction request successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_transaction_request.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_transaction_request.json
     ${data}    Update Json    ${data}    formatted_id=${T_REQUEST_1_FID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -20,7 +23,7 @@ Get a transaction request successfully
 
 Get all transaction request successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_transaction_requests.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_transaction_requests.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TRANSACTION_REQUEST_ALL}    data=${data}    headers=${headers}

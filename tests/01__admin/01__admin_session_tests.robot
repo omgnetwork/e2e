@@ -5,10 +5,13 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 Library           ../libraries/Tools.py
 
+*** Variables ***
+${JSON_PATH}    ${RESOURCE_PATH}/admin_session
+
 *** Test Cases ***
 Logout an admin user successfully
     # Login first to get a token
-    ${data}    Get Binary File    ${RESOURCE}/admin_login.json
+    ${data}    Get Binary File    ${JSON_PATH}/admin_login.json
     &{override}    Create Dictionary    email=${ADMIN_EMAIL}    password=${ADMIN_PASSWORD}
     ${data}    Update Json    ${data}    &{override}
     &{headers}    Build Admin Request Header
@@ -26,7 +29,7 @@ Logout an admin user successfully
 
 Login an admin user successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/admin_login.json
+    ${data}    Get Binary File    ${JSON_PATH}/admin_login.json
     &{override}    Create Dictionary    email=${ADMIN_EMAIL}    password=${ADMIN_PASSWORD}
     ${data}    Update Json    ${data}    &{override}
     &{headers}    Build Admin Request Header
@@ -45,7 +48,7 @@ Login an admin user successfully
 
 Request to reset password successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/reset_password.json
+    ${data}    Get Binary File    ${JSON_PATH}/reset_password.json
     &{override}    Create Dictionary    email=${ADMIN_EMAIL}    redirect_url=${RESET_PASSWORD_URL}
     ${data}    Update Json    ${data}    &{override}
     &{headers}    Build Authenticated Admin Request Header

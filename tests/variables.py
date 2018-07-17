@@ -50,6 +50,7 @@ ADMIN_USER_UPDATE =                          "user.update" #OK
 ADMIN_USER_GET =                             "user.get" #OK
 ADMIN_USER_GET_WALLETS =                     "user.get_wallets" #OK
 ADMIN_USER_GET_CONSUMPTIONS =                "user.get_transaction_consumptions" #OK
+ADMIN_USER_GET_TRANSACTIONS =                "user.get_transactions" #OK
 
 ### Token
 ADMIN_TOKEN_LIST =                           "token.all" #OK
@@ -87,9 +88,6 @@ ADMIN_WALLET_GET =                           "wallet.get" #OK
 ADMIN_WALLET_GET_CONSUMPTIONS =              "wallet.get_transaction_consumptions" #OK
 
 ### Transaction
-ADMIN_USER_GET_TRANSACTIONS =                "user.get_transactions" #OK
-ADMIN_USER_CREDIT_WALLET =                   "user.credit_wallet" #OK
-ADMIN_USER_DEBIT_WALLET =                    "user.debit_wallet" #OK
 ADMIN_TRANSACTION_ALL =                      "transaction.all" #OK
 ADMIN_TRANSACTION_GET =                      "transaction.get" #OK
 ADMIN_TRANSACTION_CREATE =                   "transaction.create" #OK
