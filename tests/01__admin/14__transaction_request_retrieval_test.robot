@@ -6,7 +6,7 @@ Resource          admin_resources.robot
 Library           WebSocketClient
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/transaction_request
+${JSON_PATH}      ${RESOURCE_PATH}/transaction_request
 
 *** Test Cases ***
 Get a transaction request successfully

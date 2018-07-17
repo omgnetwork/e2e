@@ -6,7 +6,7 @@ Resource          admin_resources.robot
 Library           WebSocketClient
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/transaction_consumption
+${JSON_PATH}      ${RESOURCE_PATH}/transaction_consumption
 
 *** Test Cases ***
 Get consumptions for an account successfully

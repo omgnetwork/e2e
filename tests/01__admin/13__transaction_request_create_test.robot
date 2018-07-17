@@ -6,7 +6,7 @@ Resource          admin_resources.robot
 Library           WebSocketClient
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/transaction_request
+${JSON_PATH}      ${RESOURCE_PATH}/transaction_request
 
 *** Test Cases ***
 Create a transaction request with a 'send' type successfully

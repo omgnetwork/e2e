@@ -5,7 +5,7 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/category
+${JSON_PATH}      ${RESOURCE_PATH}/category
 
 *** Test Cases ***
 Create category successfully

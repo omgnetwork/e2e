@@ -5,7 +5,7 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/exchange_pair
+${JSON_PATH}      ${RESOURCE_PATH}/exchange_pair
 
 *** Test Cases ***
 Create an exchange pair successfully

@@ -5,7 +5,7 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/wallet
+${JSON_PATH}      ${RESOURCE_PATH}/wallet
 
 *** Test Cases ***
 Create a wallet successfully

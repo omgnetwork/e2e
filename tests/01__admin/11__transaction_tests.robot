@@ -5,7 +5,7 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/transaction
+${JSON_PATH}      ${RESOURCE_PATH}/transaction
 
 *** Test Cases ***
 Create a transaction successfully between 2 addresses specifying and amount

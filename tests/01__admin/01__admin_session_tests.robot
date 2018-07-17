@@ -6,7 +6,7 @@ Resource          admin_resources.robot
 Library           ../libraries/Tools.py
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/admin_session
+${JSON_PATH}      ${RESOURCE_PATH}/admin_session
 
 *** Test Cases ***
 Logout an admin user successfully

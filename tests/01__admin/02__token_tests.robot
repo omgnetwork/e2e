@@ -5,7 +5,7 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/token
+${JSON_PATH}      ${RESOURCE_PATH}/token
 
 *** Test Cases ***
 Create a token successfully

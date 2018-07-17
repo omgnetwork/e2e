@@ -5,7 +5,7 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/user
+${JSON_PATH}      ${RESOURCE_PATH}/user
 
 *** Test Cases ***
 Create user successfully

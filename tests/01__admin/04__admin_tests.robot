@@ -6,7 +6,7 @@ Resource          admin_resources.robot
 Library           ../libraries/Tools.py
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/admin
+${JSON_PATH}      ${RESOURCE_PATH}/admin
 
 *** Test Cases ***
 List all admins successfully

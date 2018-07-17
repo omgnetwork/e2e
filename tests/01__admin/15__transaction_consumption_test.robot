@@ -6,7 +6,7 @@ Resource          admin_resources.robot
 Library           WebSocketClient
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/transaction_consumption
+${JSON_PATH}      ${RESOURCE_PATH}/transaction_consumption
 
 *** Test Cases ***
 Consume transaction request 1 successfully with an exchange_account_id

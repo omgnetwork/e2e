@@ -6,7 +6,7 @@ Resource          admin_resources.robot
 Library           ../libraries/Tools.py
 
 *** Variables ***
-${JSON_PATH}    ${RESOURCE_PATH}/account
+${JSON_PATH}      ${RESOURCE_PATH}/account
 
 *** Test Cases ***
 Create an account successfully
