@@ -9,7 +9,7 @@ Library           ../libraries/Tools.py
 ${JSON_PATH}      ${RESOURCE_PATH}/account
 
 *** Test Cases ***
-Create an account successfully
+Create an account successfully with correct parameters
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/create_account.json
     ${acc_name}    Generate Random String
@@ -28,7 +28,22 @@ Create an account successfully
     ${ACCOUNT_ID}    Get Variable Value    ${resp.json()['data']['id']}
     Set Global Variable    ${ACCOUNT_ID}
 
-Update an account successfully
+Create an account fails if required parameters are not provided
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/create_account.json
+    ${acc_name}    Generate Random String
+    ${data}    Update Json    ${data}    name=${None}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_CREATE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Assert Object Type    ${resp}    error
+    Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided `name` can't be blank.
+
+Update an account successfully with the correct parameters
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/update_account.json
     ${acc_name}    Generate Random String
@@ -46,6 +61,38 @@ Update an account successfully
     Should be Equal    ${resp.json()['data']['description']}    ${json_data['description']}
     Dictionaries Should Be Equal    ${resp.json()['data']['metadata']}    ${json_data['metadata']}
     Should Be Empty    ${resp.json()['data']['encrypted_metadata']}
+
+Update an account fails if the account id is invalid
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/update_account.json
+    ${acc_name}    Generate Random String
+    &{updated_acc}    Create Dictionary    id=${None}    name=${acc_name}
+    ${data}    Update Json    ${data}    &{updated_acc}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_UPDATE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Assert Object Type    ${resp}    error
+    Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided
+
+Update an account fails if required parameters are not provided
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/update_account.json
+    ${acc_name}    Generate Random String
+    &{updated_acc}    Create Dictionary    id=${ACCOUNT_ID}    name=${None}
+    ${data}    Update Json    ${data}    &{updated_acc}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_UPDATE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Assert Object Type    ${resp}    error
+    Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided `name` can't be blank.
 
 Update an account avatar successfully
     # Build payload
