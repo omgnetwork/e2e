@@ -5,10 +5,13 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 Library           WebSocketClient
 
+*** Variables ***
+${JSON_PATH}      ${RESOURCE_PATH}/transaction_consumption
+
 *** Test Cases ***
 Get consumptions for an account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_account.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_consumptions_of_account.json
     ${data}    Update Json    ${data}    id=${MASTER_ACCOUNT_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -23,7 +26,7 @@ Get consumptions for an account successfully
 
 Get consumptions of transaction request successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_request.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_consumptions_of_request.json
     ${data}    Update Json    ${data}    formatted_transaction_request_id=${T_REQUEST_1_FID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -35,7 +38,7 @@ Get consumptions of transaction request successfully
 
 Get consumption successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumption.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_consumption.json
     ${data}    Update Json    ${data}    id=${TRANSACTION_CONSUMPTION_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -47,7 +50,7 @@ Get consumption successfully
 
 Get all consumptions successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumptions.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_consumptions.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TRANSACTION_CONSUMPTION_ALL}    data=${data}    headers=${headers}
@@ -58,7 +61,7 @@ Get all consumptions successfully
 
 Get consumptions for a wallet successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_wallet.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_consumptions_of_wallet.json
     ${data}    Update Json    ${data}    address=${USER_PRIMARY_WALLET_ADDRESS}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -70,7 +73,7 @@ Get consumptions for a wallet successfully
 
 Get consumptions for a user successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_consumptions_of_user.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_consumptions_of_user.json
     ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request

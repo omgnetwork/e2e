@@ -8,7 +8,7 @@ Variables  ../variables.py
 Resource    ../resouces.robot
 
 *** Variables ***
-${RESOURCE}    ${CURDIR}/resources
+${RESOURCE_PATH}    ${CURDIR}/resources
 
 *** Keywords ***
 Create Client API Session

@@ -5,6 +5,9 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 Library           ../libraries/Tools.py
 
+*** Variables ***
+${JSON_PATH}      ${RESOURCE_PATH}/keys
+
 *** Test Cases ***
 Create an access key successfully
     # Build payload
@@ -22,7 +25,7 @@ Create an access key successfully
 
 List access keys successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_access_keys.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_access_keys.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_KEY_ACCESS_ALL}    data=${data}    headers=${headers}
@@ -37,7 +40,7 @@ Delete an access key successfully
     ${resp}    Post Request    api    ${ADMIN_KEY_ACCESS_CREATE}    headers=${headers}
     ${access_key_id}    Get Variable Value    ${resp.json()['data']['id']}
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/delete_access_key.json
+    ${data}    Get Binary File    ${JSON_PATH}/delete_access_key.json
     ${data}    Update Json    ${data}    id=${access_key_id}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -47,7 +50,7 @@ Delete an access key successfully
 
 Create an api key successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_api_key.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_api_key.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_KEY_API_CREATE}    data=${data}    headers=${headers}
@@ -59,7 +62,7 @@ Create an api key successfully
 
 List api keys successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_api_keys.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_api_keys.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_KEY_API_ALL}    data=${data}    headers=${headers}
@@ -71,11 +74,11 @@ List api keys successfully
 Delete an api key successfully
     # Create an api key to delete
     &{headers}    Build Authenticated Admin Request Header
-    ${data}    Get Binary File    ${RESOURCE}/create_api_key.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_api_key.json
     ${resp}    Post Request    api    ${ADMIN_KEY_API_CREATE}    data=${data}    headers=${headers}
     ${api_key_id}    Get Variable Value    ${resp.json()['data']['id']}
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/delete_api_key.json
+    ${data}    Get Binary File    ${JSON_PATH}/delete_api_key.json
     ${data}    Update Json    ${data}    id=${api_key_id}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request

@@ -7,7 +7,7 @@ Resource          client_resources.robot
 *** Test Cases ***
 Create a transfer successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_transaction.json
+    ${data}    Get Binary File    ${RESOURCE_PATH}/create_transaction.json
     ${i_token}    Generate Random String
     &{override}    Create Dictionary    to_address=${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    token_id=${TOKEN_ID}    idempotency_token=${i_token}
     ${data}    Update Json    ${data}    &{override}
@@ -28,7 +28,7 @@ Create a transfer successfully
     Set Suite Variable    ${TRANSACTION_ID}
 
 Get user's transactions successfully
-    ${data}    Get Binary File    ${RESOURCE}/get_transactions.json
+    ${data}    Get Binary File    ${RESOURCE_PATH}/get_transactions.json
     &{headers}    Build Authenticated Request Header
     # Perform request
     ${resp}    Post Request    api    ${CLIENT_GET_TRANSACTIONS}    data=${data}    headers=${headers}

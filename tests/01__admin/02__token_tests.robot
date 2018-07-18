@@ -4,10 +4,13 @@ Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
+*** Variables ***
+${JSON_PATH}      ${RESOURCE_PATH}/token
+
 *** Test Cases ***
 Create a token successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_token.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_token.json
     ${name}    Generate Random String
     ${symbol}    Generate Random String    3
     ${data}    Update Json    ${data}    name=${name}    symbol=${symbol}
@@ -34,7 +37,7 @@ Create a token successfully
 
 Mint a token successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/mint_token.json
+    ${data}    Get Binary File    ${JSON_PATH}/mint_token.json
     ${data}    Update Json    ${data}    id=${TOKEN_ID}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
@@ -51,7 +54,7 @@ Mint a token successfully
 
 Get a token successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_token.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_token.json
     ${data}    Update Json    ${data}    id=${TOKEN_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -63,7 +66,7 @@ Get a token successfully
 
 Update a token successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/update_token.json
+    ${data}    Get Binary File    ${JSON_PATH}/update_token.json
     ${name}    Generate Random String
     &{override}    Create Dictionary    id=${TOKEN_ID}    name=${name}
     ${data}    Update Json    ${data}    &{override}
@@ -78,7 +81,7 @@ Update a token successfully
 
 Get all tokens successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_tokens.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_tokens.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TOKEN_LIST}    data=${data}    headers=${headers}
@@ -89,7 +92,7 @@ Get all tokens successfully
 
 Get stats successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_token_stats.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_token_stats.json
     ${data}    Update Json    ${data}    id=${TOKEN_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -101,7 +104,7 @@ Get stats successfully
 
 Get mints successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_mints.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_mints.json
     ${data}    Update Json    ${data}    id=${TOKEN_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request

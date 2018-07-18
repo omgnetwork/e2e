@@ -5,16 +5,19 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 Library           ../libraries/Tools.py
 
+*** Variables ***
+${JSON_PATH}      ${RESOURCE_PATH}/user_session
+
 *** Test Cases ***
 Logout user successfully
     # Login first to get a token
-    ${data}    Get Binary File    ${RESOURCE}/user_login.json
+    ${data}    Get Binary File    ${JSON_PATH}/user_login.json
     ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}
     &{headers}    Build Authenticated Admin Request Header
     ${resp}    Post Request    api    ${ADMIN_USER_LOGIN}    data=${data}    headers=${headers}
     ${authentication_token}    Get Variable Value    ${resp.json()['data']['authentication_token']}
     #Build payload
-    ${data}    Get Binary File    ${RESOURCE}/user_logout.json
+    ${data}    Get Binary File    ${JSON_PATH}/user_logout.json
     ${data}    Update Json    ${data}    auth_token=${authentication_token}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -24,7 +27,7 @@ Logout user successfully
 
 Login a user successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/user_login.json
+    ${data}    Get Binary File    ${JSON_PATH}/user_login.json
     ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request

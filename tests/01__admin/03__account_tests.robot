@@ -5,10 +5,13 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 Library           ../libraries/Tools.py
 
+*** Variables ***
+${JSON_PATH}      ${RESOURCE_PATH}/account
+
 *** Test Cases ***
 Create an account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_account.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_account.json
     ${acc_name}    Generate Random String
     ${data}    Update Json    ${data}    name=${acc_name}
     ${json_data}    To Json    ${data}
@@ -27,7 +30,7 @@ Create an account successfully
 
 Update an account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/update_account.json
+    ${data}    Get Binary File    ${JSON_PATH}/update_account.json
     ${acc_name}    Generate Random String
     &{updated_acc}    Create Dictionary    id=${ACCOUNT_ID}    name=${acc_name}
     ${data}    Update Json    ${data}    &{updated_acc}
@@ -46,10 +49,10 @@ Update an account successfully
 
 Update an account avatar successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/upload_account_avatar.json
+    ${data}    Get Binary File    ${JSON_PATH}/upload_account_avatar.json
     ${data}    To Json    ${data}
     Set To Dictionary    ${data}    id=${ACCOUNT_ID}
-    ${avatar_file}    Get Binary File    ${RESOURCE}/GO.jpg
+    ${avatar_file}    Get Binary File    ${RESOURCE_PATH}/GO.jpg
     @{image_attributes}    Create List    GO.jpg    ${avatar_file}    image/jpeg
     &{files}    Create Dictionary    avatar=${image_attributes}
     &{headers}    Build Form Data Authenticated Admin Request Header
@@ -69,7 +72,7 @@ Update an account avatar successfully
 
 Assign a user to an account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/assign_user_to_account.json
+    ${data}    Get Binary File    ${JSON_PATH}/assign_user_to_account.json
     &{override}    Create Dictionary    email=${ADMIN_1_EMAIL}    account_id=${ACCOUNT_ID}
     ${data}    Update Json    ${data}    &{override}
     &{headers}    Build Authenticated Admin Request Header
@@ -80,7 +83,7 @@ Assign a user to an account successfully
 
 Get admins from an account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_members_from_account.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_members_from_account.json
     ${data}    Update Json    ${data}    id=${ACCOUNT_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -97,7 +100,7 @@ Get admins from an account successfully
 
 Unassign a user from an account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/unassign_user_from_account.json
+    ${data}    Get Binary File    ${JSON_PATH}/unassign_user_from_account.json
     &{override}    Create Dictionary    user_id=${ADMIN_1_ID}    account_id=${ACCOUNT_ID}
     ${data}    Update Json    ${data}    &{override}
     &{headers}    Build Authenticated Admin Request Header
@@ -105,10 +108,17 @@ Unassign a user from an account successfully
     ${resp}    Post Request    api    ${ADMIN_ACCOUNT_UNASSIGN_USER}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
+    # Re-assign for future tests
+    ${data}    Get Binary File    ${JSON_PATH}/assign_user_to_account.json
+    &{override}    Create Dictionary    email=${ADMIN_1_EMAIL}    account_id=${ACCOUNT_ID}
+    ${data}    Update Json    ${data}    &{override}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_ASSIGN_USER}    data=${data}    headers=${headers}
 
 List all wallets from an account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_wallets_from_account.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_wallets_from_account.json
     ${data}    Update Json    ${data}    id=${MASTER_ACCOUNT_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -123,7 +133,7 @@ List all wallets from an account successfully
 
 Get an account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_account.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_account.json
     ${data}    Update Json    ${data}    id=${ACCOUNT_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -133,7 +143,7 @@ Get an account successfully
 
 List all accounts successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_accounts.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_accounts.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_ACCOUNT_ALL}    data=${data}    headers=${headers}
@@ -143,7 +153,7 @@ List all accounts successfully
 
 Switch token to account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/switch_account.json
+    ${data}    Get Binary File    ${JSON_PATH}/switch_account.json
     ${data}    Update Json    ${data}    account_id=${ACCOUNT_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request

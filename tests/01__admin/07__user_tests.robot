@@ -4,10 +4,13 @@ Suite Setup       Create Admin API Session
 Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 
+*** Variables ***
+${JSON_PATH}      ${RESOURCE_PATH}/user
+
 *** Test Cases ***
 Create user successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/create_user.json
+    ${data}    Get Binary File    ${JSON_PATH}/create_user.json
     ${PROVIDER_USER_ID}    Generate Random String
     ${username}    Generate Random String
     &{override}    Create Dictionary    provider_user_id=${PROVIDER_USER_ID}    username=${username}
@@ -38,7 +41,7 @@ Create user successfully
 
 Get user successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_user.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_user.json
     ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
@@ -51,7 +54,7 @@ Get user successfully
 
 Update user successfully
     # Initialize
-    ${data}    Get Binary File    ${RESOURCE}/update_user.json
+    ${data}    Get Binary File    ${JSON_PATH}/update_user.json
     ${username}    Generate Random String
     &{override}    Create Dictionary    provider_user_id=${PROVIDER_USER_ID}    username=${username}
     ${data}    Update Json    ${data}    &{override}
@@ -69,7 +72,7 @@ Update user successfully
 
 List all users successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_users.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_users.json
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_USER_ALL}    data=${data}    headers=${headers}
@@ -80,7 +83,7 @@ List all users successfully
 
 List users from an account successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_users_from_account.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_users_from_account.json
     ${data}    Update Json    ${data}    id=${MASTER_ACCOUNT_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -92,7 +95,7 @@ List users from an account successfully
 
 List user's wallets
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_user_wallets.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_wallets_for_user.json
     ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -104,3 +107,14 @@ List user's wallets
     ${wallet}    Get From List    ${resp.json()['data']['data']}    0
     ${USER_PRIMARY_WALLET_ADDRESS}    Get Variable Value    ${wallet['address']}
     Set Global Variable    ${USER_PRIMARY_WALLET_ADDRESS}
+
+List user's transactions
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/get_transactions_for_user.json
+    ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_USER_GET_TRANSACTIONS}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list

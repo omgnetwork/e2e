@@ -5,17 +5,13 @@ Suite Teardown    Delete All Sessions
 Resource          admin_resources.robot
 Library           ../libraries/Tools.py
 
+*** Variables ***
+${JSON_PATH}      ${RESOURCE_PATH}/admin
+
 *** Test Cases ***
 List all admins successfully
-    # Add admin to account
-    ${data}    Get Binary File    ${RESOURCE}/assign_user_to_account.json
-    &{override}    Create Dictionary    email=${ADMIN_1_EMAIL}    account_id=${ACCOUNT_ID}
-    ${data}    Update Json    ${data}    &{override}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_ASSIGN_USER}    data=${data}    headers=${headers}
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_admins.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_admins.json
     ${data}    Update Json    ${data}    search_term=${ADMIN_1_EMAIL}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -29,7 +25,7 @@ List all admins successfully
 
 Get an admin successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/get_admin.json
+    ${data}    Get Binary File    ${JSON_PATH}/get_admin.json
     ${data}    Update Json    ${data}    id=${ADMIN_1_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -51,7 +47,7 @@ Get my user successfully
 
 Update my user successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/me_update.json
+    ${data}    Get Binary File    ${JSON_PATH}/update_my_user.json
     ${data}    Update Json    ${data}    email=${ADMIN_EMAIL}
     ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
@@ -65,10 +61,10 @@ Update my user successfully
 
 Update my user avatar successfully
     # Build payload
-    ${data}    Get Binary File    ${RESOURCE}/upload_my_avatar.json
+    ${data}    Get Binary File    ${JSON_PATH}/upload_my_avatar.json
     ${data}    To Json    ${data}
     Set To Dictionary    ${data}    id=${MY_USER_ID}
-    ${avatar_file}    Get Binary File    ${RESOURCE}/GO.jpg
+    ${avatar_file}    Get Binary File    ${RESOURCE_PATH}/GO.jpg
     @{image_attributes}    Create List    GO.jpg    ${avatar_file}    image/jpeg
     &{files}    Create Dictionary    avatar=${image_attributes}
     &{headers}    Build Form Data Authenticated Admin Request Header
