@@ -39,7 +39,6 @@ Create a token fails if required parameters are not provided
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/create_token.json
     ${data}    Update Json    ${data}    name=${None}    symbol=${None}
-    ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TOKEN_CREATE}    data=${data}    headers=${headers}
@@ -70,7 +69,6 @@ Mint a token fails if the provided amount is invalid
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/mint_token.json
     ${data}    Update Json    ${data}    id=${TOKEN_ID}    amount=1.234
-    ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TOKEN_MINT}    data=${data}    headers=${headers}
@@ -84,7 +82,6 @@ Mint a token fails if the token id is invalid
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/mint_token.json
     ${data}    Update Json    ${data}    id=invalid
-    ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TOKEN_MINT}    data=${data}    headers=${headers}
@@ -98,7 +95,6 @@ Mint a token fails if required parameters are not provided
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/mint_token.json
     ${data}    Update Json    ${data}    id=${TOKEN_ID}    amount=${None}
-    ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TOKEN_MINT}    data=${data}    headers=${headers}
