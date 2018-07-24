@@ -15,6 +15,10 @@ Assert Response Success
 
     Should be True      ${resp.json()['success']}
 
+Assert Response Failure
+    [Arguments]    ${resp}
+    Should Not Be True    ${resp.json()['success']}
+
 Assert Object Type
     [Arguments]    ${resp}    ${object_type}
 
