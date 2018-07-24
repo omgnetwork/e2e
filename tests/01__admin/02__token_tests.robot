@@ -172,7 +172,7 @@ Update a token fails if required parameters are not provided
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided `name` can't be blank.
 
 Get all tokens successfully
     # Build payload

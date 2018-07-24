@@ -145,7 +145,7 @@ Update an account avatar fails if the avatar is not a valid image
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided `avatar` is invalid.
 
 Assign a user to an account successfully with the correct parameters
     # Build payload
@@ -197,8 +197,8 @@ Assign a user to an account fails if required parameters are not provided
     # Assert response
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided
+    Should be Equal    ${resp.json()['data']['code']}    user:invalid_email
+    Should be Equal    ${resp.json()['data']['description']}    The format of the provided email is invalid
 
 Get admins from an account successfully with the correct parameters
     # Build payload
