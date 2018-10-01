@@ -2,5 +2,5 @@
   "account_id": "TO OVERRIDE",
   "email": "TO OVERRIDE",
   "role_name": "admin",
-  "redirect_url": "https://domain/redirect_path?email={email}&token={token}"
+  "redirect_url": "https://example.com/redirect_path?email={email}&token={token}"
 }

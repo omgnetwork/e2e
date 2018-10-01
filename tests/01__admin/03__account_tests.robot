@@ -40,7 +40,7 @@ Create an account fails if required parameters are not provided
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided `name` can't be blank.
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided. `name` can't be blank.
 
 Update an account successfully with the correct parameters
     # Build payload
@@ -74,7 +74,7 @@ Update an account fails if the account id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
-    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Update an account fails if required parameters are not provided
     # Build payload
@@ -89,7 +89,7 @@ Update an account fails if required parameters are not provided
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided `name` can't be blank.
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided. `name` can't be blank.
 
 Update an account avatar successfully with correct parameters
     # Build payload
@@ -129,7 +129,7 @@ Update an account avatar fails if the account id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
-    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Update an account avatar fails if the avatar is not a valid image
     # Build payload
@@ -145,12 +145,12 @@ Update an account avatar fails if the avatar is not a valid image
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided `avatar` is invalid.
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided. `avatar` is invalid.
 
 Assign a user to an account successfully with the correct parameters
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/assign_user_to_account.json
-    &{override}    Create Dictionary    email=${ADMIN_1_EMAIL}    account_id=${ACCOUNT_ID}
+    &{override}    Create Dictionary    email=${ADMIN_1_EMAIL}    account_id=${ACCOUNT_ID}    redirect_url=${HTTP_BASE_HOST}/redirect_path?email={email}&token={token}
     ${data}    Update Json    ${data}    &{override}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -161,7 +161,7 @@ Assign a user to an account successfully with the correct parameters
 Assign a user to an account fails if email is invalid
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/assign_user_to_account.json
-    &{override}    Create Dictionary    email=invalid_email    account_id=${ACCOUNT_ID}
+    &{override}    Create Dictionary    email=invalid_email    account_id=${ACCOUNT_ID}    redirect_url=${HTTP_BASE_HOST}/redirect_path?email={email}&token={token}
     ${data}    Update Json    ${data}    &{override}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
@@ -170,7 +170,7 @@ Assign a user to an account fails if email is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    user:invalid_email
-    Should be Equal    ${resp.json()['data']['description']}    The format of the provided email is invalid
+    Should be Equal    ${resp.json()['data']['description']}    The format of the provided email is invalid.
 
 Assign a user to an account fails if account_id is invalid
     # Build payload
@@ -184,7 +184,7 @@ Assign a user to an account fails if account_id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
-    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Assign a user to an account fails if required parameters are not provided
     # Build payload
@@ -198,7 +198,7 @@ Assign a user to an account fails if required parameters are not provided
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    user:invalid_email
-    Should be Equal    ${resp.json()['data']['description']}    The format of the provided email is invalid
+    Should be Equal    ${resp.json()['data']['description']}    The format of the provided email is invalid.
 
 Get admins from an account successfully with the correct parameters
     # Build payload
@@ -228,7 +228,7 @@ Get admins from an account fails if the account id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
-    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Unassign a user from an account successfully with the correct parameters
     # Build payload
@@ -261,7 +261,7 @@ Unassign a user from an account fails if the account id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
-    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Unassign a user from an account fails if the user id is invalid
     # Build payload
@@ -275,7 +275,7 @@ Unassign a user from an account fails if the user id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    user:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided id
+    Should be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided id.
 
 List all wallets from an account successfully with the corect parameters
     # Build payload
@@ -303,7 +303,7 @@ List all wallets from an account fails if the account id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
-    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Get an account successfully with the correct parameters
     # Build payload
@@ -326,7 +326,7 @@ Get an account fails if the account id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
-    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 List all accounts successfully
     # Build payload
@@ -361,4 +361,4 @@ Switch token to account fails if the account id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
-    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
