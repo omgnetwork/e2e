@@ -2,8 +2,8 @@
 # See: https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/Variables.rst#environment-variables
 import os
 
-HTTP_BASE_HOST =                              os.getenv("E2E_HTTP_HOST", "http://10.5.10.10:4000")
-SOCKET_BASE_HOST =                            os.getenv("E2E_SOCKET_HOST", "ws://10.5.10.10:4000")
+HTTP_BASE_HOST =                              os.getenv("E2E_HTTP_HOST", "http://localhost:4000")
+SOCKET_BASE_HOST =                            os.getenv("E2E_SOCKET_HOST", "ws://localhost:4000")
 CLIENT_HOST =                                 HTTP_BASE_HOST + "/api/client"
 ADMIN_HOST =                                  HTTP_BASE_HOST + "/api/admin"
 CLIENT_SOCKET_HOST =                          SOCKET_BASE_HOST + "/api/client/socket"
