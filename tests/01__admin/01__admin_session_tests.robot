@@ -58,7 +58,7 @@ Login an admin user fails if required parameters are not provided
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided. `email` can't be blank.
 
 Login an admin user fails if wrong credentials are provided
     # Build payload
@@ -72,7 +72,7 @@ Login an admin user fails if wrong credentials are provided
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should Be Equal    ${resp.json()['data']['code']}    user:invalid_login_credentials
-    Should Be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided login credentials
+    Should Be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided login credentials.
 
 Request to reset password successfully with correct credentials
     # Build payload
@@ -96,7 +96,7 @@ Request to reset password fails if required parameters are not provided
     # Assert response
     Assert Response Failure    ${resp}
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided.
 
 Request to reset password fails if an invalid email is provided
     # Build payload
@@ -109,7 +109,7 @@ Request to reset password fails if an invalid email is provided
     # Assert response
     Assert Response Failure    ${resp}
     Should Be Equal    ${resp.json()['data']['code']}    user:email_not_found
-    Should Be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided email
+    Should Be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided email.
 
 Request to reset password fails if an invalid redirect URL is provided
     # Build payload
@@ -122,4 +122,4 @@ Request to reset password fails if an invalid redirect URL is provided
     # Assert response
     Assert Response Failure    ${resp}
     Should Be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should Be Equal    ${resp.json()['data']['description']}    The `redirect_url` is not allowed to be used. Got: http://invalid.com
+    Should Be Equal    ${resp.json()['data']['description']}    The given `redirect_url` is not allowed. Got: 'http://invalid.com'.

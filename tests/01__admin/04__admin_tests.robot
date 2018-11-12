@@ -12,21 +12,24 @@ ${JSON_PATH}      ${RESOURCE_PATH}/admin
 List all admins successfully
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_admins.json
-    ${data}    Update Json    ${data}    search_term=${ADMIN_1_EMAIL}
+    ${data}    Update Json    ${data}    search_term=${ADMIN_EMAIL}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_ADMIN_ALL}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    list
-    ${filtered_list}    Filter List    ${resp.json()['data']['data']}    email    ${ADMIN_1_EMAIL}
+    ${filtered_list}    Filter List    ${resp.json()['data']['data']}    email    ${ADMIN_EMAIL}
     ${count}    Get Length    ${filtered_list}
     Should Be Equal As Strings    ${count}    1
+    ${admin}    Get From List    ${filtered_list}    0
+    ${ADMIN_ID}    Get Variable Value    ${admin['id']}
+    Set Global Variable    ${ADMIN_ID}
 
 Get an admin successfully
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_admin.json
-    ${data}    Update Json    ${data}    id=${ADMIN_1_ID}
+    ${data}    Update Json    ${data}    id=${ADMIN_ID}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_ADMIN_GET}    data=${data}    headers=${headers}

@@ -46,7 +46,7 @@ Create a token fails if required parameters are not provided
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided `symbol` can't be blank. `name` can't be blank.
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided. `symbol` can't be blank. `name` can't be blank.
 
 Mint a token successfully with correct parameters
     # Build payload
@@ -76,7 +76,7 @@ Mint a token fails if the provided amount is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    String number is not a valid number: '1.234'.
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided. String number is not a valid number: '1.234'.
 
 Mint a token fails if the token id is invalid
     # Build payload
@@ -89,7 +89,7 @@ Mint a token fails if the token id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id
+    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
 
 Mint a token fails if required parameters are not provided
     # Build payload
@@ -102,7 +102,7 @@ Mint a token fails if required parameters are not provided
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided.
 
 Get a token successfully with correct parameters
     # Build payload
@@ -127,7 +127,7 @@ Get a token fails if the token id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id
+    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
 
 Update a token successfully with correct parameters
     # Build payload
@@ -157,7 +157,7 @@ Update a token fails if the token id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id
+    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
 
 Update a token fails if required parameters are not provided
     # Build payload
@@ -172,7 +172,7 @@ Update a token fails if required parameters are not provided
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided `name` can't be blank.
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided. `name` can't be blank.
 
 Get all tokens successfully
     # Build payload
@@ -208,7 +208,7 @@ Get stats fails if the token id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id
+    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
 
 Get mints successfully with the correct parameters
     # Build payload
@@ -233,4 +233,4 @@ Get mints fails if the token id is invalid
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id
+    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.

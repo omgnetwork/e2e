@@ -158,6 +158,7 @@ CLIENT_GET_SETTINGS =                        "me.get_settings" #OK
 # TOKEN_ID = The first created token ID
 # TOKEN_1_ID = The second created token ID
 # ACCOUNT_ID = The created account ID
+# ADMIN_ID = The first admin ID
 # ADMIN_1_ID = The second admin ID
 # MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS = The wallet address of the master account
 # SERVER_AUTHENTICATION = The built server 'Authorization' header
