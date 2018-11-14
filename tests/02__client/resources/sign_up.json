@@ -1,0 +1,7 @@
+{
+  "email": "TO OVERRIDE",
+  "password": "TO OVERRIDE",
+  "password_confirmation": "TO OVERRIDE",
+  "verification_url": "TO OVERRIDE",
+  "success_url": "TO OVERRIDE"
+}

@@ -174,3 +174,20 @@ Get all transactions successfully
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    list
     Should Not Be Empty    ${resp.json()['data']['data']}
+
+Calculate a transaction successfully
+    ${data}    Get Binary File    ${JSON_PATH}/calculate_transaction.json
+    &{override}    Create Dictionary    from_token_id=${TOKEN_ID}    to_token_id=${TOKEN_1_ID}
+    ${data}    Update Json    ${data}    &{override}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_CALCULATE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    transaction_calculation
+    Should be Equal    ${resp.json()['data']['from_token_id']}    ${TOKEN_ID}
+    Should be Equal    ${resp.json()['data']['to_token_id']}    ${TOKEN_1_ID}
+    Should Be Equal As Strings    ${resp.json()['data']['from_amount']}    1
+    Should Be Equal As Strings    ${resp.json()['data']['to_amount']}    2
+    Should be Equal    ${resp.json()['data']['exchange_pair']['from_token_id']}    ${TOKEN_ID}
+    Should be Equal    ${resp.json()['data']['exchange_pair']['to_token_id']}    ${TOKEN_1_ID}

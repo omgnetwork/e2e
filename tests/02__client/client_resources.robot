@@ -14,6 +14,12 @@ ${RESOURCE_PATH}    ${CURDIR}/resources
 Create Client API Session
     Create Session    api    ${CLIENT_HOST}
 
+Build Request Header
+    &{client_headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
+    ...                                       Accept=${ACCEPT_HEADER}
+
+    [Return]    &{client_headers}
+
 Build Authenticated Request Header
     &{client_headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}
     ...                                       Authorization=${CLIENT_AUTHENTICATION}

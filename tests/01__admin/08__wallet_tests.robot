@@ -51,3 +51,45 @@ Get a wallet successfully
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    wallet
     Should Be Equal    ${resp.json()['data']['address']}    ${WALLET_ADDRESS}
+
+Disable a wallet successfully
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    address=${WALLET_ADDRESS}    enabled=${FALSE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_WALLET_ENABLE_OR_DISABLE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    wallet
+    Should be Equal    ${resp.json()['data']['address']}    ${WALLET_ADDRESS}
+    Should Not Be True    ${resp.json()['data']['enabled']}
+
+Disable a wallet fails if address does not exist
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    address=invalid_address    enabled=${FALSE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_WALLET_ENABLE_OR_DISABLE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Assert Object Type    ${resp}    error
+    Should be Equal    ${resp.json()['data']['code']}    unauthorized
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
+
+Enable a wallet successfully
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    address=${WALLET_ADDRESS}    enabled=${TRUE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_WALLET_ENABLE_OR_DISABLE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    wallet
+    Should be Equal    ${resp.json()['data']['address']}    ${WALLET_ADDRESS}
+    Should Be True    ${resp.json()['data']['enabled']}
