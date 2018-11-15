@@ -16,6 +16,8 @@ ADMIN_EMAIL =                                 os.getenv("E2E_TEST_ADMIN_EMAIL", 
 ADMIN_PASSWORD =                              os.getenv("E2E_TEST_ADMIN_PASSWORD", "password")
 ADMIN_1_EMAIL =                               os.getenv("E2E_TEST_ADMIN_1_EMAIL", "test_admin_1@example.com")
 ADMIN_1_PASSWORD =                            os.getenv("E2E_TEST_ADMIN_1_PASSWORD", "password")
+USER_EMAIL =                                  os.getenv("E2E_TEST_USER_EMAIL", "test_user@example.com")
+USER_PASSWORD =                               os.getenv("E2E_TEST_USER_PASSWORD", "password")
 
 ADMIN_AUTH_SCHEMA =                           "OMGAdmin"
 PROVIDER_AUTH_SCHEMA =                        "OMGProvider"
@@ -139,6 +141,7 @@ ADMIN_GET_SETTINGS =                         "settings.all" #OK
 ### Session
 CLIENT_LOGOUT =                              "me.logout" #OK
 CLIENT_SIGNUP =                              "user.signup" #OK
+CLIENT_LOGIN =                               "user.login" #OK
 
 ### User
 CLIENT_GET =                                 "me.get" #OK
