@@ -12,16 +12,23 @@ ${JSON_PATH}      ${RESOURCE_PATH}/admin
 List all admins successfully
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_admins.json
-    ${data}    Update Json    ${data}    search_term=${ADMIN_EMAIL}
+
+    ${filter_1}    Create Dictionary    field=email    comparator=eq    value=${ADMIN_EMAIL}
+    ${filter_2}    Create Dictionary    field=email    comparator=eq    value=${ADMIN_1_EMAIL}
+    @{match_any}    Create List   ${filter_1}    ${filter_2}
+
+    ${data}    Update Json    ${data}    match_any=@{match_any}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_ADMIN_ALL}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    list
+    ${total_count}    Get Length    ${resp.json()['data']['data']}
+    Should Be Equal As Strings    ${total_count}    2
     ${filtered_list}    Filter List    ${resp.json()['data']['data']}    email    ${ADMIN_EMAIL}
-    ${count}    Get Length    ${filtered_list}
-    Should Be Equal As Strings    ${count}    1
+    ${filtered_count}    Get Length    ${filtered_list}
+    Should Be Equal As Strings    ${filtered_count}    1
     ${admin}    Get From List    ${filtered_list}    0
     ${ADMIN_ID}    Get Variable Value    ${admin['id']}
     Set Global Variable    ${ADMIN_ID}
@@ -35,6 +42,7 @@ Get an admin successfully
     ${resp}    Post Request    api    ${ADMIN_ADMIN_GET}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
+    Should be Equal    ${resp.json()['data']['id']}    ${ADMIN_ID}
 
 Get my user successfully
     # Build payload
@@ -61,6 +69,75 @@ Update my user successfully
     Assert Object Type    ${resp}    user
     Should be Equal    ${resp.json()['data']['id']}    ${MY_USER_ID}
     Dictionaries Should be Equal    ${resp.json()['data']['metadata']}    ${json_data['metadata']}
+
+Disable an admin successfully
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    id=${ADMIN_1_ID}    enabled=${FALSE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ENABLE_OR_DISABLED}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    user
+    Should be Equal    ${resp.json()['data']['id']}    ${ADMIN_1_ID}
+    Should Not Be True    ${resp.json()['data']['enabled']}
+
+Disable an admin fails if id does not exist
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    id=${None}    enabled=${None}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ENABLE_OR_DISABLED}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Assert Object Type    ${resp}    error
+    Should be Equal    ${resp.json()['data']['code']}    user:id_not_found
+    Should be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided id.
+
+Login an admin user fails if the admin is disabled
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/admin_login.json
+    &{override}    Create Dictionary    email=${ADMIN_1_EMAIL}    password=${ADMIN_1_PASSWORD}
+    ${data}    Update Json    ${data}    &{override}
+    &{headers}    Build Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_LOGIN}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Assert Object Type    ${resp}    error
+    Should be Equal    ${resp.json()['data']['code']}    user:invalid_login_credentials
+    Should be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided login credentials.
+
+Enable an admin successfully
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    id=${ADMIN_1_ID}    enabled=${TRUE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ENABLE_OR_DISABLED}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    user
+    Should be Equal    ${resp.json()['data']['id']}    ${ADMIN_1_ID}
+    Should Be True    ${resp.json()['data']['enabled']}
+
+Update my user's password successfully
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/update_password.json
+    ${data}    Update Json    ${data}    old_password=${ADMIN_PASSWORD}    password=${ADMIN_PASSWORD}    password_confirmation=${ADMIN_PASSWORD}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ME_UPDATE_PASSWORD}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    user
+    Should be Equal    ${resp.json()['data']['id']}    ${MY_USER_ID}
 
 Update my user avatar successfully
     # Build payload

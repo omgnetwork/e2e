@@ -242,12 +242,12 @@ Unassign a user from an account successfully with the correct parameters
     Assert Response Success    ${resp}
     # Re-assign for future tests
     ${data}    Get Binary File    ${JSON_PATH}/assign_user_to_account.json
-    &{override}    Create Dictionary    email=${ADMIN_1_EMAIL}    account_id=${ACCOUNT_ID}
+    &{override}    Create Dictionary    email=${ADMIN_1_EMAIL}    account_id=${ACCOUNT_ID}    redirect_url=${HTTP_BASE_HOST}/redirect_path?email={email}&token={token}
     ${data}    Update Json    ${data}    &{override}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_ACCOUNT_ASSIGN_USER}    data=${data}    headers=${headers}
-
+    Assert Response Success    ${resp}
 
 Unassign a user from an account fails if the account id is invalid
     # Build payload
@@ -327,6 +327,41 @@ Get an account fails if the account id is invalid
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
     Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
+
+
+Get descendants of an account successfully with the correct parameters
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/get_descendants.json
+    ${data}    Update Json    ${data}    id=${ACCOUNT_ID}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_DESCENDANTS}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Should Not Be Empty    ${resp.json()['data']['data']}
+
+Get transactions of an account successfully with the correct parameters
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/get_transactions.json
+    ${data}    Update Json    ${data}    id=${ACCOUNT_ID}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_TRANSACTIONS}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+
+Get transaction requests of an account successfully with the correct parameters
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/get_transaction_requests.json
+    ${data}    Update Json    ${data}    id=${ACCOUNT_ID}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_REQUESTS}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
 
 List all accounts successfully
     # Build payload

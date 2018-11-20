@@ -51,9 +51,11 @@ There are 6 environment variables that need to be created in order to run the te
 - `E2E_HTTP_HOST`: The base HTTP URL of the eWallet SDK (ie: http://example.com)
 - `E2E_SOCKET_HOST`: The base socket URL of the eWallet SDK (ie: ws://example.com)
 
-The following variables define the email/password of the 2 needed admins. They can be defined before seeding the test data in the eWallet using [these environment variables](https://github.com/omisego/ewallet/blob/master/docs/setup/env.md#e2e-tests)
+The following variables define the email/password of the 2 needed admins and the user. They can be defined before seeding the test data in the eWallet using [these environment variables](https://github.com/omisego/ewallet/blob/master/docs/setup/env.md#e2e-tests)
 
 - `E2E_TEST_ADMIN_EMAIL`
 - `E2E_TEST_ADMIN_PASSWORD`
 - `E2E_TEST_ADMIN_1_EMAIL`
 - `E2E_TEST_ADMIN_1_PASSWORD`
+- `E2E_TEST_USER_EMAIL`
+- `E2E_TEST_USER_PASSWORD`

@@ -118,3 +118,58 @@ List user's transactions
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    list
+
+Disable a user successfully
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}    enabled=${FALSE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_USER_ENABLE_OR_DISABLE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    user
+    Should be Equal    ${resp.json()['data']['provider_user_id']}    ${PROVIDER_USER_ID}
+    Should Not Be True    ${resp.json()['data']['enabled']}
+
+Disable a user fails if id does not exist
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    provider_user_id=invalid_id    enabled=${FALSE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_USER_ENABLE_OR_DISABLE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Assert Object Type    ${resp}    error
+    Should be Equal    ${resp.json()['data']['code']}    user:provider_user_id_not_found
+    Should be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided provider_user_id.
+
+Login a user fails if the user is disabled
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/user_login.json
+    ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_USER_LOGIN}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Assert Object Type    ${resp}    error
+    Should be Equal    ${resp.json()['data']['code']}    user:disabled
+    Should be Equal    ${resp.json()['data']['description']}    This user is disabled.
+
+Enable a user successfully
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    provider_user_id=${PROVIDER_USER_ID}    enabled=${TRUE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_USER_ENABLE_OR_DISABLE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    user
+    Should be Equal    ${resp.json()['data']['provider_user_id']}    ${PROVIDER_USER_ID}
+    Should Be True    ${resp.json()['data']['enabled']}

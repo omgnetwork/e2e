@@ -16,6 +16,8 @@ ADMIN_EMAIL =                                 os.getenv("E2E_TEST_ADMIN_EMAIL", 
 ADMIN_PASSWORD =                              os.getenv("E2E_TEST_ADMIN_PASSWORD", "password")
 ADMIN_1_EMAIL =                               os.getenv("E2E_TEST_ADMIN_1_EMAIL", "test_admin_1@example.com")
 ADMIN_1_PASSWORD =                            os.getenv("E2E_TEST_ADMIN_1_PASSWORD", "password")
+USER_EMAIL =                                  os.getenv("E2E_TEST_USER_EMAIL", "test_user@example.com")
+USER_PASSWORD =                               os.getenv("E2E_TEST_USER_PASSWORD", "password")
 
 ADMIN_AUTH_SCHEMA =                           "OMGAdmin"
 PROVIDER_AUTH_SCHEMA =                        "OMGProvider"
@@ -33,8 +35,10 @@ ADMIN_RESET_PASSWORD =                       "admin.reset_password" #OK
 ### Admin
 ADMIN_ADMIN_ALL =                            "admin.all" #OK
 ADMIN_ADMIN_GET =                            "admin.get" #OK
+ADMIN_ADMIN_ENABLE_OR_DISABLED =             "admin.enable_or_disable" #OK
 ADMIN_ADMIN_ME_GET =                         "me.get" #OK
 ADMIN_ADMIN_ME_UPDATE =                      "me.update" #OK
+ADMIN_ADMIN_ME_UPDATE_PASSWORD =             "me.update_password" #OK
 ADMIN_ADMIN_ME_UPDLOAD_AVATAR =              "me.upload_avatar" #OK
 ADMIN_ADMIN_ME_GET_ACCOUNT =                 "me.get_account" #OK
 ADMIN_ADMIN_ME_GET_ACCOUNTS =                "me.get_accounts" #OK
@@ -49,6 +53,7 @@ ADMIN_USER_CREATE =                          "user.create" #OK
 ADMIN_USER_UPDATE =                          "user.update" #OK
 ADMIN_USER_GET =                             "user.get" #OK
 ADMIN_USER_GET_WALLETS =                     "user.get_wallets" #OK
+ADMIN_USER_ENABLE_OR_DISABLE =               "user.enable_or_disable" #OK
 ADMIN_USER_GET_CONSUMPTIONS =                "user.get_transaction_consumptions" #OK
 ADMIN_USER_GET_TRANSACTIONS =                "user.get_transactions" #OK
 
@@ -57,6 +62,7 @@ ADMIN_TOKEN_LIST =                           "token.all" #OK
 ADMIN_TOKEN_GET =                            "token.get" #OK
 ADMIN_TOKEN_CREATE =                         "token.create" #OK
 ADMIN_TOKEN_UPDATE =                         "token.update" #OK
+ADMIN_TOKEN_ENABLE_OR_DISABLE =              "token.enable_or_disable" #OK
 ADMIN_TOKEN_STATS =                          "token.stats" #OK
 ADMIN_TOKEN_GET_MINTS =                      "token.get_mints" #OK
 ADMIN_TOKEN_MINT =                           "token.mint" #OK
@@ -76,21 +82,26 @@ ADMIN_ACCOUNT_UPDATE =                       "account.update" #OK
 ADMIN_ACCOUNT_UPLOAD_AVATAR =                "account.upload_avatar" #OK
 ADMIN_ACCOUNT_GET_USERS =                    "account.get_users" #OK
 ADMIN_ACCOUNT_GET_MEMBERS =                  "account.get_members" #OK
+ADMIN_ACCOUNT_GET_DESCENDANTS =              "account.get_descendants" #OK
+ADMIN_ACCOUNT_GET_TRANSACTIONS =             "account.get_transactions" #OK
 ADMIN_ACCOUNT_ASSIGN_USER =                  "account.assign_user" #OK
 ADMIN_ACCOUNT_UNASSIGN_USER =                "account.unassign_user" #OK
 ADMIN_ACCOUNT_GET_WALLETS =                  "account.get_wallets" #OK
+ADMIN_ACCOUNT_GET_REQUESTS =                 "account.get_transaction_requests" #OK
 ADMIN_ACCOUNT_GET_CONSUMPTIONS =             "account.get_transaction_consumptions" #OK
 
 ### Wallets
 ADMIN_WALLET_ALL =                           "wallet.all" #OK
 ADMIN_WALLET_CREATE =                        "wallet.create" #OK
 ADMIN_WALLET_GET =                           "wallet.get" #OK
+ADMIN_WALLET_ENABLE_OR_DISABLE =             "wallet.enable_or_disable" #OK
 ADMIN_WALLET_GET_CONSUMPTIONS =              "wallet.get_transaction_consumptions" #OK
 
 ### Transaction
 ADMIN_TRANSACTION_ALL =                      "transaction.all" #OK
 ADMIN_TRANSACTION_GET =                      "transaction.get" #OK
 ADMIN_TRANSACTION_CREATE =                   "transaction.create" #OK
+ADMIN_TRANSACTION_CALCULATE =                "transaction.calculate" #OK
 
 ### Transaction Request
 ADMIN_TRANSACTION_REQUEST_CREATE =           "transaction_request.create" #OK
@@ -109,9 +120,11 @@ ADMIN_TRANSACTION_CONSUMPTION_GET =          "transaction_consumption.get" #OK
 ADMIN_KEY_ACCESS_ALL =                       "access_key.all" #OK
 ADMIN_KEY_ACCESS_CREATE =                    "access_key.create" #OK
 ADMIN_KEY_ACCESS_DELETE =                    "access_key.delete" #OK
+ADMIN_KEY_ACCESS_UPDATE =                    "access_key.update" # TO DO (will be renamed to enable_or_disable)
 ADMIN_KEY_API_ALL =                          "api_key.all" #OK
 ADMIN_KEY_API_CREATE =                       "api_key.create" #OK
 ADMIN_KEY_API_DELETE =                       "api_key.delete" #OK
+ADMIN_KEY_API_UPDATE =                       "api_key.update" # TO DO (will be renamed to enable_or_disable)
 
 ### Exchange pairs
 ADMIN_EXCHANGE_PAIR_ALL =                    "exchange_pair.all" #OK
@@ -127,6 +140,8 @@ ADMIN_GET_SETTINGS =                         "settings.all" #OK
 
 ### Session
 CLIENT_LOGOUT =                              "me.logout" #OK
+CLIENT_SIGNUP =                              "user.signup" #OK
+CLIENT_LOGIN =                               "user.login" #OK
 
 ### User
 CLIENT_GET =                                 "me.get" #OK

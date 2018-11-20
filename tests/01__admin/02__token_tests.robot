@@ -234,3 +234,45 @@ Get mints fails if the token id is invalid
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
     Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
+
+Disable a token successfully
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    id=${TOKEN_ID}    enabled=${FALSE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TOKEN_ENABLE_OR_DISABLE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    token
+    Should be Equal    ${resp.json()['data']['id']}    ${TOKEN_ID}
+    Should Not Be True    ${resp.json()['data']['enabled']}
+
+Disable a token fails if id does not exist
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    id=invalid_id    enabled=${FALSE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TOKEN_ENABLE_OR_DISABLE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Assert Object Type    ${resp}    error
+    Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
+    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
+
+Enable a token successfully
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/enable_or_disable.json
+    ${data}    Update Json    ${data}    id=${TOKEN_ID}    enabled=${TRUE}
+    ${json_data}    To Json    ${data}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TOKEN_ENABLE_OR_DISABLE}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    token
+    Should be Equal    ${resp.json()['data']['id']}    ${TOKEN_ID}
+    Should Be True    ${resp.json()['data']['enabled']}
