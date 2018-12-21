@@ -79,44 +79,43 @@ Request to reset password successfully with correct credentials
     ${data}    Get Binary File    ${JSON_PATH}/reset_password.json
     &{override}    Create Dictionary    email=${ADMIN_EMAIL}    redirect_url=${RESET_PASSWORD_URL}
     ${data}    Update Json    ${data}    &{override}
-    &{headers}    Build Authenticated Admin Request Header
+    &{headers}    Build Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_RESET_PASSWORD}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
+
+Request to reset password succeed with empty response if an invalid email is provided but no email sent
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/reset_password.json
+    &{override}    Create Dictionary    email=invalid@email.com    redirect_url=${RESET_PASSWORD_URL}
+    ${data}    Update Json    ${data}    &{override}
+    &{headers}    Build Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_RESET_PASSWORD}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Should Be Empty    ${resp.json()['data']}
 
 Request to reset password fails if required parameters are not provided
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/reset_password.json
     &{override}    Create Dictionary    email=${None}    redirect_url=${RESET_PASSWORD_URL}
     ${data}    Update Json    ${data}    &{override}
-    &{headers}    Build Authenticated Admin Request Header
+    &{headers}    Build Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_RESET_PASSWORD}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Failure    ${resp}
-    Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
-    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided.
-
-Request to reset password fails if an invalid email is provided
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/reset_password.json
-    &{override}    Create Dictionary    email=invalid@email.com    redirect_url=${RESET_PASSWORD_URL}
-    ${data}    Update Json    ${data}    &{override}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_RESET_PASSWORD}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Failure    ${resp}
-    Should Be Equal    ${resp.json()['data']['code']}    user:email_not_found
-    Should Be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided email.
+    Should Be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
+    Should Be Equal    ${resp.json()['data']['description']}    `email` and `redirect_url` are required
 
 Request to reset password fails if an invalid redirect URL is provided
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/reset_password.json
     &{override}    Create Dictionary    email=${ADMIN_EMAIL}    redirect_url=http://invalid.com
     ${data}    Update Json    ${data}    &{override}
-    &{headers}    Build Authenticated Admin Request Header
+    &{headers}    Build Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_RESET_PASSWORD}    data=${data}    headers=${headers}
     # Assert response
