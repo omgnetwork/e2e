@@ -10,7 +10,7 @@
     "max_consumptions": 2,
     "max_consumptions_per_user": 1,
     "consumption_lifetime": 60000,
-    "expiration_date": "2500-01-01T10:00:00.000000",
+    "expiration_date": "2500-01-01T10:00:00.000000Z",
     "metadata": {
         "a_key": "a_value"
     },
