@@ -12,7 +12,7 @@ ${RESOURCE_PATH}    ${CURDIR}/resources
 
 *** Keywords ***
 Create Client API Session
-    Create Session    api    ${CLIENT_HOST}
+    Create Session    api    ${CLIENT_HOST}    timeout=15
 
 Build Request Header
     &{client_headers}    Create Dictionary    Content-Type=${CONTENT_TYPE_HEADER}

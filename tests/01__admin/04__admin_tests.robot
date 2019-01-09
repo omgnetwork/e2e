@@ -12,11 +12,9 @@ ${JSON_PATH}      ${RESOURCE_PATH}/admin
 List all admins successfully
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_admins.json
-
     ${filter_1}    Create Dictionary    field=email    comparator=eq    value=${ADMIN_EMAIL}
     ${filter_2}    Create Dictionary    field=email    comparator=eq    value=${ADMIN_1_EMAIL}
-    @{match_any}    Create List   ${filter_1}    ${filter_2}
-
+    @{match_any}    Create List    ${filter_1}    ${filter_2}
     ${data}    Update Json    ${data}    match_any=@{match_any}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request

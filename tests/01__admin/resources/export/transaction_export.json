@@ -1,0 +1,8 @@
+{
+  "match_all": [
+    {"field": "from_account.id", "value": "TO_OVERRIDE", "comparator": "eq"}
+  ],
+  "match_any": [],
+  "sort_by": "created_at",
+  "sort_dir": "desc"
+}
