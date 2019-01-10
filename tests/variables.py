@@ -42,6 +42,7 @@ ADMIN_ADMIN_ME_UPDATE_PASSWORD =             "me.update_password" #OK
 ADMIN_ADMIN_ME_UPDLOAD_AVATAR =              "me.upload_avatar" #OK
 ADMIN_ADMIN_ME_GET_ACCOUNT =                 "me.get_account" #OK
 ADMIN_ADMIN_ME_GET_ACCOUNTS =                "me.get_accounts" #OK
+ADMIN_ADMIN_ME_UPDATE_EMAIL =                "me.update_email" #OK
 
 ### User Session
 ADMIN_USER_LOGIN =                           "user.login" #OK
