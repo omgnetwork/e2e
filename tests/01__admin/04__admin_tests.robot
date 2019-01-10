@@ -185,6 +185,18 @@ Request to update my user email fails if the redirect_url is invalid
     Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
     Should be Equal    ${resp.json()['data']['description']}    The given `redirect_url` is not allowed. Got: 'http://invalid.url'.
 
+Request to update my user email fails if the email is invalid
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/update_my_email.json
+    ${data}    Update Json    ${data}    email=invalid_email    redirect_url=${HTTP_BASE_HOST}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ME_UPDATE_EMAIL}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Should be Equal    ${resp.json()['data']['code']}    user:invalid_email
+    Should be Equal    ${resp.json()['data']['description']}    The format of the provided email is invalid.
+
 List my account successfully
     # Build payload
     &{headers}    Build Authenticated Admin Request Header
