@@ -9,27 +9,11 @@ ${JSON_PATH}      ${RESOURCE_PATH}/export
 
 *** Test Cases ***
 Generate a local export for a filtered list of transactions successfully
-    # Build payload
-    ${data}    Build transaction query payload
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_EXPORT}    data=${data}    headers=${headers}
-    # Assert response
-    Assert generated export from response with adapter type    ${resp}    local
-    ${TRANSACTION_EXPORT_LOCAL_ID}    Get Variable Value    ${resp.json()['data']['id']}
+    ${TRANSACTION_EXPORT_LOCAL_ID}    Assert generated export with adapter type    local
     Set Suite Variable    ${TRANSACTION_EXPORT_LOCAL_ID}
 
 Get a local export successfully
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/get_export.json
-    ${data}    Update Json    ${data}    id=${TRANSACTION_EXPORT_LOCAL_ID}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_EXPORT_GET}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    export
-    Should Be Equal    ${resp.json()['data']['id']}    ${TRANSACTION_EXPORT_LOCAL_ID}
+    Assert get export    ${TRANSACTION_EXPORT_LOCAL_ID}
     Sleep    1s
 
 Download a valid local export successfully
@@ -42,41 +26,15 @@ Download a valid local export successfully
     Assert transaction CSV content    ${resp.content}
 
 Update configuration successfully and set the file storage adapter to aws
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/update_configuration.json
-    ${data}    Update Json    ${data}    file_storage_adapter=aws
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_UPDATE_CONFIGURATION}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    map
-    Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    aws
+    Update file storage adapter configuration    aws
 
 Generate an aws export for a filtered list of transactions successfully
-    # Build payload
-    ${data}    Build transaction query payload
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_EXPORT}    data=${data}    headers=${headers}
-    # Assert response
-    Assert generated export from response with adapter type    ${resp}    aws
-    ${TRANSACTION_EXPORT_AWS_ID}    Get Variable Value    ${resp.json()['data']['id']}
+    ${TRANSACTION_EXPORT_AWS_ID}    Assert generated export with adapter type    aws
     Set Suite Variable    ${TRANSACTION_EXPORT_AWS_ID}
     Sleep    1s
 
 Get an aws export successfully
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/get_export.json
-    ${data}    Update Json    ${data}    id=${TRANSACTION_EXPORT_AWS_ID}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_EXPORT_GET}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    export
-    Should Be Equal    ${resp.json()['data']['id']}    ${TRANSACTION_EXPORT_AWS_ID}
-    ${TRANSACTION_EXPORT_AWS_DOWNLOAD_URL}    Get Variable Value    ${resp.json()['data']['download_url']}
+    ${TRANSACTION_EXPORT_AWS_DOWNLOAD_URL}    Assert get export    ${TRANSACTION_EXPORT_AWS_ID}
     Set Suite Variable    ${TRANSACTION_EXPORT_AWS_DOWNLOAD_URL}
 
 Download a valid export from aws successfully
@@ -85,41 +43,15 @@ Download a valid export from aws successfully
     Assert transaction CSV content    ${resp.content}
 
 Update configuration successfully and set the file storage adapter to gcs
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/update_configuration.json
-    ${data}    Update Json    ${data}    file_storage_adapter=gcs
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_UPDATE_CONFIGURATION}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    map
-    Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    gcs
+    Update file storage adapter configuration    gcs
 
 Generate a gcs export for a filtered list of transactions successfully
-    # Build payload
-    ${data}    Build transaction query payload
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_EXPORT}    data=${data}    headers=${headers}
-    # Assert response
-    Assert generated export from response with adapter type    ${resp}    gcs
-    ${TRANSACTION_EXPORT_GCS_ID}    Get Variable Value    ${resp.json()['data']['id']}
+    ${TRANSACTION_EXPORT_GCS_ID}    Assert generated export with adapter type    gcs
     Set Suite Variable    ${TRANSACTION_EXPORT_GCS_ID}
     Sleep    1s
 
 Get a gcs export successfully
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/get_export.json
-    ${data}    Update Json    ${data}    id=${TRANSACTION_EXPORT_GCS_ID}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_EXPORT_GET}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    export
-    Should Be Equal    ${resp.json()['data']['id']}    ${TRANSACTION_EXPORT_GCS_ID}
-    ${TRANSACTION_EXPORT_GCS_DOWNLOAD_URL}    Get Variable Value    ${resp.json()['data']['download_url']}
+    ${TRANSACTION_EXPORT_GCS_DOWNLOAD_URL}    Assert get export    ${TRANSACTION_EXPORT_GCS_ID}
     Set Suite Variable    ${TRANSACTION_EXPORT_GCS_DOWNLOAD_URL}
 
 Download a valid export from gcs successfully
@@ -139,25 +71,49 @@ Get all exports successfully
     Length Should Be    ${resp.json()['data']['data']}    3
 
 Update configuration successfully and set the file storage adapter back to local
-    # Build payload
+    Update file storage adapter configuration    local
+
+*** Keywords ***
+Update file storage adapter configuration
+    [Arguments]    ${adapter_type}
     ${data}    Get Binary File    ${JSON_PATH}/update_configuration.json
-    ${data}    Update Json    ${data}    file_storage_adapter=local
+    ${data}    Update Json    ${data}    file_storage_adapter=${adapter_type}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_UPDATE_CONFIGURATION}    data=${data}    headers=${headers}
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    map
-    Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    local
+    Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    ${adapter_type}
 
-*** Keywords ***
-Assert generated export from response with adapter type
-    [Arguments]    ${resp}    ${adapter_type}
+Assert get export
+    [Arguments]    ${export_id}
+    ${data}    Get Binary File    ${JSON_PATH}/get_export.json
+    ${data}    Update Json    ${data}    id=${export_id}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_EXPORT_GET}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    export
+    Should Be Equal    ${resp.json()['data']['id']}    ${export_id}
+    ${download_url}    Get Variable Value    ${resp.json()['data']['download_url']}
+    [Return]    ${download_url}
+
+Assert generated export with adapter type
+    [Arguments]    ${adapter_type}
+    # Build payload
+    ${data}    Build transaction query payload
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_TRANSACTION_EXPORT}    data=${data}    headers=${headers}
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    export
     Should Be Equal As Numbers    ${resp.json()['data']['completion']}    1.0
     Should be Equal    ${resp.json()['data']['status']}    processing
     Should be Equal    ${resp.json()['data']['adapter']}    ${adapter_type}
+    ${id}    Get Variable Value    ${resp.json()['data']['id']}
+    [Return]    ${id}
 
 Build transaction query payload
     ${data}    Get Binary File    ${JSON_PATH}/transaction_export.json
