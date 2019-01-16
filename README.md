@@ -32,21 +32,18 @@ You can then install the dependencies using:
 
 `pipenv install`
 
-Then launch the virtual environment using:
-
-`pipenv shell`
 
 And finally, navigate to the `tests` folder and run robot
 
 `cd tests`
 
-`robot .`
+`pipenv run robot .`
 
 # Variables
 
 ## Environment variables
 
-There are 6 environment variables that need to be created in order to run the tests:
+There are some environment variables that need to be created in order to run the tests:
 
 - `E2E_HTTP_HOST`: The base HTTP URL of the eWallet SDK (ie: http://example.com)
 - `E2E_SOCKET_HOST`: The base socket URL of the eWallet SDK (ie: ws://example.com)
@@ -59,3 +56,5 @@ The following variables define the email/password of the 2 needed admins and the
 - `E2E_TEST_ADMIN_1_PASSWORD`
 - `E2E_TEST_USER_EMAIL`
 - `E2E_TEST_USER_PASSWORD`
+
+Also note that the tested eWallet needs to have a proper GCS and AWS config setup.

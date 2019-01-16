@@ -328,7 +328,6 @@ Get an account fails if the account id is invalid
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
     Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
-
 Get descendants of an account successfully with the correct parameters
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_descendants.json

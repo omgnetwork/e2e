@@ -79,7 +79,7 @@ Request to reset password successfully with correct credentials
     ${data}    Get Binary File    ${JSON_PATH}/reset_password.json
     &{override}    Create Dictionary    email=${ADMIN_EMAIL}    redirect_url=${RESET_PASSWORD_URL}
     ${data}    Update Json    ${data}    &{override}
-    &{headers}    Build Authenticated Admin Request Header
+    &{headers}    Build Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_RESET_PASSWORD}    data=${data}    headers=${headers}
     # Assert response
@@ -90,7 +90,7 @@ Request to reset password successfully even when an invalid email is provided
     ${data}    Get Binary File    ${JSON_PATH}/reset_password.json
     &{override}    Create Dictionary    email=invalid@email.com    redirect_url=${RESET_PASSWORD_URL}
     ${data}    Update Json    ${data}    &{override}
-    &{headers}    Build Authenticated Admin Request Header
+    &{headers}    Build Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_RESET_PASSWORD}    data=${data}    headers=${headers}
     # Assert response
@@ -101,7 +101,7 @@ Request to reset password fails if required parameters are not provided
     ${data}    Get Binary File    ${JSON_PATH}/reset_password.json
     &{override}    Create Dictionary    email=${None}    redirect_url=${RESET_PASSWORD_URL}
     ${data}    Update Json    ${data}    &{override}
-    &{headers}    Build Authenticated Admin Request Header
+    &{headers}    Build Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_RESET_PASSWORD}    data=${data}    headers=${headers}
     # Assert response
@@ -114,7 +114,7 @@ Request to reset password fails if an invalid redirect URL is provided
     ${data}    Get Binary File    ${JSON_PATH}/reset_password.json
     &{override}    Create Dictionary    email=${ADMIN_EMAIL}    redirect_url=http://invalid.com
     ${data}    Update Json    ${data}    &{override}
-    &{headers}    Build Authenticated Admin Request Header
+    &{headers}    Build Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_RESET_PASSWORD}    data=${data}    headers=${headers}
     # Assert response
