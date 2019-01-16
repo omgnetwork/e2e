@@ -10,21 +10,12 @@ ${JSON_PATH}      ${RESOURCE_PATH}/export
 *** Test Cases ***
 Generate a local export for a filtered list of transactions successfully
     # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/transaction_export.json
-    &{match_all_values}    Create Dictionary    field=to_account.id    value=${ACCOUNT_ID}    comparator=eq
-    ${match_all_list}    Create List    ${match_all_values}
-    &{override}    Create Dictionary    match_all=${match_all_list}
-    ${data}    Update Json    ${data}    &{override}
-    ${json_data}    To Json    ${data}
+    ${data}    Build transaction query payload
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TRANSACTION_EXPORT}    data=${data}    headers=${headers}
     # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    export
-    Should Be Equal As Numbers    ${resp.json()['data']['completion']}    1.0
-    Should be Equal    ${resp.json()['data']['status']}    processing
-    Should be Equal    ${resp.json()['data']['adapter']}    local
+    Assert generated export from response with adapter type    ${resp}    local
     ${TRANSACTION_EXPORT_LOCAL_ID}    Get Variable Value    ${resp.json()['data']['id']}
     Set Suite Variable    ${TRANSACTION_EXPORT_LOCAL_ID}
 
@@ -32,7 +23,6 @@ Get a local export successfully
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_export.json
     ${data}    Update Json    ${data}    id=${TRANSACTION_EXPORT_LOCAL_ID}
-    ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_EXPORT_GET}    data=${data}    headers=${headers}
@@ -46,7 +36,6 @@ Download a valid local export successfully
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/download_export.json
     ${data}    Update Json    ${data}    id=${TRANSACTION_EXPORT_LOCAL_ID}
-    ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_EXPORT_DOWNLOAD}    data=${data}    headers=${headers}
@@ -66,21 +55,12 @@ Update configuration successfully and set the file storage adapter to aws
 
 Generate an aws export for a filtered list of transactions successfully
     # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/transaction_export.json
-    &{match_all_values}    Create Dictionary    field=to_account.id    value=${ACCOUNT_ID}    comparator=eq
-    ${match_all_list}    Create List    ${match_all_values}
-    &{override}    Create Dictionary    match_all=${match_all_list}
-    ${data}    Update Json    ${data}    &{override}
-    ${json_data}    To Json    ${data}
+    ${data}    Build transaction query payload
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TRANSACTION_EXPORT}    data=${data}    headers=${headers}
     # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    export
-    Should Be Equal As Numbers    ${resp.json()['data']['completion']}    1.0
-    Should be Equal    ${resp.json()['data']['status']}    processing
-    Should be Equal    ${resp.json()['data']['adapter']}    aws
+    Assert generated export from response with adapter type    ${resp}    aws
     ${TRANSACTION_EXPORT_AWS_ID}    Get Variable Value    ${resp.json()['data']['id']}
     Set Suite Variable    ${TRANSACTION_EXPORT_AWS_ID}
     Sleep    1s
@@ -89,7 +69,6 @@ Get an aws export successfully
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_export.json
     ${data}    Update Json    ${data}    id=${TRANSACTION_EXPORT_AWS_ID}
-    ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_EXPORT_GET}    data=${data}    headers=${headers}
@@ -119,21 +98,12 @@ Update configuration successfully and set the file storage adapter to gcs
 
 Generate a gcs export for a filtered list of transactions successfully
     # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/transaction_export.json
-    &{match_all_values}    Create Dictionary    field=to_account.id    value=${ACCOUNT_ID}    comparator=eq
-    ${match_all_list}    Create List    ${match_all_values}
-    &{override}    Create Dictionary    match_all=${match_all_list}
-    ${data}    Update Json    ${data}    &{override}
-    ${json_data}    To Json    ${data}
+    ${data}    Build transaction query payload
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TRANSACTION_EXPORT}    data=${data}    headers=${headers}
     # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    export
-    Should Be Equal As Numbers    ${resp.json()['data']['completion']}    1.0
-    Should be Equal    ${resp.json()['data']['status']}    processing
-    Should be Equal    ${resp.json()['data']['adapter']}    gcs
+    Assert generated export from response with adapter type    ${resp}    gcs
     ${TRANSACTION_EXPORT_GCS_ID}    Get Variable Value    ${resp.json()['data']['id']}
     Set Suite Variable    ${TRANSACTION_EXPORT_GCS_ID}
     Sleep    1s
@@ -142,7 +112,6 @@ Get a gcs export successfully
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_export.json
     ${data}    Update Json    ${data}    id=${TRANSACTION_EXPORT_GCS_ID}
-    ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_EXPORT_GET}    data=${data}    headers=${headers}
@@ -161,7 +130,6 @@ Download a valid export from gcs successfully
 Get all exports successfully
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_exports.json
-    ${json_data}    To Json    ${data}
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_EXPORT_ALL}    data=${data}    headers=${headers}
@@ -183,6 +151,22 @@ Update configuration successfully and set the file storage adapter back to local
     Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    local
 
 *** Keywords ***
+Assert generated export from response with adapter type
+    [Arguments]    ${resp}    ${adapter_type}
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    export
+    Should Be Equal As Numbers    ${resp.json()['data']['completion']}    1.0
+    Should be Equal    ${resp.json()['data']['status']}    processing
+    Should be Equal    ${resp.json()['data']['adapter']}    ${adapter_type}
+
+Build transaction query payload
+    ${data}    Get Binary File    ${JSON_PATH}/transaction_export.json
+    &{match_all_values}    Create Dictionary    field=to_account.id    value=${ACCOUNT_ID}    comparator=eq
+    ${match_all_list}    Create List    ${match_all_values}
+    &{override}    Create Dictionary    match_all=${match_all_list}
+    ${data}    Update Json    ${data}    &{override}
+    [Return]    ${data}
+
 Get header row from csv
     [Arguments]    ${csv_content}
     ${header_row_line}    Get Line    ${CSV_CONTENT}    0
@@ -198,12 +182,7 @@ Get first data row from csv
     [Return]    @{first_row_list}
 
 Get expected transaction list
-    ${data}    Get Binary File    ${JSON_PATH}/transaction_export.json
-    &{match_all_values}    Create Dictionary    field=to_account.id    value=${ACCOUNT_ID}    comparator=eq
-    ${match_all_list}    Create List    ${match_all_values}
-    &{override}    Create Dictionary    match_all=${match_all_list}
-    ${data}    Update Json    ${data}    &{override}
-    ${json_data}    To Json    ${data}
+    ${data}    Build transaction query payload
     &{headers}    Build Authenticated Admin Request Header
     # Perform request
     ${resp}    Post Request    api    ${ADMIN_TRANSACTION_ALL}    data=${data}    headers=${headers}
