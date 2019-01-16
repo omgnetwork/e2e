@@ -27,7 +27,6 @@ Generate a local export for a filtered list of transactions successfully
     Should be Equal    ${resp.json()['data']['adapter']}    local
     ${TRANSACTION_EXPORT_LOCAL_ID}    Get Variable Value    ${resp.json()['data']['id']}
     Set Suite Variable    ${TRANSACTION_EXPORT_LOCAL_ID}
-    Sleep    1s
 
 Get a local export successfully
     # Build payload
@@ -41,6 +40,7 @@ Get a local export successfully
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    export
     Should Be Equal    ${resp.json()['data']['id']}    ${TRANSACTION_EXPORT_LOCAL_ID}
+    Sleep    1s
 
 Download a valid local export successfully
     # Build payload
@@ -63,7 +63,6 @@ Update configuration successfully and set the file storage adapter to aws
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    map
     Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    aws
-    Sleep    1s
 
 Generate an aws export for a filtered list of transactions successfully
     # Build payload
@@ -84,7 +83,7 @@ Generate an aws export for a filtered list of transactions successfully
     Should be Equal    ${resp.json()['data']['adapter']}    aws
     ${TRANSACTION_EXPORT_AWS_ID}    Get Variable Value    ${resp.json()['data']['id']}
     Set Suite Variable    ${TRANSACTION_EXPORT_AWS_ID}
-    Sleep    2s
+    Sleep    1s
 
 Get an aws export successfully
     # Build payload
@@ -104,7 +103,6 @@ Get an aws export successfully
 Download a valid export from aws successfully
     Create Session    aws_download    ${TRANSACTION_EXPORT_AWS_DOWNLOAD_URL}    timeout=15
     ${resp}    Get Request    aws_download    ${EMPTY}
-    Log To Console    ${resp}
     Assert transaction CSV content    ${resp.content}
 
 Update configuration successfully and set the file storage adapter to gcs
@@ -118,7 +116,6 @@ Update configuration successfully and set the file storage adapter to gcs
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    map
     Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    gcs
-    Sleep    1s
 
 Generate a gcs export for a filtered list of transactions successfully
     # Build payload
@@ -139,7 +136,7 @@ Generate a gcs export for a filtered list of transactions successfully
     Should be Equal    ${resp.json()['data']['adapter']}    gcs
     ${TRANSACTION_EXPORT_GCS_ID}    Get Variable Value    ${resp.json()['data']['id']}
     Set Suite Variable    ${TRANSACTION_EXPORT_GCS_ID}
-    Sleep    2s
+    Sleep    1s
 
 Get a gcs export successfully
     # Build payload
@@ -159,7 +156,6 @@ Get a gcs export successfully
 Download a valid export from gcs successfully
     Create Session    gcs_download    ${TRANSACTION_EXPORT_GCS_DOWNLOAD_URL}    timeout=15
     ${resp}    Get Request    gcs_download    ${EMPTY}
-    Log To Console    ${resp}
     Assert transaction CSV content    ${resp.content}
 
 Get all exports successfully
@@ -185,7 +181,6 @@ Update configuration successfully and set the file storage adapter back to local
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    map
     Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    local
-    Sleep    1s
 
 *** Keywords ***
 Get header row from csv

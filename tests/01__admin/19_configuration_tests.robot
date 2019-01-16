@@ -18,7 +18,6 @@ Update configuration successfully and set the file storage adapter to gcs
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    map
     Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    gcs
-    Sleep    1s
 
 Get configuration successfully
     # Build payload
@@ -45,4 +44,3 @@ Update configuration successfully and set the file storage adapter to local
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    map
     Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    local
-    Sleep    1s
