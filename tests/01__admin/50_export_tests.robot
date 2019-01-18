@@ -11,6 +11,7 @@ ${JSON_PATH}      ${RESOURCE_PATH}/export
 Generate a local export for a filtered list of transactions successfully
     ${TRANSACTION_EXPORT_LOCAL_ID}    Assert generated export with adapter type    local
     Set Suite Variable    ${TRANSACTION_EXPORT_LOCAL_ID}
+    Sleep    1s
 
 Get a local export successfully
     Assert get export    ${TRANSACTION_EXPORT_LOCAL_ID}
@@ -25,30 +26,39 @@ Download a valid local export successfully
     ${resp}    Post Request    api    ${ADMIN_EXPORT_DOWNLOAD}    data=${data}    headers=${headers}
     Assert transaction CSV content    ${resp.content}
 
+Get all local exports successfully
+    Assert all exports
+
 Update configuration successfully and set the file storage adapter to aws
     Update file storage adapter configuration    aws
+    Sleep    1s
 
 Generate an aws export for a filtered list of transactions successfully
     ${TRANSACTION_EXPORT_AWS_ID}    Assert generated export with adapter type    aws
     Set Suite Variable    ${TRANSACTION_EXPORT_AWS_ID}
-    Sleep    1s
+    Sleep    2s
 
 Get an aws export successfully
     ${TRANSACTION_EXPORT_AWS_DOWNLOAD_URL}    Assert get export    ${TRANSACTION_EXPORT_AWS_ID}
     Set Suite Variable    ${TRANSACTION_EXPORT_AWS_DOWNLOAD_URL}
+    Sleep    1s
 
 Download a valid export from aws successfully
     Create Session    aws_download    ${TRANSACTION_EXPORT_AWS_DOWNLOAD_URL}    timeout=15
     ${resp}    Get Request    aws_download    ${EMPTY}
     Assert transaction CSV content    ${resp.content}
 
+Get all aws exports successfully
+    Assert all exports
+
 Update configuration successfully and set the file storage adapter to gcs
     Update file storage adapter configuration    gcs
+    Sleep    1s
 
 Generate a gcs export for a filtered list of transactions successfully
     ${TRANSACTION_EXPORT_GCS_ID}    Assert generated export with adapter type    gcs
     Set Suite Variable    ${TRANSACTION_EXPORT_GCS_ID}
-    Sleep    1s
+    Sleep    2s
 
 Get a gcs export successfully
     ${TRANSACTION_EXPORT_GCS_DOWNLOAD_URL}    Assert get export    ${TRANSACTION_EXPORT_GCS_ID}
@@ -59,16 +69,8 @@ Download a valid export from gcs successfully
     ${resp}    Get Request    gcs_download    ${EMPTY}
     Assert transaction CSV content    ${resp.content}
 
-Get all exports successfully
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/get_exports.json
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_EXPORT_ALL}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    list
-    Length Should Be    ${resp.json()['data']['data']}    3
+Get all gcs exports successfully
+    Assert all exports
 
 Update configuration successfully and set the file storage adapter back to local
     Update file storage adapter configuration    local
@@ -85,6 +87,17 @@ Update file storage adapter configuration
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    map
     Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    ${adapter_type}
+
+Assert all exports
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/get_exports.json
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_EXPORT_ALL}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Length Should Be    ${resp.json()['data']['data']}    1
 
 Assert get export
     [Arguments]    ${export_id}
