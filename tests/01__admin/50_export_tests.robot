@@ -26,6 +26,9 @@ Download a valid local export successfully
     ${resp}    Post Request    api    ${ADMIN_EXPORT_DOWNLOAD}    data=${data}    headers=${headers}
     Assert transaction CSV content    ${resp.content}
 
+Get all local exports successfully
+    Assert all exports
+
 Update configuration successfully and set the file storage adapter to aws
     Update file storage adapter configuration    aws
     Sleep    1s
@@ -45,6 +48,9 @@ Download a valid export from aws successfully
     ${resp}    Get Request    aws_download    ${EMPTY}
     Assert transaction CSV content    ${resp.content}
 
+Get all aws exports successfully
+    Assert all exports
+
 Update configuration successfully and set the file storage adapter to gcs
     Update file storage adapter configuration    gcs
     Sleep    1s
@@ -63,16 +69,8 @@ Download a valid export from gcs successfully
     ${resp}    Get Request    gcs_download    ${EMPTY}
     Assert transaction CSV content    ${resp.content}
 
-Get all exports successfully
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/get_exports.json
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_EXPORT_ALL}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    list
-    Length Should Be    ${resp.json()['data']['data']}    3
+Get all gcs exports successfully
+    Assert all exports
 
 Update configuration successfully and set the file storage adapter back to local
     Update file storage adapter configuration    local
@@ -89,6 +87,17 @@ Update file storage adapter configuration
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    map
     Should Be Equal    ${resp.json()['data']['data']['file_storage_adapter']['value']}    ${adapter_type}
+
+Assert all exports
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/get_exports.json
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_EXPORT_ALL}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Length Should Be    ${resp.json()['data']['data']}    1
 
 Assert get export
     [Arguments]    ${export_id}
