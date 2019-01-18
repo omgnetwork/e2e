@@ -11,6 +11,7 @@ ${JSON_PATH}      ${RESOURCE_PATH}/export
 Generate a local export for a filtered list of transactions successfully
     ${TRANSACTION_EXPORT_LOCAL_ID}    Assert generated export with adapter type    local
     Set Suite Variable    ${TRANSACTION_EXPORT_LOCAL_ID}
+    Sleep    1s
 
 Get a local export successfully
     Assert get export    ${TRANSACTION_EXPORT_LOCAL_ID}
