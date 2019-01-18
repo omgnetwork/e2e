@@ -277,7 +277,7 @@ Unassign a user from an account fails if the user id is invalid
     Should be Equal    ${resp.json()['data']['code']}    user:id_not_found
     Should be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided id.
 
-List all wallets from an account successfully with the corect parameters
+List all wallets from an account successfully with the correct parameters
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_wallets_from_account.json
     ${data}    Update Json    ${data}    id=${MASTER_ACCOUNT_ID}
@@ -289,7 +289,7 @@ List all wallets from an account successfully with the corect parameters
     Assert Object Type    ${resp}    list
     Should Not Be Empty    ${resp.json()['data']['data']}
 
-Get the primary wallet from an account successfully with the corect parameters
+Get the primary wallet from an account successfully with the correct parameters
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_wallets_from_account.json
     &{match_all_account_id}    Create Dictionary    field=account.id    value=${MASTER_ACCOUNT_ID}    comparator=eq
