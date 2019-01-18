@@ -27,15 +27,17 @@ Download a valid local export successfully
 
 Update configuration successfully and set the file storage adapter to aws
     Update file storage adapter configuration    aws
+    Sleep    1s
 
 Generate an aws export for a filtered list of transactions successfully
     ${TRANSACTION_EXPORT_AWS_ID}    Assert generated export with adapter type    aws
     Set Suite Variable    ${TRANSACTION_EXPORT_AWS_ID}
-    Sleep    1s
+    Sleep    2s
 
 Get an aws export successfully
     ${TRANSACTION_EXPORT_AWS_DOWNLOAD_URL}    Assert get export    ${TRANSACTION_EXPORT_AWS_ID}
     Set Suite Variable    ${TRANSACTION_EXPORT_AWS_DOWNLOAD_URL}
+    Sleep    1s
 
 Download a valid export from aws successfully
     Create Session    aws_download    ${TRANSACTION_EXPORT_AWS_DOWNLOAD_URL}    timeout=15
@@ -44,11 +46,12 @@ Download a valid export from aws successfully
 
 Update configuration successfully and set the file storage adapter to gcs
     Update file storage adapter configuration    gcs
+    Sleep    1s
 
 Generate a gcs export for a filtered list of transactions successfully
     ${TRANSACTION_EXPORT_GCS_ID}    Assert generated export with adapter type    gcs
     Set Suite Variable    ${TRANSACTION_EXPORT_GCS_ID}
-    Sleep    1s
+    Sleep    2s
 
 Get a gcs export successfully
     ${TRANSACTION_EXPORT_GCS_DOWNLOAD_URL}    Assert get export    ${TRANSACTION_EXPORT_GCS_ID}
