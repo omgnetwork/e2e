@@ -160,6 +160,41 @@ Update my user avatar successfully
     ${get_image}    Get Request    api    ${avatar_resp['thumb']}
     Should Be Equal As Strings    ${get_image.status_code}    200
 
+Request to update my user email successfully
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/update_my_email.json
+    ${data}    Update Json    ${data}    redirect_url=${HTTP_BASE_HOST}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ME_UPDATE_EMAIL}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Should be Equal    ${resp.json()['data']['id']}    ${MY_USER_ID}
+
+Request to update my user email fails if the redirect_url is invalid
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/update_my_email.json
+    ${data}    Update Json    ${data}    redirect_url=http://invalid.url
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ME_UPDATE_EMAIL}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
+    Should be Equal    ${resp.json()['data']['description']}    The given `redirect_url` is not allowed. Got: 'http://invalid.url'.
+
+Request to update my user email fails if the email is invalid
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/update_my_email.json
+    ${data}    Update Json    ${data}    email=invalid_email    redirect_url=${HTTP_BASE_HOST}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ADMIN_ME_UPDATE_EMAIL}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Failure    ${resp}
+    Should be Equal    ${resp.json()['data']['code']}    client:invalid_parameter
+    Should be Equal    ${resp.json()['data']['description']}    Invalid parameter provided. `email` must be a valid email address format.
+
 List my account successfully
     # Build payload
     &{headers}    Build Authenticated Admin Request Header
