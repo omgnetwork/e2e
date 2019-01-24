@@ -277,7 +277,7 @@ Unassign a user from an account fails if the user id is invalid
     Should be Equal    ${resp.json()['data']['code']}    user:id_not_found
     Should be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided id.
 
-List all wallets from an account successfully with the corect parameters
+List all wallets from an account successfully with the correct parameters
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_wallets_from_account.json
     ${data}    Update Json    ${data}    id=${MASTER_ACCOUNT_ID}
@@ -288,6 +288,22 @@ List all wallets from an account successfully with the corect parameters
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    list
     Should Not Be Empty    ${resp.json()['data']['data']}
+
+Get the primary wallet from an account successfully with the correct parameters
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/get_wallets_from_account.json
+    &{match_all_account_id}    Create Dictionary    field=account.id    value=${MASTER_ACCOUNT_ID}    comparator=eq
+    &{match_all_identifier}    Create Dictionary    field=identifier    value=primary    comparator=eq
+    ${match_all_list}    Create List    ${match_all_account_id}    ${match_all_identifier}
+    &{override}    Create Dictionary    match_all=${match_all_list}    id=${MASTER_ACCOUNT_ID}
+    ${data}    Update Json    ${data}    &{override}
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_WALLETS}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Length Should Be    ${resp.json()['data']['data']}    1
     ${wallet}    Get From List    ${resp.json()['data']['data']}    0
     ${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}    Get Variable Value    ${wallet['address']}
     Set Global Variable    ${MASTER_ACCOUNT_PRIMARY_WALLET_ADDRESS}
@@ -327,7 +343,6 @@ Get an account fails if the account id is invalid
     Assert Object Type    ${resp}    error
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
     Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
-
 
 Get descendants of an account successfully with the correct parameters
     # Build payload

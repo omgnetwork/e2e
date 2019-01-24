@@ -12,7 +12,7 @@ ${RESOURCE_PATH}    ${CURDIR}/resources
 
 *** Keywords ***
 Create Admin API Session
-    Create Session    api    ${ADMIN_HOST}
+    Create Session    api    ${ADMIN_HOST}    timeout=15
 
 Build Admin Request Header
     &{admin_headers}    Create Dictionary     Content-Type=${CONTENT_TYPE_HEADER}

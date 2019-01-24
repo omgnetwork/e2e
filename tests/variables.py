@@ -103,6 +103,7 @@ ADMIN_TRANSACTION_ALL =                      "transaction.all" #OK
 ADMIN_TRANSACTION_GET =                      "transaction.get" #OK
 ADMIN_TRANSACTION_CREATE =                   "transaction.create" #OK
 ADMIN_TRANSACTION_CALCULATE =                "transaction.calculate" #OK
+ADMIN_TRANSACTION_EXPORT =                   "transaction.export" #OK
 
 ### Transaction Request
 ADMIN_TRANSACTION_REQUEST_CREATE =           "transaction_request.create" #OK
@@ -136,6 +137,15 @@ ADMIN_EXCHANGE_PAIR_DELETE =                 "exchange_pair.delete" #OK
 
 ### Settings
 ADMIN_GET_SETTINGS =                         "settings.all" #OK
+
+### Configuration
+ADMIN_GET_CONFIGURATION =                    "configuration.all" #OK
+ADMIN_UPDATE_CONFIGURATION =                 "configuration.update" #OK
+
+### Exports
+ADMIN_EXPORT_GET =                           "export.get" #OK
+ADMIN_EXPORT_ALL =                           "export.all" #OK
+ADMIN_EXPORT_DOWNLOAD =                      "export.download" #OK
 
 ## Client
 
