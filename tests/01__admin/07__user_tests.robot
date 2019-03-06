@@ -144,8 +144,8 @@ Disable a user fails if id does not exist
     # Assert response
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    user:provider_user_id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided provider_user_id.
+    Should be Equal    ${resp.json()['data']['code']}    unauthorized
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Login a user fails if the user is disabled
     # Build payload

@@ -93,8 +93,8 @@ Disable an admin fails if id does not exist
     # Assert response
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    user:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided id.
+    Should be Equal    ${resp.json()['data']['code']}    unauthorized
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Login an admin user fails if the admin is disabled
     # Build payload
