@@ -88,8 +88,8 @@ Mint a token fails if the token id is invalid
     # Assert response
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
+    Should be Equal    ${resp.json()['data']['code']}    unauthorized
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Mint a token fails if required parameters are not provided
     # Build payload
@@ -126,8 +126,8 @@ Get a token fails if the token id is invalid
     # Assert response
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
+    Should be Equal    ${resp.json()['data']['code']}    unauthorized
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Update a token successfully with correct parameters
     # Build payload
@@ -156,8 +156,8 @@ Update a token fails if the token id is invalid
     # Assert response
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
+    Should be Equal    ${resp.json()['data']['code']}    unauthorized
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Update a token fails if required parameters are not provided
     # Build payload
@@ -207,8 +207,8 @@ Get stats fails if the token id is invalid
     # Assert response
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
+    Should be Equal    ${resp.json()['data']['code']}    unauthorized
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Get mints successfully with the correct parameters
     # Build payload
@@ -232,8 +232,8 @@ Get mints fails if the token id is invalid
     # Assert response
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
+    Should be Equal    ${resp.json()['data']['code']}    unauthorized
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Disable a token successfully
     # Build payload
@@ -260,8 +260,8 @@ Disable a token fails if id does not exist
     # Assert response
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    token:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no token corresponding to the provided id.
+    Should be Equal    ${resp.json()['data']['code']}    unauthorized
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 Enable a token successfully
     # Build payload

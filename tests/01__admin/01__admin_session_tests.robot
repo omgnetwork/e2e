@@ -38,8 +38,6 @@ Login an admin user successfully with correct credentials
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    authentication_token
-    ${MASTER_ACCOUNT_ID}    Get Variable Value    ${resp.json()['data']['account_id']}
-    Set Global Variable    ${MASTER_ACCOUNT_ID}
     ${authentication_token}    Get Variable Value    ${resp.json()['data']['authentication_token']}
     ${user_id}    Get Variable Value    ${resp.json()['data']['user_id']}
     ${ADMIN_USER_AUTHENTICATION}    Build Authentication    ${ADMIN_AUTH_SCHEMA}    ${user_id}    ${authentication_token}

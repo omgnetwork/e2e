@@ -28,6 +28,20 @@ Create an account successfully with correct parameters
     ${ACCOUNT_ID}    Get Variable Value    ${resp.json()['data']['id']}
     Set Global Variable    ${ACCOUNT_ID}
 
+Get the master account id from configuration successfully with the correct parameters
+    # Build payload
+    ${data}    Get Binary File    ${JSON_PATH}/get_master_account_configuration.json
+    &{headers}    Build Authenticated Admin Request Header
+    # Perform request
+    ${resp}    Post Request    api    ${ADMIN_GET_CONFIGURATION}    data=${data}    headers=${headers}
+    # Assert response
+    Assert Response Success    ${resp}
+    Assert Object Type    ${resp}    list
+    Length Should Be    ${resp.json()['data']['data']}    1
+    ${setting}    Get From List    ${resp.json()['data']['data']}    0
+    ${MASTER_ACCOUNT_ID}    Get Variable Value    ${setting['value']}
+    Set Global Variable    ${MASTER_ACCOUNT_ID}
+
 Create an account fails if required parameters are not provided
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/create_account.json
@@ -274,8 +288,8 @@ Unassign a user from an account fails if the user id is invalid
     # Assert response
     Assert Response Failure    ${resp}
     Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    user:id_not_found
-    Should be Equal    ${resp.json()['data']['description']}    There is no user corresponding to the provided id.
+    Should be Equal    ${resp.json()['data']['code']}    unauthorized
+    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
 List all wallets from an account successfully with the correct parameters
     # Build payload
@@ -344,18 +358,6 @@ Get an account fails if the account id is invalid
     Should be Equal    ${resp.json()['data']['code']}    unauthorized
     Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
 
-Get descendants of an account successfully with the correct parameters
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/get_descendants.json
-    ${data}    Update Json    ${data}    id=${ACCOUNT_ID}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_ACCOUNT_GET_DESCENDANTS}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    list
-    Should Not Be Empty    ${resp.json()['data']['data']}
-
 Get transactions of an account successfully with the correct parameters
     # Build payload
     ${data}    Get Binary File    ${JSON_PATH}/get_transactions.json
@@ -387,28 +389,3 @@ List all accounts successfully
     # Assert response
     Assert Response Success    ${resp}
     Assert Object Type    ${resp}    list
-
-Switch token to account successfully with the correct parameters
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/switch_account.json
-    ${data}    Update Json    ${data}    account_id=${ACCOUNT_ID}
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_SWITCH_ACCOUNT}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Success    ${resp}
-    Assert Object Type    ${resp}    authentication_token
-    Should be Equal    ${resp.json()['data']['account_id']}    ${ACCOUNT_ID}
-
-Switch token to account fails if the account id is invalid
-    # Build payload
-    ${data}    Get Binary File    ${JSON_PATH}/switch_account.json
-    ${data}    Update Json    ${data}    account_id=invalid_id
-    &{headers}    Build Authenticated Admin Request Header
-    # Perform request
-    ${resp}    Post Request    api    ${ADMIN_SWITCH_ACCOUNT}    data=${data}    headers=${headers}
-    # Assert response
-    Assert Response Failure    ${resp}
-    Assert Object Type    ${resp}    error
-    Should be Equal    ${resp.json()['data']['code']}    unauthorized
-    Should be Equal    ${resp.json()['data']['description']}    You are not allowed to perform the requested operation.
